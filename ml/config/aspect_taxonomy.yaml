@@ -1,0 +1,178 @@
+# Unified electronics aspect taxonomy
+# ---------------------------------------------------------------------------
+# M-ABSA ships two *disjoint* label schemes for its English electronics domains:
+#
+#   phone/en  -> e-commerce style, 86 fine categories ("Battery/Longevity#Battery Life")
+#   laptop/en -> SemEval-2014 style, 108 fine categories ("BATTERY#OPERATION_PERFORMANCE")
+#
+# There is literally zero overlap between the two coarse label sets, so the two
+# domains cannot be merged without an explicit hand-written mapping. This file is
+# that mapping. It collapses both schemes onto 12 product aspects that a shopper
+# would actually recognise.
+#
+# Mapping is done on the COARSE label (the part before "#"). Fine-grained
+# distinctions like Screen#Clarity vs Screen#Size are intentionally discarded:
+# 41 of the 86 phone categories have fewer than 30 examples, which is far too
+# sparse to learn or to evaluate honestly.
+#
+# Any coarse label not listed here is dropped (see `drop` at the bottom).
+
+version: 2
+
+# ---------------------------------------------------------------------------
+# The 12 aspects exposed by the API and the UI.
+# `display_name` is what the frontend renders; `description` feeds the tooltip
+# and doubles as the natural-language text appended to the sentence-pair input
+# of the sentiment model.
+# ---------------------------------------------------------------------------
+aspects:
+  - id: overall
+    display_name: Overall
+    description: overall opinion of the product
+
+  - id: delivery
+    display_name: Delivery & Packaging
+    description: shipping speed, packaging and order fulfilment
+
+  - id: build_quality
+    display_name: Build Quality
+    description: physical build, materials, durability, buttons and ports
+
+  - id: battery
+    display_name: Battery
+    description: battery life, charging speed and power supply
+
+  - id: customer_service
+    display_name: Customer Service
+    description: seller support, warranty and after-sales service
+
+  - id: display
+    display_name: Display
+    description: screen quality, size, brightness and graphics
+
+  - id: software
+    display_name: Software
+    description: operating system, apps, updates, security and ease of use
+
+  - id: performance
+    display_name: Performance
+    description: speed, processor, memory, storage and connectivity
+
+  - id: price
+    display_name: Price
+    description: price, value for money and deals
+
+  - id: camera
+    display_name: Camera
+    description: camera quality, photos, video and shooting features
+
+  - id: design
+    display_name: Design
+    description: appearance, styling and form factor
+
+  - id: audio
+    display_name: Audio
+    description: speakers, sound quality, microphone and multimedia
+
+# ---------------------------------------------------------------------------
+# phone/en  (M-ABSA e-commerce scheme) -> aspect id
+# ---------------------------------------------------------------------------
+phone_map:
+  Overall: overall
+  "Buyer Attitude": overall
+  "Branding/Marketing": overall
+
+  Logistics: delivery
+  "Product Packaging": delivery
+
+  "Product Quality": build_quality
+
+  "Battery/Longevity": battery
+
+  "Seller Service": customer_service
+  "After-sales Service": customer_service
+
+  Screen: display
+
+  System: software
+  Security: software
+  "Intelligent Assistant": software
+  # Merged per review decision: "Usability" (117 pairs) was too small to stand
+  # alone and is conceptually closest to software experience.
+  "Ease of Use": software
+
+  Performance: performance
+  "Product Configuration": performance
+  # Merged per review decision: "Connectivity" (79 pairs) folded into performance.
+  Signal: performance
+  "Smart Connect": performance
+
+  Price: price
+
+  Camera: camera
+  "Shooting Functions": camera
+
+  "Appearance Design": design
+  "Key Design": design
+
+  "Audio/Sound": audio
+
+  # Dropped: "Product Accessories" (138 pairs) describes bundled extras
+  # (cases, screen films) rather than the product itself. Folding it into
+  # build_quality would pollute that class, so it is excluded.
+
+# ---------------------------------------------------------------------------
+# laptop/en  (SemEval-2014 scheme) -> aspect id
+# ---------------------------------------------------------------------------
+laptop_map:
+  LAPTOP: overall
+  SHIPPING: delivery
+
+  KEYBOARD: build_quality
+  MOUSE: build_quality
+  PORTS: build_quality
+  MOTHERBOARD: build_quality
+  HARDWARE: build_quality
+
+  BATTERY: battery
+  POWER_SUPPLY: battery
+
+  SUPPORT: customer_service
+  WARRANTY: customer_service
+  COMPANY: customer_service
+
+  DISPLAY: display
+  GRAPHICS: display
+
+  SOFTWARE: software
+  OS: software
+
+  CPU: performance
+  MEMORY: performance
+  HARD_DISC: performance
+  "FANS&COOLING": performance
+
+  MULTIMEDIA_DEVICES: audio
+
+  # Dropped: OPTICAL_DRIVES (4 pairs), Out_Of_Scope (7 pairs).
+  # laptop/en carries no price or camera labels; those aspects are supplied
+  # by phone/en only. This is documented as a known coverage gap.
+
+# ---------------------------------------------------------------------------
+# Coarse labels intentionally excluded from training.
+# Listed explicitly so build_dataset.py can distinguish "deliberately dropped"
+# from "unrecognised label", and fail loudly on the latter.
+# ---------------------------------------------------------------------------
+drop:
+  - "Product Accessories"   # phone: bundled extras, not the product
+  - OPTICAL_DRIVES          # laptop: 4 examples
+  - Out_Of_Scope            # laptop: explicit non-aspect marker
+
+# ---------------------------------------------------------------------------
+# Sentiment labels. Order fixes the integer encoding used everywhere
+# (dataset, model head, ONNX output, API response).
+# ---------------------------------------------------------------------------
+polarities:
+  - negative   # 0
+  - neutral    # 1
+  - positive   # 2
