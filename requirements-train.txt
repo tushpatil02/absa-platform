@@ -1,0 +1,10 @@
+# Training extras, on top of requirements.txt.
+#
+# Colab already provides torch with CUDA; installing torch here would replace it
+# with the CPU build. Install torch separately when running outside Colab:
+#   CPU:  pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   CUDA: see https://pytorch.org/get-started/locally/
+
+transformers>=5.0,<6
+sentencepiece>=0.2      # required by DeBERTa-v3 tokenizers
+huggingface_hub>=0.30   # pushing artefacts to the Hub

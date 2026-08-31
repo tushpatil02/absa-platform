@@ -1,0 +1,23 @@
+.git/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Training-only material — never needed to serve.
+data/
+notebooks/
+tests/
+docs/
+scripts/
+frontend/
+
+# Large weights are pulled at deploy time, not baked into the image.
+models/**/*.safetensors
+models/**/*.bin
+models/**/*.onnx
+
+.env
+*.md

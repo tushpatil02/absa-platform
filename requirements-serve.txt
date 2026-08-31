@@ -1,0 +1,16 @@
+# Slim runtime for the API container.
+#
+# Deliberately excludes torch: the deployed model is the scikit-learn baseline
+# (or an ONNX export), so the image does not carry a ~2 GB CUDA-capable
+# dependency it never uses. To serve a fine-tuned transformer instead, add
+# `torch --index-url https://download.pytorch.org/whl/cpu` and `transformers`.
+
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+pydantic==2.13.5
+pydantic-settings==2.15.0
+scikit-learn==1.9.0
+numpy==2.5.2
+pandas==3.0.5
+joblib==1.6.0
+PyYAML==6.0.3

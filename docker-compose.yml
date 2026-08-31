@@ -1,0 +1,29 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      ABSA_PREDICTOR: auto
+      ABSA_CORS_ORIGINS: http://localhost:5173,http://localhost:4173
+    volumes:
+      # Mount artefacts rather than baking them in, so retraining does not
+      # require an image rebuild.
+      - ./models:/app/models:ro
+    restart: unless-stopped
+
+  # Production build of the SPA, served statically.
+  # `docker compose --profile frontend up` to include it.
+  frontend:
+    profiles: ["frontend"]
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm ci && npm run build && npx vite preview --host 0.0.0.0 --port 4173"
+    environment:
+      VITE_API_URL: http://localhost:8000
+    ports:
+      - "4173:4173"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - api
