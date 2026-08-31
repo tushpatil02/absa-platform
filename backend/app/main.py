@@ -52,7 +52,7 @@ async def lifespan(app: FastAPI):
     try:
         app.state.taxonomy = load_taxonomy(settings.taxonomy_path)
         logger.info("Taxonomy loaded: %d aspects", len(app.state.taxonomy.aspect_ids))
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         logger.exception("Taxonomy failed to load")
         app.state.taxonomy = None
         app.state.load_error = f"Taxonomy failed to load: {exc}"
@@ -70,7 +70,7 @@ async def lifespan(app: FastAPI):
     except FileNotFoundError as exc:
         app.state.load_error = str(exc)
         logger.error("No model artefacts: %s", exc)
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         app.state.load_error = f"Model failed to load: {exc}"
         logger.exception("Model failed to load")
 

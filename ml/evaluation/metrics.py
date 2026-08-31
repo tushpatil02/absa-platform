@@ -79,7 +79,7 @@ class SingleLabelResult:
             )
         lines.append("")
         lines.append(f"  confusion (rows=true, cols=pred) {self.labels}")
-        for label, row in zip(self.labels, self.confusion):
+        for label, row in zip(self.labels, self.confusion, strict=True):
             lines.append(f"    {label:<10}{row}")
         return "\n".join(lines)
 
@@ -162,7 +162,7 @@ def evaluate_single_label(
         ],
         confusion=confusion_matrix(y_true, y_pred, labels=indices).tolist(),
         labels=list(labels),
-        n_examples=int(len(y_true)),
+        n_examples=len(y_true),
         extra=extra,
     )
 

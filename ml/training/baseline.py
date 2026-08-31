@@ -136,7 +136,7 @@ class AspectPrefixEncoder:
     def __call__(self, frame) -> list[str]:
         return [
             f"{self.descriptions.get(aspect, aspect)} | {text}"
-            for text, aspect in zip(frame["text"], frame["aspect"])
+            for text, aspect in zip(frame["text"], frame["aspect"], strict=True)
         ]
 
 

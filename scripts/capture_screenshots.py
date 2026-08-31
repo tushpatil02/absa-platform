@@ -88,7 +88,6 @@ def capture(base_url: str, theme: str) -> list[Path]:
         page.click("[role=tab]:has-text('Product dashboard')")
         page.wait_for_selector("textarea", timeout=15000)
 
-        textareas = page.locator("textarea")
         set_textarea(page, "textarea", SAMPLE_REVIEWS)
         page.fill("input[aria-label='Product name']", "Sample Phone")
         page.click("button:has-text('Analyse reviews')")
@@ -126,7 +125,7 @@ def main() -> int:
     for theme in args.themes:
         try:
             all_written += capture(args.url, theme)
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             print(f"Failed to capture {theme}: {exc}", file=sys.stderr)
             print(
                 "Are both servers running? "

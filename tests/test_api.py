@@ -32,9 +32,8 @@ MIXED_REVIEW = (
 
 @pytest.fixture(scope="module")
 def client():
-    from fastapi.testclient import TestClient
-
     from app.main import app
+    from fastapi.testclient import TestClient
 
     # TestClient as a context manager runs lifespan, so the model really loads.
     with TestClient(app) as test_client:

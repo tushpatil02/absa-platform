@@ -18,7 +18,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from ml.eda import (  # noqa: E402
+from ml.eda import (
     POLARITY_ORDER,
     compute_stats,
     load_processed,

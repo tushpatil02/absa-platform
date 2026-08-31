@@ -96,7 +96,7 @@ def analyze(request: Request, payload: AnalyzeRequest) -> AnalyzeResponse:
         raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, detail=str(exc)) from exc
     except ReviewTooLongError as exc:
         raise HTTPException(status.HTTP_413_CONTENT_TOO_LARGE, detail=str(exc)) from exc
-    except Exception as exc:  # noqa: BLE001 - last line of defence
+    except Exception as exc:
         logger.exception("Inference failed")
         raise HTTPException(
             status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Inference failed."
@@ -125,7 +125,7 @@ def analyze_batch(request: Request, payload: BatchAnalyzeRequest) -> BatchAnalyz
             results.append(predictor.analyze(review, top_k=payload.top_k))
         except (EmptyReviewError, ReviewTooLongError):
             skipped += 1
-        except Exception:  # noqa: BLE001
+        except Exception:
             logger.exception("Inference failed on one review; skipping it")
             skipped += 1
 

@@ -1,0 +1,29 @@
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+
+ignore = [
+    # Scripts, notebooks and tests deliberately insert the repo root on
+    # sys.path before importing `ml`, so imports cannot come first.
+    "E402",
+    # clean.py's translation table contains curly quotes and dashes as literal
+    # keys -- that is the whole point of the table, not an accident.
+    "RUF001",
+    "RUF002",
+    "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Long parametrize tables read better on one line than wrapped.
+"tests/*" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = [
+    "error::DeprecationWarning:ml.*",
+    "error::DeprecationWarning:app.*",
+]

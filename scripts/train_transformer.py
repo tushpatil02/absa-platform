@@ -30,19 +30,18 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-import numpy as np  # noqa: E402
-import pandas as pd  # noqa: E402
-import torch  # noqa: E402
-import torch.nn as nn  # noqa: E402
+import pandas as pd
+import torch
+import torch.nn as nn
 
-from ml.evaluation.metrics import (  # noqa: E402
+from ml.evaluation.metrics import (
     evaluate_multi_label,
     evaluate_single_label,
     save_results,
     tune_threshold,
 )
-from ml.preprocessing.transform import load_taxonomy  # noqa: E402
-from ml.training.transformer import (  # noqa: E402
+from ml.preprocessing.transform import load_taxonomy
+from ml.training.transformer import (
     SentencePairDataset,
     SingleTextDataset,
     TrainConfig,
@@ -105,7 +104,10 @@ def main() -> int:
     print("=" * 62)
     print(f"{'STAGE A  Aspect Detection' if args.stage == 'acd' else 'STAGE B  Sentiment'}  --  {args.model}")
     print("=" * 62)
-    print(f"  device={device}  fp16={config.resolved_fp16(device)}  epochs={args.epochs}  bs={args.batch_size}")
+    print(
+        f"  device={device}  fp16={config.resolved_fp16(device)}  "
+        f"epochs={args.epochs}  bs={args.batch_size}"
+    )
     if device.type == "cpu":
         print("  NOTE: running on CPU. Fine for DistilBERT; use a Colab GPU for larger models.")
 

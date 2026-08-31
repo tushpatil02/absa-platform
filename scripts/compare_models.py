@@ -31,7 +31,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-import pandas as pd  # noqa: E402
+import pandas as pd
 
 MODELS_DIR = REPO_ROOT / "models"
 METADATA_DIR = MODELS_DIR / "metadata"
@@ -117,7 +117,7 @@ def run_mixed_diagnostic() -> list[dict]:
                 split="test",
             )
             rows.append(result)
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             print(f"  (skipped transformer diagnostic: {exc})", file=sys.stderr)
 
     return rows

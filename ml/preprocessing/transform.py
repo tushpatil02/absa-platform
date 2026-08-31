@@ -23,9 +23,9 @@ The output feeds two datasets:
 from __future__ import annotations
 
 import collections
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable
 
 import yaml
 
@@ -192,7 +192,7 @@ def transform(
     """
     pairs: list[AspectPair] = []
 
-    for index, review in enumerate(reviews):
+    for review in reviews:
         report.reviews_in += 1
         text = (cleaned_text or {}).get(id(review), review.text)
 

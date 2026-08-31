@@ -175,7 +175,7 @@ def plot_aspect_distribution(asc: pd.DataFrame, out_path: Path) -> Path:
     _style_axes(ax)
 
     span = counts.max()
-    for y, value in zip(positions, counts.values):
+    for y, value in zip(positions, counts.values, strict=True):
         ax.text(
             value + span * 0.012, y, f"{value:,}",
             va="center", ha="left", fontsize=9, color=INK_SECONDARY,
@@ -234,7 +234,7 @@ def plot_polarity_by_aspect(asc: pd.DataFrame, out_path: Path) -> Path:
     )
 
     # Direct label the negative share -- the number the chart is sorted by.
-    for y, aspect in zip(positions, shares.index):
+    for y, aspect in zip(positions, shares.index, strict=True):
         value = shares.loc[aspect, "negative"]
         if value > 7:
             ax.text(
@@ -313,7 +313,7 @@ def plot_aspects_per_review(asc: pd.DataFrame, out_path: Path) -> Path:
     ax.yaxis.grid(True, color=GRIDLINE, linewidth=0.8)
     ax.set_axisbelow(True)
 
-    for x, value in zip(per_review.index.astype(int), per_review.values):
+    for x, value in zip(per_review.index.astype(int), per_review.values, strict=True):
         ax.text(
             x, value + per_review.max() * 0.02, f"{value:,}",
             ha="center", va="bottom", fontsize=8.5, color=INK_SECONDARY,

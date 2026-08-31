@@ -159,7 +159,7 @@ def build_score(
         confidence=round(float(probabilities[index]), 4),
         label=score_label(score),
         probabilities={
-            name: round(float(value), 4) for name, value in zip(labels, probabilities)
+            name: round(float(value), 4) for name, value in zip(labels, probabilities, strict=True)
         },
     )
 

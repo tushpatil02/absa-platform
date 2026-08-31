@@ -26,18 +26,17 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-import joblib  # noqa: E402
-import numpy as np  # noqa: E402
-import pandas as pd  # noqa: E402
+import joblib
+import pandas as pd
 
-from ml.evaluation.metrics import (  # noqa: E402
+from ml.evaluation.metrics import (
     evaluate_multi_label,
     evaluate_single_label,
     save_results,
     tune_threshold,
 )
-from ml.preprocessing.transform import load_taxonomy  # noqa: E402
-from ml.training.baseline import (  # noqa: E402
+from ml.preprocessing.transform import load_taxonomy
+from ml.training.baseline import (
     AspectPrefixEncoder,
     build_acd_baseline,
     build_asc_baseline,
@@ -120,7 +119,7 @@ def main() -> int:
     y_asc = {name: frame["label"].to_numpy() for name, frame in asc.items()}
 
     print(f"  train {len(asc['train']):>5} pairs   dev {len(asc['dev']):>4}   test {len(asc['test']):>5}")
-    print(f"  input form: '<aspect description> | <review>'  (mirrors the transformer pair)")
+    print("  input form: '<aspect description> | <review>'  (mirrors the transformer pair)")
 
     best = None
     for kind in ("logreg", "svc"):

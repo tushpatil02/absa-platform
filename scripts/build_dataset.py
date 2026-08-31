@@ -35,15 +35,15 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-import pandas as pd  # noqa: E402
+import pandas as pd
 
-from ml.preprocessing.clean import clean_text, is_usable  # noqa: E402
-from ml.preprocessing.parse import ParseReport, parse_file  # noqa: E402
-from ml.preprocessing.split import (  # noqa: E402
+from ml.preprocessing.clean import clean_text, is_usable
+from ml.preprocessing.parse import ParseReport, parse_file
+from ml.preprocessing.split import (
     assert_no_leakage,
     deduplicate_across_splits,
 )
-from ml.preprocessing.transform import (  # noqa: E402
+from ml.preprocessing.transform import (
     TransformReport,
     load_taxonomy,
     transform,
@@ -141,7 +141,10 @@ def main() -> int:
             },
         )
         row[pair.aspect] = 1
-    acd = pd.DataFrame(list(by_review.values()), columns=["review_id", "text", "domain", "split", *aspect_columns])
+    acd = pd.DataFrame(
+        list(by_review.values()),
+        columns=["review_id", "text", "domain", "split", *aspect_columns],
+    )
 
     for split in SPLITS:
         asc_split = asc[asc["split"] == split]
@@ -156,7 +159,7 @@ def main() -> int:
         subset = asc[asc["aspect"] == aspect]
         counts = subset["polarity"].value_counts().to_dict()
         aspect_stats[aspect] = {
-            "total": int(len(subset)),
+            "total": len(subset),
             "positive": int(counts.get("positive", 0)),
             "negative": int(counts.get("negative", 0)),
             "neutral": int(counts.get("neutral", 0)),

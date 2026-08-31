@@ -19,7 +19,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
 from ml.preprocessing.clean import clean_text, fix_encoding, is_usable
-from ml.preprocessing.parse import ParseReport, Triplet, parse_file, parse_line
+from ml.preprocessing.parse import ParseReport, RawReview, Triplet, parse_file, parse_line
 from ml.preprocessing.split import (
     assert_no_leakage,
     deduplicate_across_splits,
@@ -31,7 +31,6 @@ from ml.preprocessing.transform import (
     resolve_polarity,
     transform,
 )
-from ml.preprocessing.parse import RawReview
 
 TAXONOMY_PATH = REPO_ROOT / "ml" / "config" / "aspect_taxonomy.yaml"
 
