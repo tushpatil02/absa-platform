@@ -359,31 +359,51 @@ commands produces **byte-identical** CSVs.
 
 ## Limitations
 
-1. **Small dataset.** 5,763 pairs. Expect run-to-run variance; evaluation should
-   be seed-averaged before any claim of a small improvement.
-2. **`neutral` is weak** (5.3% of data, F1 0.244). Scores near 5.5 are the least
-   reliable region of the scale.
-3. **The baseline barely conditions on the aspect** — 0.545 on mixed reviews, and
-   it collapses 75.5% of them. Measured, documented, and the reason the
-   transformer stage exists.
-4. **Confidence is uncalibrated.** Softmax outputs are systematically
-   over-confident; the ordering is meaningful, the absolute value is not a
-   probability of correctness.
-5. **Domain-bound.** Trained on phone and laptop reviews. It will not transfer to
+Stated because they bound what the numbers mean.
+
+1. **Small dataset.** 5,763 pairs. Differences under roughly ±0.02 macro F1
+   should be treated as noise; nothing here is seed-averaged yet.
+2. **`neutral` is weak** — 5.3% of the data, F1 0.316. Scores near 5.5 are the
+   least reliable region of the scale.
+3. **Neither model reliably conditions on the aspect.** Mixed-review accuracy is
+   0.545 (baseline) and 0.541 (DistilBERT), and both collapse most mixed reviews
+   to a single polarity (75.5% / 85.1%). This is the headline limitation: the
+   system is far better at "is this review positive?" than at the per-aspect
+   question it exists to answer.
+4. **Confidence is inflated on exactly those reviews.** Uniform reviews are
+   near-perfectly calibrated (0.876 confidence vs 0.875 accuracy); mixed ones are
+   not (0.771 vs 0.541). Temperature scaling cannot fix it — the two slices need
+   opposite corrections. Treat confidence as trustworthy only when a review is
+   about one thing.
+5. **Domain-bound.** Phone and laptop reviews only; it will not transfer to
    restaurants or hotels without retraining.
-6. **Coverage gap.** The laptop domain carries no `price` or `camera` labels, so a
-   laptop review discussing price is unlabelled for it.
+6. **Coverage gap.** The laptop domain carries no `price` or `camera` labels, so
+   a laptop review discussing price is unlabelled for it.
 7. **English only.**
+8. **Docker is untested.** Written but never build-tested — Docker is not
+   installed on the development machine.
 
 ---
 
 ## Roadmap
 
-- Temperature scaling on dev to make confidence calibrated
-- ONNX export + int8 quantisation for the serving path
-- Aspect-term span highlighting (100% of terms appear verbatim in the text)
-- Seed-averaged evaluation with confidence intervals
-- A generative (Flan-T5) comparison arm
+Ordered by expected value against the limitations above.
+
+1. **DeBERTa-v3-base on a Colab GPU** — the cheapest untried experiment (~12 min
+   on a T4). Only for Stage B; Stage A should stay TF-IDF unless something
+   actually beats 0.7755.
+2. **Upweight or oversample mixed reviews** so reading overall tone stops being a
+   sufficient hypothesis.
+3. **More data** — M-ABSA's other five English domains would roughly triple the
+   corpus, at the cost of another taxonomy mapping.
+4. **Seed-averaged evaluation** with confidence intervals, so small differences
+   can be claimed at all.
+5. **ONNX export + int8 quantisation** for the serving path.
+6. **Aspect-term span highlighting** — 100% of gold terms appear verbatim in the
+   text, so the data supports it.
+
+*Temperature scaling was implemented and rejected — see
+[docs/model.md](docs/model.md) for why, and `scripts/calibrate.py` to reproduce.*
 
 ---
 
