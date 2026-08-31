@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: Python — pipeline & API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          # 3.12, not 3.14: PyTorch has no stable CUDA wheels for 3.14 and
+          # several transitive dependencies lack cp314 builds.
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest joblib fastapi "uvicorn[standard]" pydantic-settings httpx
+
+      - name: Build the dataset
+        # Fetches M-ABSA from upstream (not vendored — no LICENSE there) and
+        # runs the leakage assertions. A leak fails the build.
+        run: |
+          python scripts/download_data.py
+          python scripts/build_dataset.py
+
+      - name: Verify dataset shape
+        # Guards against a silent upstream change altering the data underneath us.
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          report = json.loads(pathlib.Path("data/processed/build_report.json").read_text())
+          assert report["taxonomy"]["n_aspects"] == 12, report["taxonomy"]
+          total = sum(report["split"]["pairs"].values())
+          assert 5000 < total < 7000, f"unexpected pair count {total}"
+          print(f"OK: {total} pairs across {report['taxonomy']['n_aspects']} aspects")
+          PY
+
+      - name: Train baselines
+        # Fast (~15s) and required for the API tests, which run against real
+        # artefacts rather than mocks.
+        run: python scripts/train_baseline.py
+
+      - name: Run tests
+        run: python -m pytest tests/ -q
+
+      - name: Model comparison
+        run: python scripts/compare_models.py
+
+  frontend:
+    name: Frontend — typecheck & build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - run: npm ci
+
+      - name: Lint
+        run: npx oxlint src
+
+      - name: Typecheck and build
+        # `npm run build` runs `tsc -b`, which applies the project references
+        # config. `tsc --noEmit` alone bypasses it and misses real errors.
+        run: npm run build
+
+      - name: Check bundle size
+        # The dashboard is code-split so the initial payload stays small;
+        # this fails if that regresses.
+        run: |
+          MAIN=$(find dist/assets -name 'index-*.js' -printf '%s\n' | head -1)
+          echo "initial JS: $MAIN bytes"
+          if [ "$MAIN" -gt 300000 ]; then
+            echo "::error::Initial bundle exceeded 300 kB — is the dashboard still lazy-loaded?"
+            exit 1
+          fi
