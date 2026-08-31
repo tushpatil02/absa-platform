@@ -216,6 +216,46 @@ def test_missing_comparison_file_is_not_an_error(tmp_path):
     assert _winner_from_comparison(tmp_path, "sentiment") is None
 
 
+def test_descriptor_without_weights_is_not_available(tmp_path):
+    """metadata.json alone must not count as an available model.
+
+    Regression: transformer metadata.json and config.json are committed to git
+    for reference while the weights are not, so a fresh clone has the descriptor
+    and no model. The loader used to see the descriptor, choose the transformer,
+    and crash inside transformers with an OSError instead of falling back.
+    """
+    import json
+
+    models = _baseline_only(tmp_path)
+    (models / "metadata").mkdir()
+    (models / "metadata" / "comparison.json").write_text(
+        json.dumps({"sentiment": {"selected": "distilbert-base-uncased"}}), encoding="utf-8"
+    )
+
+    # Descriptor present, weights absent -- exactly a fresh clone.
+    descriptor_only = models / "sentiment_classifier"
+    descriptor_only.mkdir()
+    (descriptor_only / "metadata.json").write_text(
+        json.dumps({"base_model": "distilbert-base-uncased"}), encoding="utf-8"
+    )
+    (descriptor_only / "config.json").write_text("{}", encoding="utf-8")
+
+    predictor = load_predictor(models, TAXONOMY, prefer="auto")
+    assert predictor.classifier.name.startswith("tfidf-")
+
+
+def test_forcing_a_weightless_transformer_explains_why(tmp_path):
+    import json
+
+    models = _baseline_only(tmp_path)
+    descriptor_only = models / "sentiment_classifier"
+    descriptor_only.mkdir()
+    (descriptor_only / "metadata.json").write_text(json.dumps({}), encoding="utf-8")
+
+    with pytest.raises(FileNotFoundError, match="weights are not"):
+        load_predictor(models, TAXONOMY, prefer_sentiment="transformer")
+
+
 def test_model_name_reports_both_stages(tmp_path):
     """The two stages are chosen independently, so both must be visible."""
     predictor = load_predictor(_baseline_only(tmp_path), TAXONOMY, prefer="baseline")

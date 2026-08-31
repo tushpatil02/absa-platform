@@ -397,8 +397,19 @@ TRANSFORMER_ACD = "aspect_detector"
 TRANSFORMER_ASC = "sentiment_classifier"
 
 
-def _available(directory: Path) -> bool:
-    return (directory / "metadata.json").exists()
+# Weight filenames each family actually needs. metadata.json alone is NOT
+# enough: it is committed to git for reference while the weights are not, so a
+# fresh clone has the descriptor and no model. Checking only the descriptor made
+# load_predictor crash with an OSError from transformers instead of falling back.
+BASELINE_WEIGHTS = ("model.joblib",)
+TRANSFORMER_WEIGHTS = ("model.safetensors", "pytorch_model.bin")
+
+
+def _available(directory: Path, weights: tuple[str, ...]) -> bool:
+    """True only when the descriptor AND loadable weights are present."""
+    if not (directory / "metadata.json").exists():
+        return False
+    return any((directory / name).exists() for name in weights)
 
 
 def _winner_from_comparison(models_dir: Path, key: str) -> str | None:
@@ -473,10 +484,16 @@ def load_predictor(
     transformer_acd, transformer_asc = models_dir / TRANSFORMER_ACD, models_dir / TRANSFORMER_ASC
 
     aspect_choice = _resolve(
-        prefer_aspect or prefer, "aspect_detection", models_dir, _available(transformer_acd)
+        prefer_aspect or prefer,
+        "aspect_detection",
+        models_dir,
+        _available(transformer_acd, TRANSFORMER_WEIGHTS),
     )
     sentiment_choice = _resolve(
-        prefer_sentiment or prefer, "sentiment", models_dir, _available(transformer_asc)
+        prefer_sentiment or prefer,
+        "sentiment",
+        models_dir,
+        _available(transformer_asc, TRANSFORMER_WEIGHTS),
     )
 
     for choice, directory, script in (
@@ -485,9 +502,16 @@ def load_predictor(
         (sentiment_choice, transformer_asc if sentiment_choice == "transformer" else baseline_asc,
          "train_transformer.py --stage asc" if sentiment_choice == "transformer" else "train_baseline.py"),
     ):
-        if not _available(directory):
+        weights = TRANSFORMER_WEIGHTS if choice == "transformer" else BASELINE_WEIGHTS
+        if not _available(directory, weights):
+            detail = ""
+            if (directory / "metadata.json").exists():
+                detail = (
+                    " The descriptor is present but the weights are not -- they are "
+                    "kept out of git and pulled from the Hugging Face Hub; see docs/deployment.md."
+                )
             raise FileNotFoundError(
-                f"No {choice} artefacts at {directory}. Run scripts/{script}."
+                f"No {choice} artefacts at {directory}. Run scripts/{script}.{detail}"
             )
 
     detector: AspectDetector = (
