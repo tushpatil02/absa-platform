@@ -13,9 +13,10 @@ delivery — rather than collapsing everything into one star rating.
 > | Camera | Negative | 4.6 / 10 | 48% |
 > | Battery | Negative | 5.2 / 10 | 46% |
 >
-> Real output from the shipped baseline — **including the mistake**. Camera should
-> be positive. See [the diagnostic](#the-diagnostic-that-actually-matters) for why
-> a bag-of-words model fails on mixed reviews, and what fixes it.
+> Real output from the TF-IDF baseline — **including the mistake**. Camera should
+> be positive. See [the diagnostic](#the-diagnostic-that-changes-the-conclusion):
+> the fine-tuned transformer scores better overall yet makes this same class of
+> error slightly more often, which is the most interesting result in the project.
 
 A 4.5-star phone can have a superb camera and a battery everyone hates. The star
 rating hides that; this does not.
@@ -79,36 +80,44 @@ by review and leakage-asserted — see [Dataset](#dataset).
 
 | Model | **Macro F1** | Accuracy | neg F1 | neu F1 | pos F1 |
 |---|---:|---:|---:|---:|---:|
-| TF-IDF + LogReg | **0.6088** | 0.7869 | 0.720 | 0.244 | 0.863 |
+| **DistilBERT** (selected) | **0.6538** | 0.8148 | 0.761 | 0.316 | 0.885 |
+| TF-IDF + LogReg | 0.6088 | 0.7869 | 0.720 | 0.244 | 0.863 |
 | TF-IDF + LinearSVC | 0.5319 | **0.8169** | 0.712 | **0.000** | 0.884 |
 
-**Read those last two rows together.** The SVM has *higher accuracy* and is the
-worse model: it never predicts `neutral` even once. `neutral` is 5.3% of the
-data, so refusing to predict it costs almost nothing in accuracy and destroys a
-third of the label space.
+**Read the last row carefully.** The SVM has the *highest accuracy* of the three
+and is the worst model: it never predicts `neutral` even once. `neutral` is 5.3%
+of the data, so refusing to predict it costs almost nothing in accuracy and
+destroys a third of the label space.
 
 That is why **macro F1 selects the model here, and accuracy never does.**
 
-### The diagnostic that actually matters
+### The diagnostic that changes the conclusion
 
 Overall metrics hide whether the model conditions on the aspect at all. Most
-reviews are uniformly positive or negative, so a model that reads only the
-overall tone still scores respectably.
+reviews are uniformly positive or negative, so a model that reads only overall
+tone still scores respectably.
 
-Sliced to **mixed reviews** — those carrying different polarities for different
-aspects, which is the entire point of ABSA:
+Sliced to **mixed reviews** — the 94 test reviews carrying different polarities
+for different aspects, which is the entire point of ABSA:
 
 | Model | Mixed acc | Uniform acc | Gap | Collapsed |
 |---|---:|---:|---:|---:|
-| TF-IDF + LogReg | **0.5451** | 0.8404 | +0.2953 | **0.7553** |
+| TF-IDF + LogReg | 0.5451 | 0.8404 | +0.2953 | 0.7553 |
+| DistilBERT | 0.5414 | 0.8753 | +0.3340 | **0.8511** |
 
 *Collapsed* = share of mixed reviews given one single polarity for every aspect,
 i.e. the aspect was ignored entirely.
 
-So the baseline's headline 0.787 accuracy conceals that on the hard case it is
-barely better than chance, and **three times out of four it ignores the aspect
-completely**. A bag of words cannot tell which clause belongs to which aspect —
-which is precisely the argument for the transformer stage.
+**DistilBERT is better on every headline metric and no better at the actual
+task.** Its whole gain came from uniform reviews (0.840 → 0.875). On mixed
+reviews it is flat, and it ignores the aspect *more* often than the baseline
+(85% vs 76%).
+
+So the reported 0.6538 macro F1 is real, and it should be read alongside this:
+**neither model reliably does aspect-conditional sentiment at 3,464 training
+pairs.** Finding that, rather than reporting the F1 and stopping, is the point.
+[docs/model.md](docs/model.md) has the failure examples and the four things most
+likely to fix it.
 
 Reproduce with `python scripts/compare_models.py`.
 
