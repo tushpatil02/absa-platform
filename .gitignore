@@ -36,6 +36,18 @@ models/**/*.pth
 models/**/*.joblib
 models/**/*.pkl
 models/**/*.h5
+
+# Tokenizer/vocab files are large and arrive with the weights from the Hub, so
+# committing them alone is dead weight.
+models/**/tokenizer.json
+models/**/vocab.txt
+models/**/vocab.json
+models/**/merges.txt
+models/**/spiece.model
+models/**/*.safetensors.index.json
+
+# Keep only the small, human-readable descriptors: metrics, label maps,
+# model cards and the base-model reference needed to reproduce a run.
 !models/**/metadata/**
 !models/**/*.json
 !models/**/*.md
