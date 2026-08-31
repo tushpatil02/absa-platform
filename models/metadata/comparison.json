@@ -1,0 +1,42 @@
+{
+  "aspect_detection": {
+    "selected": "tfidf+logreg(ovr)",
+    "metric": "micro_f1",
+    "value": 0.7755242351323479,
+    "candidates": [
+      {
+        "model": "tfidf+logreg(ovr)",
+        "micro_f1": 0.7755242351323479,
+        "macro_f1": 0.738690598282351,
+        "subset_accuracy": 0.5523316062176166
+      }
+    ]
+  },
+  "sentiment": {
+    "selected": "tfidf+logreg",
+    "metric": "macro_f1",
+    "value": 0.6088069286584689,
+    "candidates": [
+      {
+        "model": "tfidf+logreg",
+        "macro_f1": 0.6088069286584689,
+        "accuracy": 0.786929884275017,
+        "per_class_f1": {
+          "negative": 0.7202718006795017,
+          "neutral": 0.24358974358974358,
+          "positive": 0.8625592417061612
+        }
+      }
+    ]
+  },
+  "aspect_conditioning": [
+    {
+      "model": "baseline (tfidf)",
+      "mixed_accuracy": 0.5451127819548872,
+      "uniform_accuracy": 0.8403990024937655,
+      "gap": 0.2952862205388783,
+      "collapsed_rate": 0.7553191489361702,
+      "n_mixed_reviews": 94
+    }
+  ]
+}

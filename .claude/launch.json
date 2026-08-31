@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "absa-frontend",
+      "runtimeExecutable": "C:\\Users\\tusha\\AppData\\Local\\nodejs-portable\\npm.cmd",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "D:\\Tushar\\absa-platform\\frontend",
+      "port": 5173
+    }
+  ]
+}
