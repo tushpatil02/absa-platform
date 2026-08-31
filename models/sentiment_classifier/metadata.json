@@ -1,0 +1,39 @@
+{
+  "task": "aspect_sentiment_classification",
+  "base_model": "distilbert-base-uncased",
+  "labels": [
+    "negative",
+    "neutral",
+    "positive"
+  ],
+  "max_length": 128,
+  "epochs": 3,
+  "batch_size": 16,
+  "learning_rate": 2e-05,
+  "seed": 42,
+  "fit_seconds": 2372.5,
+  "device": "cpu",
+  "final_train_loss": 0.4986375545175191,
+  "transformers_version": "5.16.1",
+  "torch_version": "2.13.0+cpu",
+  "label_to_id": {
+    "negative": 0,
+    "neutral": 1,
+    "positive": 2
+  },
+  "input_format": "sentence pair: (review, aspect_description)",
+  "aspect_descriptions": {
+    "overall": "overall opinion of the product",
+    "delivery": "shipping speed, packaging and order fulfilment",
+    "build_quality": "physical build, materials, durability, buttons and ports",
+    "battery": "battery life, charging speed and power supply",
+    "customer_service": "seller support, warranty and after-sales service",
+    "display": "screen quality, size, brightness and graphics",
+    "software": "operating system, apps, updates, security and ease of use",
+    "performance": "speed, processor, memory, storage and connectivity",
+    "price": "price, value for money and deals",
+    "camera": "camera quality, photos, video and shooting features",
+    "design": "appearance, styling and form factor",
+    "audio": "speakers, sound quality, microphone and multimedia"
+  }
+}

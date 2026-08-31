@@ -1,0 +1,120 @@
+[
+  {
+    "model": "distilbert-base-uncased",
+    "split": "dev",
+    "accuracy": 0.844578313253012,
+    "macro_f1": 0.7085961685709177,
+    "weighted_f1": 0.848692211236133,
+    "macro_precision": 0.6911163522012579,
+    "macro_recall": 0.7332940875382188,
+    "per_class": [
+      {
+        "label": "negative",
+        "precision": 0.7584905660377359,
+        "recall": 0.9013452914798207,
+        "f1": 0.8237704918032787,
+        "support": 223
+      },
+      {
+        "label": "neutral",
+        "precision": 0.37735849056603776,
+        "recall": 0.4444444444444444,
+        "f1": 0.40816326530612246,
+        "support": 45
+      },
+      {
+        "label": "positive",
+        "precision": 0.9375,
+        "recall": 0.8540925266903915,
+        "f1": 0.8938547486033519,
+        "support": 562
+      }
+    ],
+    "confusion": [
+      [
+        201,
+        3,
+        19
+      ],
+      [
+        12,
+        20,
+        13
+      ],
+      [
+        52,
+        30,
+        480
+      ]
+    ],
+    "labels": [
+      "negative",
+      "neutral",
+      "positive"
+    ],
+    "n_examples": 830,
+    "extra": {
+      "fit_seconds": 2372.5,
+      "epochs": 3
+    }
+  },
+  {
+    "model": "distilbert-base-uncased",
+    "split": "test",
+    "accuracy": 0.8148400272294077,
+    "macro_f1": 0.6537545245818027,
+    "weighted_f1": 0.8225918170531169,
+    "macro_precision": 0.6372090176403132,
+    "macro_recall": 0.6793500265498474,
+    "per_class": [
+      {
+        "label": "negative",
+        "precision": 0.7118279569892473,
+        "recall": 0.817283950617284,
+        "f1": 0.7609195402298851,
+        "support": 405
+      },
+      {
+        "label": "neutral",
+        "precision": 0.2727272727272727,
+        "recall": 0.375,
+        "f1": 0.3157894736842105,
+        "support": 72
+      },
+      {
+        "label": "positive",
+        "precision": 0.9270718232044199,
+        "recall": 0.8457661290322581,
+        "f1": 0.8845545598313126,
+        "support": 992
+      }
+    ],
+    "confusion": [
+      [
+        331,
+        31,
+        43
+      ],
+      [
+        22,
+        27,
+        23
+      ],
+      [
+        112,
+        41,
+        839
+      ]
+    ],
+    "labels": [
+      "negative",
+      "neutral",
+      "positive"
+    ],
+    "n_examples": 1469,
+    "extra": {
+      "fit_seconds": 2372.5,
+      "epochs": 3
+    }
+  }
+]

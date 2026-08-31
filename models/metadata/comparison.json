@@ -13,10 +13,20 @@
     ]
   },
   "sentiment": {
-    "selected": "tfidf+logreg",
+    "selected": "distilbert-base-uncased",
     "metric": "macro_f1",
-    "value": 0.6088069286584689,
+    "value": 0.6537545245818027,
     "candidates": [
+      {
+        "model": "distilbert-base-uncased",
+        "macro_f1": 0.6537545245818027,
+        "accuracy": 0.8148400272294077,
+        "per_class_f1": {
+          "negative": 0.7609195402298851,
+          "neutral": 0.3157894736842105,
+          "positive": 0.8845545598313126
+        }
+      },
       {
         "model": "tfidf+logreg",
         "macro_f1": 0.6088069286584689,
@@ -36,6 +46,14 @@
       "uniform_accuracy": 0.8403990024937655,
       "gap": 0.2952862205388783,
       "collapsed_rate": 0.7553191489361702,
+      "n_mixed_reviews": 94
+    },
+    {
+      "model": "transformer (distilbert-base-uncased)",
+      "mixed_accuracy": 0.5413533834586466,
+      "uniform_accuracy": 0.8753117206982544,
+      "gap": 0.33395833723960777,
+      "collapsed_rate": 0.851063829787234,
       "n_mixed_reviews": 94
     }
   ]
