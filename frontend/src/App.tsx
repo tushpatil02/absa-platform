@@ -1,8 +1,14 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { api } from "./api/client";
 import { Analyzer } from "./components/Analyzer";
-import { ProductAnalyzer } from "./components/ProductAnalyzer";
 import type { HealthResponse } from "./types";
+
+// Recharts is ~60% of the bundle and only the dashboard needs it. The default
+// tab is the single-review analyzer, so loading it lazily keeps the initial
+// payload to what the first screen actually uses.
+const ProductAnalyzer = lazy(() =>
+  import("./components/ProductAnalyzer").then((m) => ({ default: m.ProductAnalyzer })),
+);
 
 type Tab = "single" | "product";
 
@@ -94,7 +100,21 @@ export default function App() {
             </button>
           </div>
 
-          {tab === "single" ? <Analyzer /> : <ProductAnalyzer />}
+          {tab === "single" ? (
+            <Analyzer />
+          ) : (
+            <Suspense
+              fallback={
+                <div className="card">
+                  <p className="empty">
+                    <span className="spinner" /> Loading dashboard…
+                  </p>
+                </div>
+              }
+            >
+              <ProductAnalyzer />
+            </Suspense>
+          )}
         </div>
       </main>
 
