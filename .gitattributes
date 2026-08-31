@@ -1,0 +1,25 @@
+# This repo is developed on Windows and cloned into Colab (Linux), so line
+# endings are normalised to LF in the repository. Without this, every file
+# committed from Windows shows up as fully rewritten in Colab diffs.
+* text=auto eol=lf
+
+# Windows-only helper scripts must keep CRLF to run correctly.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Notebooks are JSON: keep them diffable but never merge them automatically.
+*.ipynb text eol=lf merge=binary
+
+# Binary assets git should not try to diff or normalise.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.onnx binary
+*.bin binary
+*.safetensors binary
+*.joblib binary
+*.pkl binary
