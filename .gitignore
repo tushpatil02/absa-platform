@@ -1,0 +1,96 @@
+# ---------------------------------------------------------------------------
+# Secrets  (never commit -- see docs/security.md)
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+kaggle.json
+
+# ---------------------------------------------------------------------------
+# Data
+# Raw data is fetched by scripts/download_data.py, never committed:
+# M-ABSA ships no LICENSE, so we do not redistribute it.
+# ---------------------------------------------------------------------------
+data/raw/
+data/processed/
+data/interim/
+*.csv
+*.tsv
+*.parquet
+!data/**/CITATION.bib
+!tests/fixtures/*.csv
+
+# ---------------------------------------------------------------------------
+# Model artifacts
+# Trained weights live on the Hugging Face Hub, not in git.
+# Only metadata (metrics, label maps, model cards) is versioned.
+# ---------------------------------------------------------------------------
+models/**/*.bin
+models/**/*.safetensors
+models/**/*.onnx
+models/**/*.pt
+models/**/*.pth
+models/**/*.joblib
+models/**/*.pkl
+models/**/*.h5
+!models/**/metadata/**
+!models/**/*.json
+!models/**/*.md
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# ---------------------------------------------------------------------------
+# Notebooks -- strip outputs before committing (nbstripout recommended)
+# ---------------------------------------------------------------------------
+.ipynb_checkpoints/
+notebooks/**/outputs/
+
+# Colab runtime leftovers
+sample_data/
+drive/
+adc.json
+
+# ---------------------------------------------------------------------------
+# Node / frontend
+# ---------------------------------------------------------------------------
+node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ---------------------------------------------------------------------------
+# Databases
+# ---------------------------------------------------------------------------
+*.db
+*.sqlite
+*.sqlite3
+
+# ---------------------------------------------------------------------------
+# Editors / OS
+# ---------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini

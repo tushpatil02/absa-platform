@@ -1,0 +1,18 @@
+# Core data pipeline (Phases 1-2).
+# Deliberately CPU-only: model *training* happens in Google Colab, so nothing
+# here needs CUDA. See requirements-train.txt for the Colab/GPU stack and
+# requirements-serve.txt for the slim runtime the API container installs.
+#
+#   python -m venv .venv
+#   .venv/Scripts/python.exe -m pip install -r requirements.txt   # Windows
+#   .venv/bin/python -m pip install -r requirements.txt           # macOS/Linux
+#
+# Python 3.12 is required. 3.14 is NOT supported yet: PyTorch has no stable
+# CUDA wheels for it and several transitive deps lack cp314 builds.
+
+pandas==3.0.5
+numpy==2.5.2
+scikit-learn==1.9.0
+PyYAML==6.0.3
+matplotlib==3.11.1
+seaborn==0.13.2
