@@ -1,0 +1,22 @@
+{
+  "task": "aspect_category_detection",
+  "model": "tfidf(word+char) + OneVsRest(LogisticRegression)",
+  "labels": [
+    "overall",
+    "delivery",
+    "build_quality",
+    "battery",
+    "customer_service",
+    "display",
+    "software",
+    "performance",
+    "price",
+    "camera",
+    "design",
+    "audio"
+  ],
+  "threshold": 0.4600000000000001,
+  "input_format": "raw review text",
+  "dev_micro_f1": 0.7769784172661871,
+  "sklearn_version": "1.9.0"
+}

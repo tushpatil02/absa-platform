@@ -1,0 +1,404 @@
+[
+  {
+    "model": "tfidf+logreg(ovr)",
+    "split": "dev",
+    "micro_f1": 0.7769784172661871,
+    "macro_f1": 0.7093802728079819,
+    "samples_f1": 0.7626593883138385,
+    "subset_accuracy": 0.5706806282722513,
+    "micro_precision": 0.7732696897374701,
+    "micro_recall": 0.7807228915662651,
+    "per_class": [
+      {
+        "label": "overall",
+        "precision": 0.8103448275862069,
+        "recall": 0.8571428571428571,
+        "f1": 0.8330871491875923,
+        "support": 329
+      },
+      {
+        "label": "delivery",
+        "precision": 0.8877551020408163,
+        "recall": 0.90625,
+        "f1": 0.8969072164948454,
+        "support": 96
+      },
+      {
+        "label": "build_quality",
+        "precision": 0.7755102040816326,
+        "recall": 0.6551724137931034,
+        "f1": 0.7102803738317757,
+        "support": 58
+      },
+      {
+        "label": "battery",
+        "precision": 0.8863636363636364,
+        "recall": 0.8478260869565217,
+        "f1": 0.8666666666666667,
+        "support": 46
+      },
+      {
+        "label": "customer_service",
+        "precision": 0.8148148148148148,
+        "recall": 0.7586206896551724,
+        "f1": 0.7857142857142857,
+        "support": 58
+      },
+      {
+        "label": "display",
+        "precision": 0.8695652173913043,
+        "recall": 0.8888888888888888,
+        "f1": 0.8791208791208791,
+        "support": 45
+      },
+      {
+        "label": "software",
+        "precision": 0.640625,
+        "recall": 0.7068965517241379,
+        "f1": 0.6721311475409836,
+        "support": 58
+      },
+      {
+        "label": "performance",
+        "precision": 0.52,
+        "recall": 0.5531914893617021,
+        "f1": 0.5360824742268041,
+        "support": 47
+      },
+      {
+        "label": "price",
+        "precision": 0.48148148148148145,
+        "recall": 0.48148148148148145,
+        "f1": 0.48148148148148145,
+        "support": 27
+      },
+      {
+        "label": "camera",
+        "precision": 0.76,
+        "recall": 0.7916666666666666,
+        "f1": 0.7755102040816326,
+        "support": 24
+      },
+      {
+        "label": "design",
+        "precision": 0.3333333333333333,
+        "recall": 0.3181818181818182,
+        "f1": 0.32558139534883723,
+        "support": 22
+      },
+      {
+        "label": "audio",
+        "precision": 1.0,
+        "recall": 0.6,
+        "f1": 0.75,
+        "support": 20
+      }
+    ],
+    "labels": [
+      "overall",
+      "delivery",
+      "build_quality",
+      "battery",
+      "customer_service",
+      "display",
+      "software",
+      "performance",
+      "price",
+      "camera",
+      "design",
+      "audio"
+    ],
+    "n_examples": 573,
+    "threshold": 0.4600000000000001,
+    "extra": {
+      "fit_seconds": 6.25
+    }
+  },
+  {
+    "model": "tfidf+logreg(ovr)",
+    "split": "test",
+    "micro_f1": 0.7755242351323479,
+    "macro_f1": 0.738690598282351,
+    "samples_f1": 0.7615063290192824,
+    "subset_accuracy": 0.5523316062176166,
+    "micro_precision": 0.7833333333333333,
+    "micro_recall": 0.7678692988427501,
+    "per_class": [
+      {
+        "label": "overall",
+        "precision": 0.7942857142857143,
+        "recall": 0.8290258449304175,
+        "f1": 0.811284046692607,
+        "support": 503
+      },
+      {
+        "label": "delivery",
+        "precision": 0.8488372093023255,
+        "recall": 0.8957055214723927,
+        "f1": 0.8716417910447761,
+        "support": 163
+      },
+      {
+        "label": "build_quality",
+        "precision": 0.7692307692307693,
+        "recall": 0.64,
+        "f1": 0.6986899563318777,
+        "support": 125
+      },
+      {
+        "label": "battery",
+        "precision": 0.9333333333333333,
+        "recall": 0.9074074074074074,
+        "f1": 0.92018779342723,
+        "support": 108
+      },
+      {
+        "label": "customer_service",
+        "precision": 0.7727272727272727,
+        "recall": 0.68,
+        "f1": 0.723404255319149,
+        "support": 100
+      },
+      {
+        "label": "display",
+        "precision": 0.845360824742268,
+        "recall": 0.845360824742268,
+        "f1": 0.845360824742268,
+        "support": 97
+      },
+      {
+        "label": "software",
+        "precision": 0.6120689655172413,
+        "recall": 0.6574074074074074,
+        "f1": 0.6339285714285714,
+        "support": 108
+      },
+      {
+        "label": "performance",
+        "precision": 0.6756756756756757,
+        "recall": 0.5434782608695652,
+        "f1": 0.6024096385542169,
+        "support": 92
+      },
+      {
+        "label": "price",
+        "precision": 0.6470588235294118,
+        "recall": 0.7333333333333333,
+        "f1": 0.6875,
+        "support": 60
+      },
+      {
+        "label": "camera",
+        "precision": 0.8717948717948718,
+        "recall": 0.8292682926829268,
+        "f1": 0.85,
+        "support": 41
+      },
+      {
+        "label": "design",
+        "precision": 0.5,
+        "recall": 0.37142857142857144,
+        "f1": 0.4262295081967213,
+        "support": 35
+      },
+      {
+        "label": "audio",
+        "precision": 0.9615384615384616,
+        "recall": 0.6756756756756757,
+        "f1": 0.7936507936507936,
+        "support": 37
+      }
+    ],
+    "labels": [
+      "overall",
+      "delivery",
+      "build_quality",
+      "battery",
+      "customer_service",
+      "display",
+      "software",
+      "performance",
+      "price",
+      "camera",
+      "design",
+      "audio"
+    ],
+    "n_examples": 965,
+    "threshold": 0.4600000000000001,
+    "extra": {
+      "fit_seconds": 6.25
+    }
+  },
+  {
+    "model": "tfidf+logreg",
+    "split": "dev",
+    "accuracy": 0.7734939759036145,
+    "macro_f1": 0.5838835620695305,
+    "weighted_f1": 0.7781437694593456,
+    "macro_precision": 0.57680690399137,
+    "macro_recall": 0.5962934001457532,
+    "per_class": [
+      {
+        "label": "negative",
+        "precision": 0.6333333333333333,
+        "recall": 0.7668161434977578,
+        "f1": 0.6937119675456389,
+        "support": 223
+      },
+      {
+        "label": "neutral",
+        "precision": 0.2,
+        "recall": 0.2,
+        "f1": 0.2,
+        "support": 45
+      },
+      {
+        "label": "positive",
+        "precision": 0.8970873786407767,
+        "recall": 0.8220640569395018,
+        "f1": 0.8579387186629527,
+        "support": 562
+      }
+    ],
+    "confusion": [
+      [
+        171,
+        16,
+        36
+      ],
+      [
+        19,
+        9,
+        17
+      ],
+      [
+        80,
+        20,
+        462
+      ]
+    ],
+    "labels": [
+      "negative",
+      "neutral",
+      "positive"
+    ],
+    "n_examples": 830,
+    "extra": {
+      "fit_seconds": 1.5
+    }
+  },
+  {
+    "model": "tfidf+svc",
+    "split": "dev",
+    "accuracy": 0.8168674698795181,
+    "macro_f1": 0.5318695066401489,
+    "weighted_f1": 0.789783674378015,
+    "macro_precision": 0.5329548319925818,
+    "macro_recall": 0.5355792094218278,
+    "per_class": [
+      {
+        "label": "negative",
+        "precision": 0.7668393782383419,
+        "recall": 0.6636771300448431,
+        "f1": 0.7115384615384616,
+        "support": 223
+      },
+      {
+        "label": "neutral",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 45
+      },
+      {
+        "label": "positive",
+        "precision": 0.8320251177394035,
+        "recall": 0.9430604982206405,
+        "f1": 0.8840700583819849,
+        "support": 562
+      }
+    ],
+    "confusion": [
+      [
+        148,
+        0,
+        75
+      ],
+      [
+        13,
+        0,
+        32
+      ],
+      [
+        32,
+        0,
+        530
+      ]
+    ],
+    "labels": [
+      "negative",
+      "neutral",
+      "positive"
+    ],
+    "n_examples": 830,
+    "extra": {
+      "fit_seconds": 1.95
+    }
+  },
+  {
+    "model": "tfidf+logreg",
+    "split": "test",
+    "accuracy": 0.786929884275017,
+    "macro_f1": 0.6088069286584689,
+    "weighted_f1": 0.7929934027135274,
+    "macro_precision": 0.5981464298217307,
+    "macro_recall": 0.6248929709279172,
+    "per_class": [
+      {
+        "label": "negative",
+        "precision": 0.6652719665271967,
+        "recall": 0.7851851851851852,
+        "f1": 0.7202718006795017,
+        "support": 405
+      },
+      {
+        "label": "neutral",
+        "precision": 0.2261904761904762,
+        "recall": 0.2638888888888889,
+        "f1": 0.24358974358974358,
+        "support": 72
+      },
+      {
+        "label": "positive",
+        "precision": 0.9029768467475193,
+        "recall": 0.8256048387096774,
+        "f1": 0.8625592417061612,
+        "support": 992
+      }
+    ],
+    "confusion": [
+      [
+        318,
+        26,
+        61
+      ],
+      [
+        26,
+        19,
+        27
+      ],
+      [
+        134,
+        39,
+        819
+      ]
+    ],
+    "labels": [
+      "negative",
+      "neutral",
+      "positive"
+    ],
+    "n_examples": 1469,
+    "extra": {}
+  }
+]
