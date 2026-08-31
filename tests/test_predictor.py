@@ -147,6 +147,31 @@ def test_load_predictor_rejects_missing_transformer(tmp_path):
         load_predictor(tmp_path, TAXONOMY, prefer="transformer")
 
 
+def test_auto_ignores_a_half_finished_transformer(tmp_path):
+    """Both transformer stages must exist before 'auto' picks it.
+
+    This state occurs for real: training stage B writes sentiment_classifier/
+    while stage A is still running. Pairing a transformer sentiment head with a
+    missing aspect detector would fail at request time instead of at load time.
+    """
+    import json
+    import shutil
+
+    # A complete baseline plus only ONE half of the transformer.
+    for name in ("baseline_aspect_detector", "baseline_sentiment_classifier"):
+        source = MODELS_DIR / name
+        if not (source / "metadata.json").exists():
+            pytest.skip("Baseline models not trained")
+        shutil.copytree(source, tmp_path / name)
+
+    half = tmp_path / "sentiment_classifier"
+    half.mkdir()
+    (half / "metadata.json").write_text(json.dumps({"base_model": "x"}), encoding="utf-8")
+
+    predictor = load_predictor(tmp_path, TAXONOMY, prefer="auto")
+    assert predictor.model_name.startswith("baseline:")
+
+
 # ---------------------------------------------------------------------------
 # Behaviour against the real baseline artefacts
 # ---------------------------------------------------------------------------
