@@ -45,6 +45,32 @@ of the label space. Both rows are kept in the comparison for exactly that reason
 
 ---
 
+## Stage A — Aspect Category Detection
+
+Multi-label, 12 sigmoid outputs. Threshold tuned on dev.
+
+| Model | Micro F1 | Macro F1 | Subset acc | Micro P | Micro R | Train time |
+|---|---:|---:|---:|---:|---:|---:|
+| **TF-IDF + OvR LogReg** | **0.7755** | 0.7387 | 0.5523 | 0.783 | 0.768 | 6 s |
+| DistilBERT | 0.6192 | 0.6114 | 0.3575 | **0.525** | 0.756 | 26 min (CPU) |
+
+**The baseline wins by 15.6 micro-F1 points**, which was not the expected result.
+
+The cause is visible in the precision column: DistilBERT's micro precision is
+0.525 against the baseline's 0.783 at similar recall. It over-predicts —
+`design` gets precision 0.218 at recall 0.829, meaning it flags that aspect
+almost everywhere. With 2,298 training reviews, 12 labels and `pos_weight` up to
+20 pushing hard toward positives on rare labels, the model learns to fire
+liberally.
+
+It is also the wrong tool for the job. Aspect detection is largely *lexical* —
+the word "battery" all but determines the aspect — and word + character n-grams
+model that directly. The character n-grams additionally absorb the misspellings
+("batery", "camara") that pervade review text. There is little long-range
+context for an encoder to exploit.
+
+---
+
 ## Stage B — Aspect Sentiment Classification
 
 Sentence-pair input, following Sun et al. (2019):
@@ -125,12 +151,83 @@ sentiment at this dataset size.**
 
 ---
 
+## Selection: different families per stage
+
+The comparison selected **different model families for each stage**, so the
+serving layer composes them rather than forcing one:
+
+| Stage | Selected | Metric | Runner-up |
+|---|---|---|---|
+| A — aspect detection | **TF-IDF + OvR LogReg** | micro F1 0.7755 | DistilBERT 0.6192 |
+| B — sentiment | **DistilBERT** | macro F1 0.6538 | TF-IDF 0.6088 |
+
+`ml/inference/predictor.py` reads `models/metadata/comparison.json` — written
+from held-out test metrics — and resolves each stage independently. With no
+comparison file it defaults to the baseline for both, because defaulting to the
+larger model would have shipped a detector 15.6 points worse.
+
+Override per stage: `ABSA_ASPECT_MODEL` / `ABSA_SENTIMENT_MODEL`
+(`auto` | `baseline` | `transformer`).
+
+---
+
+## Confidence is not trustworthy on mixed reviews
+
+The UI shows a confidence figure, so a *confidently wrong* answer is worse than a
+hedged one. Measured on test, at the 0.7 threshold:
+
+| Model | Confidently wrong (all) | On mixed reviews | ECE (all) |
+|---|---:|---:|---:|
+| TF-IDF + LogReg | 5.2% | 17.7% | 0.0545 |
+| DistilBERT | **11.4%** | **30.1%** | 0.0554 |
+
+Aggregate ECE is effectively identical, so this is not a general calibration
+gap — DistilBERT is simply far more assertive (mean confidence 0.857 vs 0.745),
+which converts the same error rate into twice as many confident errors.
+
+So the model that wins macro F1 is also confidently wrong roughly twice as often
+on the cases that matter. That is a genuine tradeoff, documented rather than
+hidden, and switchable with one environment variable.
+
+### Temperature scaling was tried and rejected
+
+The standard fix is temperature scaling (Guo et al., 2017): divide logits by a
+scalar fitted on dev. It is monotonic, so it cannot change any argmax — model
+selection is provably unaffected.
+
+Fitted here: **T = 1.0226**, essentially a no-op, and test ECE got slightly
+*worse* (0.0554 → 0.0604). Investigating why produced the more interesting
+result — **the miscalibration is conditional, not global:**
+
+| Slice | Mean confidence | Accuracy | Gap | ECE |
+|---|---:|---:|---:|---:|
+| uniform reviews | 0.8760 | 0.8753 | **+0.0007** | 0.0525 |
+| mixed reviews | 0.7706 | 0.5414 | **+0.2292** | 0.2307 |
+
+On uniform reviews the model is **near-perfectly calibrated**. On mixed reviews
+it is wildly over-confident. Fitted separately the two slices want *opposite*
+corrections — T = 2.097 and T = 0.885 — which cancel to T ≈ 1.
+
+Applied per slice the effect would be dramatic: mixed-review confidently-wrong
+falls **30.1% → 3.8%**. But "is this review mixed?" requires the gold labels.
+Conditioning on **aspect count** was tested as an inference-time proxy and does
+not work — the confidence gap is flat across counts (+0.03 to +0.05), including
+1-aspect reviews that are 0% mixed.
+
+The circularity is the point: the model could calibrate itself if it could tell
+a mixed review from a uniform one, which is precisely the thing it is failing at.
+`scripts/calibrate.py` reproduces the whole investigation.
+
+---
+
 ## What would likely fix it
 
 Ranked by expected value, not yet attempted:
 
 1. **DeBERTa-v3-base on a Colab GPU.** Stronger encoder, better at the
-   long-range attention this needs. Cheapest experiment (~12 min on a T4).
+   long-range attention this needs. Cheapest experiment (~12 min on a T4). Note
+   it would only be adopted for Stage B — Stage A should stay TF-IDF unless a
+   transformer actually beats 0.7755.
 2. **Oversample or upweight mixed reviews** during training so the easy
    tone-reading hypothesis stops being sufficient.
 3. **More data.** The single biggest constraint. M-ABSA's other five English

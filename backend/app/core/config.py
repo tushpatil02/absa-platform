@@ -29,8 +29,16 @@ class Settings(BaseSettings):
     models_dir: Path = Field(default=REPO_ROOT / "models")
     taxonomy_path: Path = Field(default=REPO_ROOT / "ml" / "config" / "aspect_taxonomy.yaml")
 
-    # "auto" prefers a transformer when its artefacts exist, else the baseline.
+    # "auto" follows models/metadata/comparison.json, which is written from
+    # held-out test metrics. The two stages are resolved independently because
+    # the comparison selected different families for each: TF-IDF wins aspect
+    # detection (micro F1 0.7755 vs 0.6192), DistilBERT wins sentiment
+    # (macro F1 0.6538 vs 0.6088).
     predictor: str = "auto"
+    # Per-stage overrides. Set ABSA_SENTIMENT_MODEL=baseline to trade macro F1
+    # for better-calibrated confidence -- see docs/model.md.
+    aspect_model: str | None = None
+    sentiment_model: str | None = None
     device: str | None = None
 
     # Guardrails. Batch size is capped because each review is a model call and
@@ -54,12 +62,12 @@ class Settings(BaseSettings):
             return [origin.strip() for origin in value.split(",") if origin.strip()]
         return value
 
-    @field_validator("predictor")
+    @field_validator("predictor", "aspect_model", "sentiment_model")
     @classmethod
-    def _check_predictor(cls, value: str) -> str:
+    def _check_predictor(cls, value: str | None) -> str | None:
         allowed = {"auto", "baseline", "transformer"}
-        if value not in allowed:
-            raise ValueError(f"predictor must be one of {sorted(allowed)}, got {value!r}")
+        if value is not None and value not in allowed:
+            raise ValueError(f"must be one of {sorted(allowed)}, got {value!r}")
         return value
 
 

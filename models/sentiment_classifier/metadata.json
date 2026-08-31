@@ -35,5 +35,14 @@
     "camera": "camera quality, photos, video and shooting features",
     "design": "appearance, styling and form factor",
     "audio": "speakers, sound quality, microphone and multimedia"
+  },
+  "calibration": {
+    "method": "none",
+    "reason": "Global temperature scaling was fitted on dev (T=1.0226) and REJECTED: it left test ECE slightly worse (0.0554 -> 0.0604) and cut confidently-wrong on mixed reviews only 30.1% -> 29.0%. The miscalibration is conditional, not global -- uniform reviews are already near-perfectly calibrated (conf 0.876 vs acc 0.875) while mixed reviews are wildly over-confident (conf 0.771 vs acc 0.541). The two slices need opposite corrections (T=2.10 vs T=0.885), which cancel. Conditioning on aspect count was also tested and does not work: the gap is flat across counts. See docs/model.md.",
+    "ece_test": 0.0554,
+    "ece_test_uniform": 0.0525,
+    "ece_test_mixed": 0.2307,
+    "confidently_wrong_test": 0.1144,
+    "confidently_wrong_test_mixed": 0.3008
   }
 }

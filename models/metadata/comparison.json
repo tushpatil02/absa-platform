@@ -5,6 +5,12 @@
     "value": 0.7755242351323479,
     "candidates": [
       {
+        "model": "distilbert-base-uncased",
+        "micro_f1": 0.6192468619246861,
+        "macro_f1": 0.6114141848439268,
+        "subset_accuracy": 0.35751295336787564
+      },
+      {
         "model": "tfidf+logreg(ovr)",
         "micro_f1": 0.7755242351323479,
         "macro_f1": 0.738690598282351,

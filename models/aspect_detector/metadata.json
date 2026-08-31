@@ -1,0 +1,30 @@
+{
+  "task": "aspect_category_detection",
+  "base_model": "distilbert-base-uncased",
+  "labels": [
+    "overall",
+    "delivery",
+    "build_quality",
+    "battery",
+    "customer_service",
+    "display",
+    "software",
+    "performance",
+    "price",
+    "camera",
+    "design",
+    "audio"
+  ],
+  "max_length": 128,
+  "epochs": 3,
+  "batch_size": 16,
+  "learning_rate": 2e-05,
+  "seed": 42,
+  "fit_seconds": 1568.4,
+  "device": "cpu",
+  "final_train_loss": 0.6627990059016371,
+  "transformers_version": "5.16.1",
+  "torch_version": "2.13.0+cpu",
+  "threshold": 0.54,
+  "input_format": "raw review text"
+}

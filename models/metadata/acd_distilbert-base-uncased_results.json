@@ -1,0 +1,234 @@
+[
+  {
+    "model": "distilbert-base-uncased",
+    "split": "dev",
+    "micro_f1": 0.6196498054474708,
+    "macro_f1": 0.5868636010338265,
+    "samples_f1": 0.680603689504213,
+    "subset_accuracy": 0.3961605584642234,
+    "micro_precision": 0.5195758564437194,
+    "micro_recall": 0.7674698795180723,
+    "per_class": [
+      {
+        "label": "overall",
+        "precision": 0.8109965635738832,
+        "recall": 0.7173252279635258,
+        "f1": 0.7612903225806451,
+        "support": 329
+      },
+      {
+        "label": "delivery",
+        "precision": 0.6538461538461539,
+        "recall": 0.8854166666666666,
+        "f1": 0.7522123893805309,
+        "support": 96
+      },
+      {
+        "label": "build_quality",
+        "precision": 0.4166666666666667,
+        "recall": 0.603448275862069,
+        "f1": 0.49295774647887325,
+        "support": 58
+      },
+      {
+        "label": "battery",
+        "precision": 0.581081081081081,
+        "recall": 0.9347826086956522,
+        "f1": 0.7166666666666667,
+        "support": 46
+      },
+      {
+        "label": "customer_service",
+        "precision": 0.38016528925619836,
+        "recall": 0.7931034482758621,
+        "f1": 0.5139664804469274,
+        "support": 58
+      },
+      {
+        "label": "display",
+        "precision": 0.5180722891566265,
+        "recall": 0.9555555555555556,
+        "f1": 0.671875,
+        "support": 45
+      },
+      {
+        "label": "software",
+        "precision": 0.30701754385964913,
+        "recall": 0.603448275862069,
+        "f1": 0.4069767441860465,
+        "support": 58
+      },
+      {
+        "label": "performance",
+        "precision": 0.29457364341085274,
+        "recall": 0.8085106382978723,
+        "f1": 0.4318181818181818,
+        "support": 47
+      },
+      {
+        "label": "price",
+        "precision": 0.3484848484848485,
+        "recall": 0.8518518518518519,
+        "f1": 0.4946236559139785,
+        "support": 27
+      },
+      {
+        "label": "camera",
+        "precision": 0.5833333333333334,
+        "recall": 0.875,
+        "f1": 0.7,
+        "support": 24
+      },
+      {
+        "label": "design",
+        "precision": 0.2,
+        "recall": 0.6818181818181818,
+        "f1": 0.30927835051546393,
+        "support": 22
+      },
+      {
+        "label": "audio",
+        "precision": 0.7391304347826086,
+        "recall": 0.85,
+        "f1": 0.7906976744186046,
+        "support": 20
+      }
+    ],
+    "labels": [
+      "overall",
+      "delivery",
+      "build_quality",
+      "battery",
+      "customer_service",
+      "display",
+      "software",
+      "performance",
+      "price",
+      "camera",
+      "design",
+      "audio"
+    ],
+    "n_examples": 573,
+    "threshold": 0.54,
+    "extra": {
+      "fit_seconds": 1568.4,
+      "epochs": 3
+    }
+  },
+  {
+    "model": "distilbert-base-uncased",
+    "split": "test",
+    "micro_f1": 0.6192468619246861,
+    "macro_f1": 0.6114141848439268,
+    "samples_f1": 0.6635499388349129,
+    "subset_accuracy": 0.35751295336787564,
+    "micro_precision": 0.5245746691871456,
+    "micro_recall": 0.7556160653505786,
+    "per_class": [
+      {
+        "label": "overall",
+        "precision": 0.7305122494432071,
+        "recall": 0.6520874751491054,
+        "f1": 0.6890756302521008,
+        "support": 503
+      },
+      {
+        "label": "delivery",
+        "precision": 0.6533333333333333,
+        "recall": 0.901840490797546,
+        "f1": 0.7577319587628866,
+        "support": 163
+      },
+      {
+        "label": "build_quality",
+        "precision": 0.4768211920529801,
+        "recall": 0.576,
+        "f1": 0.5217391304347826,
+        "support": 125
+      },
+      {
+        "label": "battery",
+        "precision": 0.6959459459459459,
+        "recall": 0.9537037037037037,
+        "f1": 0.8046875,
+        "support": 108
+      },
+      {
+        "label": "customer_service",
+        "precision": 0.33185840707964603,
+        "recall": 0.75,
+        "f1": 0.4601226993865031,
+        "support": 100
+      },
+      {
+        "label": "display",
+        "precision": 0.55625,
+        "recall": 0.9175257731958762,
+        "f1": 0.6926070038910506,
+        "support": 97
+      },
+      {
+        "label": "software",
+        "precision": 0.43312101910828027,
+        "recall": 0.6296296296296297,
+        "f1": 0.5132075471698113,
+        "support": 108
+      },
+      {
+        "label": "performance",
+        "precision": 0.3391304347826087,
+        "recall": 0.8478260869565217,
+        "f1": 0.484472049689441,
+        "support": 92
+      },
+      {
+        "label": "price",
+        "precision": 0.4117647058823529,
+        "recall": 0.8166666666666667,
+        "f1": 0.547486033519553,
+        "support": 60
+      },
+      {
+        "label": "camera",
+        "precision": 0.49382716049382713,
+        "recall": 0.975609756097561,
+        "f1": 0.6557377049180327,
+        "support": 41
+      },
+      {
+        "label": "design",
+        "precision": 0.21804511278195488,
+        "recall": 0.8285714285714286,
+        "f1": 0.34523809523809523,
+        "support": 35
+      },
+      {
+        "label": "audio",
+        "precision": 0.8648648648648649,
+        "recall": 0.8648648648648649,
+        "f1": 0.8648648648648649,
+        "support": 37
+      }
+    ],
+    "labels": [
+      "overall",
+      "delivery",
+      "build_quality",
+      "battery",
+      "customer_service",
+      "display",
+      "software",
+      "performance",
+      "price",
+      "camera",
+      "design",
+      "audio"
+    ],
+    "n_examples": 965,
+    "threshold": 0.54,
+    "extra": {
+      "fit_seconds": 1568.4,
+      "epochs": 3
+    }
+  }
+]

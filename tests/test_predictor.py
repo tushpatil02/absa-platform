@@ -147,29 +147,80 @@ def test_load_predictor_rejects_missing_transformer(tmp_path):
         load_predictor(tmp_path, TAXONOMY, prefer="transformer")
 
 
-def test_auto_ignores_a_half_finished_transformer(tmp_path):
-    """Both transformer stages must exist before 'auto' picks it.
-
-    This state occurs for real: training stage B writes sentiment_classifier/
-    while stage A is still running. Pairing a transformer sentiment head with a
-    missing aspect detector would fail at request time instead of at load time.
-    """
-    import json
+def _baseline_only(tmp_path) -> Path:
+    """Copy just the baseline artefacts into an isolated models dir."""
     import shutil
 
-    # A complete baseline plus only ONE half of the transformer.
     for name in ("baseline_aspect_detector", "baseline_sentiment_classifier"):
         source = MODELS_DIR / name
         if not (source / "metadata.json").exists():
-            pytest.skip("Baseline models not trained")
+            pytest.skip("Baseline models not trained; run scripts/train_baseline.py")
         shutil.copytree(source, tmp_path / name)
+    return tmp_path
 
-    half = tmp_path / "sentiment_classifier"
+
+def test_auto_ignores_a_half_finished_transformer(tmp_path):
+    """A transformer stage with no artefacts must not be selected.
+
+    This state occurs for real: training stage B writes sentiment_classifier/
+    while stage A is still running.
+    """
+    import json
+
+    models = _baseline_only(tmp_path)
+    half = models / "sentiment_classifier"
     half.mkdir()
     (half / "metadata.json").write_text(json.dumps({"base_model": "x"}), encoding="utf-8")
 
-    predictor = load_predictor(tmp_path, TAXONOMY, prefer="auto")
-    assert predictor.model_name.startswith("baseline:")
+    predictor = load_predictor(models, TAXONOMY, prefer="auto")
+    # The aspect stage has no transformer at all, so it must be the baseline.
+    assert predictor.detector.name.startswith("tfidf-")
+
+
+def test_auto_without_a_comparison_file_uses_the_baseline(tmp_path):
+    """No measured comparison means no gamble on the bigger model.
+
+    Defaulting to the transformer here would have shipped an aspect detector
+    15.6 micro-F1 points worse than the baseline.
+    """
+    predictor = load_predictor(_baseline_only(tmp_path), TAXONOMY, prefer="auto")
+    assert predictor.detector.name.startswith("tfidf-")
+    assert predictor.classifier.name.startswith("tfidf-")
+
+
+def test_comparison_file_drives_per_stage_selection(tmp_path):
+    """comparison.json -- not a hard-coded preference -- decides each stage."""
+    import json
+
+    from ml.inference.predictor import _winner_from_comparison
+
+    models = _baseline_only(tmp_path)
+    (models / "metadata").mkdir()
+    (models / "metadata" / "comparison.json").write_text(
+        json.dumps(
+            {
+                "aspect_detection": {"selected": "tfidf+logreg(ovr)"},
+                "sentiment": {"selected": "distilbert-base-uncased"},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    assert _winner_from_comparison(models, "aspect_detection") == "baseline"
+    assert _winner_from_comparison(models, "sentiment") == "transformer"
+
+
+def test_missing_comparison_file_is_not_an_error(tmp_path):
+    from ml.inference.predictor import _winner_from_comparison
+
+    assert _winner_from_comparison(tmp_path, "sentiment") is None
+
+
+def test_model_name_reports_both_stages(tmp_path):
+    """The two stages are chosen independently, so both must be visible."""
+    predictor = load_predictor(_baseline_only(tmp_path), TAXONOMY, prefer="baseline")
+    assert "aspect=" in predictor.model_name
+    assert "sentiment=" in predictor.model_name
 
 
 # ---------------------------------------------------------------------------

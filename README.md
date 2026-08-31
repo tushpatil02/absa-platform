@@ -9,14 +9,19 @@ delivery — rather than collapsing everything into one star rating.
 >
 > | Aspect | Sentiment | Score | Confidence |
 > |---|---|---|---|
-> | Display | Positive | 6.5 / 10 | 53% |
-> | Camera | Negative | 4.6 / 10 | 48% |
-> | Battery | Negative | 5.2 / 10 | 46% |
+> | Battery | Negative | 3.4 / 10 | 70% |
+> | Camera | Negative | 4.1 / 10 | 63% |
+> | Display | Negative | 4.1 / 10 | 63% |
 >
-> Real output from the TF-IDF baseline — **including the mistake**. Camera should
-> be positive. See [the diagnostic](#the-diagnostic-that-changes-the-conclusion):
-> the fine-tuned transformer scores better overall yet makes this same class of
-> error slightly more often, which is the most interesting result in the project.
+> **Real, current output — and two of the three are wrong.** Camera and Display
+> should be positive. The shipped sentiment model is the one that won macro F1
+> (0.6538 vs 0.6088), and on mixed reviews like this it collapses to the
+> review's dominant tone 85% of the time — more often, and more confidently,
+> than the simpler baseline it beat.
+>
+> That result is the substance of this project, not a footnote: see
+> [the diagnostic](#the-diagnostic-that-changes-the-conclusion). Showing a
+> flattering cherry-pick here would have been easy and worthless.
 
 A 4.5-star phone can have a superb camera and a battery everyone hates. The star
 rating hides that; this does not.
@@ -72,9 +77,16 @@ by review and leakage-asserted — see [Dataset](#dataset).
 
 ### Stage A — Aspect detection (multi-label, 12 aspects)
 
-| Model | Micro F1 | Macro F1 | Subset acc | Precision | Recall |
+| Model | Micro F1 | Macro F1 | Subset acc | Micro P | Micro R |
 |---|---:|---:|---:|---:|---:|
-| TF-IDF + One-vs-Rest LogReg | **0.7755** | 0.7387 | 0.5523 | 0.783 | 0.768 |
+| **TF-IDF + OvR LogReg** (selected) | **0.7755** | 0.7387 | 0.5523 | 0.783 | 0.768 |
+| DistilBERT | 0.6192 | 0.6114 | 0.3575 | **0.525** | 0.756 |
+
+**The baseline beats the transformer by 15.6 points here.** DistilBERT's
+precision collapses to 0.525 — it over-predicts badly (`design`: precision 0.218
+at recall 0.829). Aspect detection is largely a *lexical* problem, which word +
+character n-grams model directly, and 2,298 training reviews is not enough for an
+encoder to do better.
 
 ### Stage B — Sentiment (3 classes)
 
@@ -119,7 +131,35 @@ pairs.** Finding that, rather than reporting the F1 and stopping, is the point.
 [docs/model.md](docs/model.md) has the failure examples and the four things most
 likely to fix it.
 
-Reproduce with `python scripts/compare_models.py`.
+### Selection: different families per stage
+
+| Stage | Selected | Metric | Runner-up |
+|---|---|---|---|
+| A — aspect detection | **TF-IDF + OvR LogReg** | micro F1 0.7755 | DistilBERT 0.6192 |
+| B — sentiment | **DistilBERT** | macro F1 0.6538 | TF-IDF 0.6088 |
+
+The comparison picked different families for each stage, so the serving layer
+composes them. `load_predictor` reads `comparison.json` — written from held-out
+test metrics — and resolves each stage independently; with no comparison file it
+defaults to the baseline rather than gambling on the bigger model.
+
+### One more caveat, measured
+
+The UI shows confidence, so a *confidently wrong* answer is worse than a hedged
+one. At the 0.7 threshold DistilBERT is confidently wrong **11.4%** of the time
+overall and **30.1%** on mixed reviews, against the baseline's 5.2% and 17.7%.
+
+Temperature scaling — the standard fix — was implemented, fitted on dev, and
+**rejected**: T came out at 1.0226 and test ECE got slightly worse. The reason is
+the more interesting finding: the miscalibration is *conditional*, not global.
+Uniform reviews are near-perfectly calibrated (confidence 0.876 vs accuracy
+0.875); mixed reviews are wildly over-confident (0.771 vs 0.541). The two slices
+want opposite corrections (T=2.10 and T=0.885) which cancel out. Per-slice it
+would cut mixed-review confident errors from 30.1% to 3.8% — but "is this review
+mixed?" is exactly what the model cannot tell.
+
+Reproduce all of it: `python scripts/compare_models.py` and
+`python scripts/calibrate.py`.
 
 ---
 

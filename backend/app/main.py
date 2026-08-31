@@ -64,6 +64,8 @@ async def lifespan(app: FastAPI):
             settings.models_dir,
             app.state.taxonomy,
             prefer=settings.predictor,
+            prefer_aspect=settings.aspect_model,
+            prefer_sentiment=settings.sentiment_model,
             device=settings.device,
         )
         logger.info("Predictor ready: %s", app.state.predictor.model_name)
