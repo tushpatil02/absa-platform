@@ -392,18 +392,23 @@ Ordered by expected value against the limitations above.
 1. **DeBERTa-v3-base on a Colab GPU** — the cheapest untried experiment (~12 min
    on a T4). Only for Stage B; Stage A should stay TF-IDF unless something
    actually beats 0.7755.
-2. **Upweight or oversample mixed reviews** so reading overall tone stops being a
-   sufficient hypothesis.
+2. **Seed-averaged evaluation** with confidence intervals. Promoted from
+   nice-to-have to prerequisite: the upweighting experiment showed mixed-review
+   accuracy swinging ±4 points between dev and test on a single seed, which
+   means no small difference in this README can currently be claimed.
 3. **More data** — M-ABSA's other five English domains would roughly triple the
    corpus, at the cost of another taxonomy mapping.
-4. **Seed-averaged evaluation** with confidence intervals, so small differences
-   can be claimed at all.
 5. **ONNX export + int8 quantisation** for the serving path.
 6. **Aspect-term span highlighting** — 100% of gold terms appear verbatim in the
    text, so the data supports it.
 
-*Temperature scaling was implemented and rejected — see
-[docs/model.md](docs/model.md) for why, and `scripts/calibrate.py` to reproduce.*
+*Two roadmap items were implemented and then **rejected** on the evidence:
+temperature scaling (the miscalibration is conditional, not global) and
+mixed-review upweighting (dev says no change; the encouraging test number was
+noise). Both are written up in [docs/model.md](docs/model.md), with
+`scripts/calibrate.py` and `scripts/compare_mixed_weight.py` to reproduce them.
+Negative results are kept rather than deleted — they are most of what was
+actually learned.*
 
 ---
 
