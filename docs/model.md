@@ -243,6 +243,67 @@ changing it now would confound the mixed-weight comparison.
 
 ---
 
+## Experiment: upweighting mixed reviews (result: no change)
+
+Roadmap item 2 was "upweight mixed reviews so reading overall tone stops being a
+sufficient hypothesis". It was implemented (`--mixed-weight`), run at w=3 and
+w=8, and **rejected**. Recording it because the negative result is more useful
+than the intervention would have been.
+
+Selection ran on **dev**, with the objective fixed in advance
+(`scripts/compare_mixed_weight.py`):
+
+    score = mixed_accuracy - 1.0 * max(0, macro_f1(w=1) - macro_f1)
+
+| dev | macro F1 | accuracy | mixed acc | uniform | collapsed | score |
+|---|---:|---:|---:|---:|---:|---:|
+| **w=1** | **0.7086** | 0.8446 | **0.5593** | 0.8919 | 0.9130 | **0.5593** |
+| w=3 | 0.6691 | 0.8217 | 0.5508 | 0.8666 | 0.8043 | 0.5114 |
+| w=8 | 0.6269 | 0.7747 | 0.5508 | 0.8118 | 0.7391 | 0.4692 |
+
+**Selected: w=1.** No change to the shipped model.
+
+### The part worth being careful about
+
+On **test**, w=3 scored *better* on mixed reviews — 0.5789 against 0.5414, and a
+paired bootstrap puts that at +0.038 with a 95% CI of [+0.008, +0.071], i.e.
+nominally significant. On **dev** the same comparison is −0.009, CI
+[−0.051, +0.025], not significant and pointing the other way.
+
+Opposite signs on two splits, with the significant one only just clearing zero,
+on a **single seed**. That is what a null effect looks like when a 3,464-pair
+training set is evaluated on a 118-pair dev slice. Selecting on the test number
+would have "discovered" a +3.8-point improvement that dev says does not exist --
+which is exactly why the weight was chosen on dev.
+
+### What *did* move, consistently
+
+Collapse rate -- the share of mixed reviews given one polarity for every aspect --
+falls monotonically with the weight, in the same direction on both splits:
+
+| | w=1 | w=3 | w=8 |
+|---|---:|---:|---:|
+| dev collapsed | 0.9130 | 0.8043 | **0.7391** |
+| test collapsed | 0.8511 | 0.7660 | — |
+
+So upweighting does change behaviour: the model becomes **more willing to assign
+different polarities within a review**. It just does not become more *accurate*
+at it. It differentiates more, and is wrong about as often -- while macro F1 falls
+monotonically (0.7086 → 0.6691 → 0.6269 on dev).
+
+Differentiating without being right is not worth 4 points of macro F1, so the
+unweighted model stays.
+
+### What this says about the whole evaluation
+
+Every mixed-review number in this document rests on 94 test reviews / 266 pairs
+and a single seed. This experiment is the concrete demonstration that such
+numbers can swing by ±4 points between splits. **Seed-averaged evaluation with
+confidence intervals is no longer a nice-to-have** -- it is required before any
+claim of a small improvement here, including the claims already made above.
+
+---
+
 ## What would likely fix it
 
 Ranked by expected value, not yet attempted:

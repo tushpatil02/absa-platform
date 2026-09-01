@@ -1,0 +1,120 @@
+[
+  {
+    "model": "distilbert-base-uncased+mixed8",
+    "split": "dev",
+    "accuracy": 0.7746987951807229,
+    "macro_f1": 0.626911452358245,
+    "weighted_f1": 0.7955932855251326,
+    "macro_precision": 0.6119591674543838,
+    "macro_recall": 0.6807563208485603,
+    "per_class": [
+      {
+        "label": "negative",
+        "precision": 0.7153284671532847,
+        "recall": 0.8789237668161435,
+        "f1": 0.7887323943661971,
+        "support": 223
+      },
+      {
+        "label": "neutral",
+        "precision": 0.18181818181818182,
+        "recall": 0.4,
+        "f1": 0.25,
+        "support": 45
+      },
+      {
+        "label": "positive",
+        "precision": 0.9387308533916849,
+        "recall": 0.7633451957295374,
+        "f1": 0.8420019627085378,
+        "support": 562
+      }
+    ],
+    "confusion": [
+      [
+        196,
+        12,
+        15
+      ],
+      [
+        14,
+        18,
+        13
+      ],
+      [
+        64,
+        69,
+        429
+      ]
+    ],
+    "labels": [
+      "negative",
+      "neutral",
+      "positive"
+    ],
+    "n_examples": 830,
+    "extra": {
+      "fit_seconds": 1876.6,
+      "epochs": 3
+    }
+  },
+  {
+    "model": "distilbert-base-uncased+mixed8",
+    "split": "test",
+    "accuracy": 0.7556160653505786,
+    "macro_f1": 0.611317213671197,
+    "weighted_f1": 0.7822618978623359,
+    "macro_precision": 0.600473873809869,
+    "macro_recall": 0.6773388756139652,
+    "per_class": [
+      {
+        "label": "negative",
+        "precision": 0.697286012526096,
+        "recall": 0.8246913580246914,
+        "f1": 0.755656108597285,
+        "support": 405
+      },
+      {
+        "label": "neutral",
+        "precision": 0.1683673469387755,
+        "recall": 0.4583333333333333,
+        "f1": 0.2462686567164179,
+        "support": 72
+      },
+      {
+        "label": "positive",
+        "precision": 0.9357682619647355,
+        "recall": 0.748991935483871,
+        "f1": 0.832026875699888,
+        "support": 992
+      }
+    ],
+    "confusion": [
+      [
+        334,
+        39,
+        32
+      ],
+      [
+        20,
+        33,
+        19
+      ],
+      [
+        125,
+        124,
+        743
+      ]
+    ],
+    "labels": [
+      "negative",
+      "neutral",
+      "positive"
+    ],
+    "n_examples": 1469,
+    "extra": {
+      "fit_seconds": 1876.6,
+      "epochs": 3
+    }
+  }
+]
