@@ -1,0 +1,45 @@
+# Netlify configuration — frontend only.
+#
+# Netlify hosts the React SPA. It cannot host the API: that is Python + FastAPI
+# with a ~268 MB transformer, which exceeds Netlify Functions' size limits, and
+# Python is not a supported Functions runtime. The backend goes to a container
+# host (Hugging Face Spaces, Render, Fly.io) — see docs/deployment.md.
+#
+# Set VITE_API_URL in the Netlify UI (Site configuration → Environment
+# variables) to the deployed API origin, e.g. https://tushpatil02-absa.hf.space
+# It is read at BUILD time, so changing it requires a redeploy, not just a
+# restart.
+
+[build]
+  base = "frontend"
+  command = "npm ci && npm run build"
+  publish = "frontend/dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# The app is a single-page application: every route must return index.html so a
+# deep link or a refresh does not 404 against a file that was never generated.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Fingerprinted assets are safe to cache indefinitely; index.html must not be,
+# or a redeploy leaves browsers pinned to the previous build.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
