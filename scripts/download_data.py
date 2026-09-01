@@ -32,7 +32,12 @@ DEFAULT_DOMAINS = ["phone", "laptop"]
 ALL_DOMAINS = ["phone", "laptop", "restaurant", "hotel", "coursera", "food", "sight"]
 SPLITS = ["train", "dev", "test"]
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+# parents[1] because this file is scripts/download_data.py -- one level down.
+# This said parents[2] until it was caught by CI: correct when the script lived
+# at ml/scripts/, silently wrong after the move, writing the dataset one
+# directory ABOVE the repo where build_dataset.py never looks. See
+# tests/test_scripts.py, which now pins this for every script.
+REPO_ROOT = Path(__file__).resolve().parents[1]
 RAW_DIR = REPO_ROOT / "data" / "raw" / "mabsa"
 
 CITATION = """\
