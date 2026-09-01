@@ -28,6 +28,11 @@ data/interim/
 # Trained weights live on the Hugging Face Hub, not in git.
 # Only metadata (metrics, label maps, model cards) is versioned.
 # ---------------------------------------------------------------------------
+# Promotion keeps the prior checkpoint as <stage>.previous/ for rollback;
+# those are large and local-only.
+models/*.previous/
+models/*.rolledback/
+
 # Everything under models/ is ignored by default, then a short allow-list
 # re-includes the small human-readable descriptors. Order matters: in gitignore
 # the LAST matching pattern wins, so a blanket "!models/**/*.json" here would
