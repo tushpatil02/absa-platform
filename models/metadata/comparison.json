@@ -24,6 +24,16 @@
     "value": 0.6537545245818027,
     "candidates": [
       {
+        "model": "distilbert-base-uncased+mixed3",
+        "macro_f1": 0.644628828083738,
+        "accuracy": 0.8025867937372362,
+        "per_class_f1": {
+          "negative": 0.764638346727899,
+          "neutral": 0.29591836734693877,
+          "positive": 0.8733297701763763
+        }
+      },
+      {
         "model": "distilbert-base-uncased",
         "macro_f1": 0.6537545245818027,
         "accuracy": 0.8148400272294077,
@@ -44,23 +54,5 @@
         }
       }
     ]
-  },
-  "aspect_conditioning": [
-    {
-      "model": "baseline (tfidf)",
-      "mixed_accuracy": 0.5451127819548872,
-      "uniform_accuracy": 0.8403990024937655,
-      "gap": 0.2952862205388783,
-      "collapsed_rate": 0.7553191489361702,
-      "n_mixed_reviews": 94
-    },
-    {
-      "model": "transformer (distilbert-base-uncased)",
-      "mixed_accuracy": 0.5413533834586466,
-      "uniform_accuracy": 0.8753117206982544,
-      "gap": 0.33395833723960777,
-      "collapsed_rate": 0.851063829787234,
-      "n_mixed_reviews": 94
-    }
-  ]
+  }
 }
