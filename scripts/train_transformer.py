@@ -46,6 +46,8 @@ from ml.training.transformer import (
     SingleTextDataset,
     TrainConfig,
     class_weights,
+    make_collate,
+    mixed_review_weights,
     multilabel_pos_weight,
     predict_logits,
     resolve_device,
@@ -81,6 +83,17 @@ def main() -> int:
     parser.add_argument("--device", default=None)
     parser.add_argument("--skip-test", action="store_true")
     parser.add_argument("--out", type=Path, default=None)
+    parser.add_argument(
+        "--mixed-weight",
+        type=float,
+        default=1.0,
+        help=(
+            "Upweight training pairs from mixed-polarity reviews by this factor. "
+            "1.0 disables it. Only 16.2%% of training pairs come from mixed "
+            "reviews, so a model can score well by reading overall tone."
+        ),
+    )
+    parser.add_argument("--tag", default=None, help="Suffix for the results filename.")
     args = parser.parse_args()
 
     from transformers import AutoModelForSequenceClassification, AutoTokenizer
@@ -112,6 +125,7 @@ def main() -> int:
         print("  NOTE: running on CPU. Fine for DistilBERT; use a Colab GPU for larger models.")
 
     tokenizer = AutoTokenizer.from_pretrained(args.model)
+    collate = make_collate(tokenizer)
     prefix = "acd" if args.stage == "acd" else "asc"
     splits = {name: load_split(name, prefix, args.limit) for name in ("train", "dev", "test")}
     print(f"  train {len(splits['train'])}  dev {len(splits['dev'])}  test {len(splits['test'])}")
@@ -120,17 +134,30 @@ def main() -> int:
     if args.stage == "acd":
         labels = aspects
         y = {name: frame[aspects].to_numpy() for name, frame in splits.items()}
+        weights = {
+            name: (mixed_review_weights(frame, args.mixed_weight) if args.mixed_weight != 1.0 else None)
+            for name, frame in splits.items()
+        }
         datasets = {
-            name: SingleTextDataset(frame["text"], y[name], tokenizer, config.max_length)
+            name: SingleTextDataset(
+                frame["text"], y[name], tokenizer, config.max_length, weights[name]
+            )
             for name, frame in splits.items()
         }
         model = AutoModelForSequenceClassification.from_pretrained(
             args.model, num_labels=len(labels), problem_type="multi_label_classification"
         )
-        loss_fn = nn.BCEWithLogitsLoss(pos_weight=multilabel_pos_weight(y["train"]).to(device))
+        loss_fn = nn.BCEWithLogitsLoss(
+            pos_weight=multilabel_pos_weight(y["train"]).to(device),
+            reduction="none" if args.mixed_weight != 1.0 else "mean",
+        )
     else:
         labels = polarities
         y = {name: frame["label"].to_numpy() for name, frame in splits.items()}
+        weights = {
+            name: (mixed_review_weights(frame, args.mixed_weight) if args.mixed_weight != 1.0 else None)
+            for name, frame in splits.items()
+        }
         datasets = {
             name: SentencePairDataset(
                 frame["text"],
@@ -138,26 +165,34 @@ def main() -> int:
                 y[name],
                 tokenizer,
                 config.max_length,
+                weights[name],
             )
             for name, frame in splits.items()
         }
         model = AutoModelForSequenceClassification.from_pretrained(
             args.model, num_labels=len(labels)
         )
-        loss_fn = nn.CrossEntropyLoss(weight=class_weights(y["train"], len(labels)).to(device))
+        loss_fn = nn.CrossEntropyLoss(
+            weight=class_weights(y["train"], len(labels)).to(device),
+            reduction="none" if args.mixed_weight != 1.0 else "mean",
+        )
 
     # ---------------------------------------------------------------- train --
     started = time.perf_counter()
-    history = train_model(model, datasets["train"], config, loss_fn=loss_fn, device=device)
+    history = train_model(
+        model, datasets["train"], config, loss_fn=loss_fn, device=device, collate_fn=collate
+    )
     fit_seconds = time.perf_counter() - started
     print(f"  trained in {fit_seconds / 60:.1f} min")
 
     # ----------------------------------------------------------- evaluate ----
     results = []
-    tag = f"{args.model.split('/')[-1]}"
+    tag = args.tag or args.model.split("/")[-1]
+    if args.mixed_weight != 1.0 and not args.tag:
+        tag = f"{tag}+mixed{args.mixed_weight:g}"
 
     if args.stage == "acd":
-        dev_scores = sigmoid(predict_logits(model, datasets["dev"], config, device))
+        dev_scores = sigmoid(predict_logits(model, datasets["dev"], config, device, collate))
         threshold, dev_micro = tune_threshold(y["dev"], dev_scores)
         print(f"  tuned threshold={threshold:.2f} on dev (micro F1 {dev_micro:.4f})")
 
@@ -170,7 +205,7 @@ def main() -> int:
         results.append(dev_result)
 
         if not args.skip_test:
-            test_scores = sigmoid(predict_logits(model, datasets["test"], config, device))
+            test_scores = sigmoid(predict_logits(model, datasets["test"], config, device, collate))
             test_result = evaluate_multi_label(
                 y["test"], (test_scores >= threshold).astype(int),
                 labels=labels, model=tag, split="test", threshold=threshold,
@@ -180,7 +215,7 @@ def main() -> int:
             results.append(test_result)
     else:
         threshold = None
-        dev_probs = softmax(predict_logits(model, datasets["dev"], config, device))
+        dev_probs = softmax(predict_logits(model, datasets["dev"], config, device, collate))
         dev_result = evaluate_single_label(
             y["dev"], dev_probs.argmax(1),
             labels=labels, model=tag, split="dev",
@@ -190,7 +225,7 @@ def main() -> int:
         results.append(dev_result)
 
         if not args.skip_test:
-            test_probs = softmax(predict_logits(model, datasets["test"], config, device))
+            test_probs = softmax(predict_logits(model, datasets["test"], config, device, collate))
             test_result = evaluate_single_label(
                 y["test"], test_probs.argmax(1),
                 labels=labels, model=tag, split="test",
@@ -217,6 +252,7 @@ def main() -> int:
         "learning_rate": args.lr,
         "seed": args.seed,
         "fit_seconds": round(fit_seconds, 1),
+        "mixed_weight": args.mixed_weight,
         "device": str(device),
         "final_train_loss": history["epoch_loss"][-1],
         "transformers_version": __import__("transformers").__version__,

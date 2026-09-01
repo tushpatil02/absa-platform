@@ -81,39 +81,44 @@ class TrainConfig:
 
 
 class SingleTextDataset(Dataset):
-    """Multi-label aspect detection: review -> 12 binary targets."""
+    """Multi-label aspect detection: review -> 12 binary targets.
 
-    def __init__(self, texts, labels, tokenizer, max_length: int):
+    Sequences are returned **unpadded**; :func:`collate` pads each batch to its
+    own longest member. Padding everything to ``max_length`` wasted 68.6% of
+    every batch here (median 32 tokens against a 128 limit).
+    """
+
+    def __init__(self, texts, labels, tokenizer, max_length: int, weights=None):
         self.texts = list(texts)
         self.labels = np.asarray(labels, dtype=np.float32)
         self.tokenizer = tokenizer
         self.max_length = max_length
+        self.weights = None if weights is None else np.asarray(weights, dtype=np.float32)
 
     def __len__(self) -> int:
         return len(self.texts)
 
     def __getitem__(self, index: int) -> dict:
         encoded = self.tokenizer(
-            self.texts[index],
-            truncation=True,
-            max_length=self.max_length,
-            padding="max_length",
-            return_tensors="pt",
+            self.texts[index], truncation=True, max_length=self.max_length
         )
-        item = {key: value.squeeze(0) for key, value in encoded.items()}
+        item = {key: torch.tensor(value) for key, value in encoded.items()}
         item["labels"] = torch.tensor(self.labels[index], dtype=torch.float)
+        if self.weights is not None:
+            item["weight"] = torch.tensor(self.weights[index], dtype=torch.float)
         return item
 
 
 class SentencePairDataset(Dataset):
     """Sentiment: ``[CLS] review [SEP] aspect description [SEP]`` -> 3 classes."""
 
-    def __init__(self, texts, aspect_texts, labels, tokenizer, max_length: int):
+    def __init__(self, texts, aspect_texts, labels, tokenizer, max_length: int, weights=None):
         self.texts = list(texts)
         self.aspect_texts = list(aspect_texts)
         self.labels = np.asarray(labels, dtype=np.int64)
         self.tokenizer = tokenizer
         self.max_length = max_length
+        self.weights = None if weights is None else np.asarray(weights, dtype=np.float32)
 
     def __len__(self) -> int:
         return len(self.texts)
@@ -124,12 +129,37 @@ class SentencePairDataset(Dataset):
             self.aspect_texts[index],
             truncation="only_first",  # never truncate the aspect away
             max_length=self.max_length,
-            padding="max_length",
-            return_tensors="pt",
         )
-        item = {key: value.squeeze(0) for key, value in encoded.items()}
+        item = {key: torch.tensor(value) for key, value in encoded.items()}
         item["labels"] = torch.tensor(self.labels[index], dtype=torch.long)
+        if self.weights is not None:
+            item["weight"] = torch.tensor(self.weights[index], dtype=torch.float)
         return item
+
+
+def make_collate(tokenizer):
+    """Pad each batch to its own longest sequence rather than to max_length."""
+    pad_id = tokenizer.pad_token_id
+
+    def collate(batch: list[dict]) -> dict:
+        longest = max(len(item["input_ids"]) for item in batch)
+        out: dict[str, torch.Tensor] = {}
+
+        for key in batch[0]:
+            if key in ("labels", "weight"):
+                out[key] = torch.stack([item[key] for item in batch])
+                continue
+            fill = pad_id if key == "input_ids" else 0
+            out[key] = torch.stack([
+                torch.cat([
+                    item[key],
+                    torch.full((longest - len(item[key]),), fill, dtype=item[key].dtype),
+                ])
+                for item in batch
+            ])
+        return out
+
+    return collate
 
 
 # ---------------------------------------------------------------------------
@@ -148,6 +178,22 @@ def multilabel_pos_weight(y: np.ndarray) -> torch.Tensor:
     negatives = y.shape[0] - positives
     weight = np.where(positives > 0, negatives / np.maximum(positives, 1), 1.0)
     return torch.tensor(np.clip(weight, 0.1, 20.0), dtype=torch.float)
+
+
+def mixed_review_weights(frame, multiplier: float) -> np.ndarray:
+    """Per-sample weights that upweight pairs from *mixed* reviews.
+
+    A review is mixed when its gold polarities differ across aspects. Only 8.9%
+    of training reviews are mixed (16.2% of pairs), so a model can score well by
+    reading overall tone and ignoring the aspect entirely -- which is exactly
+    what both models were measured doing.
+
+    Computed from **training labels only**, so this uses no test information.
+    """
+    from ml.evaluation.mixed_reviews import find_mixed_reviews
+
+    is_mixed = frame["review_id"].isin(find_mixed_reviews(frame)).to_numpy()
+    return np.where(is_mixed, float(multiplier), 1.0).astype(np.float32)
 
 
 def class_weights(y: np.ndarray, n_classes: int) -> torch.Tensor:
@@ -185,12 +231,15 @@ def train_model(
     *,
     loss_fn: nn.Module,
     device: torch.device,
+    collate_fn=None,
     log_every: int = 50,
 ) -> dict:
     """Fine-tune `model`. Returns a small history dict.
 
     The loss is computed here rather than by the model so the class weighting is
-    explicit and auditable.
+    explicit and auditable. ``loss_fn`` must use ``reduction="none"`` when the
+    dataset supplies per-sample ``weight`` values; the reduction happens here so
+    the weighting is visible.
     """
     from transformers import get_linear_schedule_with_warmup
 
@@ -200,6 +249,7 @@ def train_model(
         shuffle=True,
         num_workers=config.num_workers,
         drop_last=False,
+        collate_fn=collate_fn,
     )
     optimizer = _build_optimizer(model, config)
     total_steps = len(loader) * config.epochs
@@ -217,12 +267,21 @@ def train_model(
         running, seen = 0.0, 0
         for step, batch in enumerate(loader):
             labels = batch.pop("labels").to(device)
+            weights = batch.pop("weight", None)
+            if weights is not None:
+                weights = weights.to(device)
             batch = {key: value.to(device) for key, value in batch.items()}
 
             optimizer.zero_grad(set_to_none=True)
             with torch.amp.autocast("cuda", enabled=use_amp):
                 logits = model(**batch).logits
                 loss = loss_fn(logits, labels)
+                if weights is not None:
+                    # loss_fn ran with reduction="none": average per example
+                    # first (multi-label returns one value per label), then take
+                    # the weighted mean so the batch loss scale stays comparable.
+                    per_example = loss.mean(dim=1) if loss.ndim > 1 else loss
+                    loss = (per_example * weights).sum() / weights.sum().clamp(min=1e-8)
 
             scaler.scale(loss).backward()
             scaler.unscale_(optimizer)
@@ -244,13 +303,18 @@ def train_model(
 
 
 @torch.no_grad()
-def predict_logits(model, dataset: Dataset, config: TrainConfig, device: torch.device) -> np.ndarray:
+def predict_logits(
+    model, dataset: Dataset, config: TrainConfig, device: torch.device, collate_fn=None
+) -> np.ndarray:
     """Run inference and return raw logits."""
-    loader = DataLoader(dataset, batch_size=config.eval_batch_size, shuffle=False)
+    loader = DataLoader(
+        dataset, batch_size=config.eval_batch_size, shuffle=False, collate_fn=collate_fn
+    )
     model.to(device).eval()
     outputs = []
     for batch in loader:
         batch.pop("labels", None)
+        batch.pop("weight", None)
         batch = {key: value.to(device) for key, value in batch.items()}
         outputs.append(model(**batch).logits.float().cpu().numpy())
     return np.concatenate(outputs, axis=0)
