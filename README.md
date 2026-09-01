@@ -277,7 +277,7 @@ Full diagram, folder layout and technology rationale:
 Node 20+.
 
 ```bash
-git clone <this-repo> && cd absa-platform
+git clone https://github.com/tushpatil02/absa-platform.git && cd absa-platform
 
 python -m venv .venv
 .venv/Scripts/python.exe -m pip install -r requirements.txt   # Windows
@@ -409,6 +409,12 @@ noise). Both are written up in [docs/model.md](docs/model.md), with
 `scripts/calibrate.py` and `scripts/compare_mixed_weight.py` to reproduce them.
 Negative results are kept rather than deleted — they are most of what was
 actually learned.*
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE).
 
 ---
 

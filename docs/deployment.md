@@ -34,9 +34,9 @@ python scripts/train_baseline.py     # writes models/baseline_*/
 at deploy time:
 
 ```bash
-huggingface-cli download YOUR_USERNAME/absa-sentiment-classifier \
+huggingface-cli download tushpatil02/absa-sentiment-classifier \
   --local-dir models/sentiment_classifier
-huggingface-cli download YOUR_USERNAME/absa-aspect-detector \
+huggingface-cli download tushpatil02/absa-aspect-detector \
   --local-dir models/aspect_detector
 ```
 
