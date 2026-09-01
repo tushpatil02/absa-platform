@@ -81,6 +81,10 @@ export function Dashboard({ data }: { data: BatchAnalyzeResponse }) {
   // about?" rather than merely listing aspects.
   const byNegative = [...chartData].sort((a, b) => b.negative - a.negative);
 
+  // Changes whenever the analysed set changes, forcing a clean remount rather
+  // than letting Recharts reuse geometry across a resize.
+  const chartKey = `${data.reviews_analyzed}-${data.aspects.length}`;
+
   return (
     <>
       <div className="stats">
@@ -126,7 +130,11 @@ export function Dashboard({ data }: { data: BatchAnalyzeResponse }) {
         </p>
         <Legend />
         <div className="chart-wrap">
-          <ResponsiveContainer width="100%" height={Math.max(220, byNegative.length * 34)}>
+          <ResponsiveContainer
+            key={`polarity-${chartKey}`}
+            width="100%"
+            height={Math.max(220, byNegative.length * 34)}
+          >
             <BarChart data={byNegative} layout="vertical" margin={{ left: 8, right: 16 }} barSize={17}>
               <XAxis
                 type="number"
@@ -154,6 +162,11 @@ export function Dashboard({ data }: { data: BatchAnalyzeResponse }) {
                   // A hairline in the surface colour separates adjacent segments.
                   stroke="var(--surface-card)"
                   strokeWidth={1.5}
+                  // Animation caches bar geometry across renders. ResponsiveContainer
+                  // reports a small width on first paint and its real width a frame
+                  // later; the axis re-scales but animated bars keep the stale scale,
+                  // so every bar rendered ~7x too short while the axis read 0-100%.
+                  isAnimationActive={false}
                 />
               ))}
             </BarChart>
@@ -165,7 +178,11 @@ export function Dashboard({ data }: { data: BatchAnalyzeResponse }) {
         <h2 className="card__title">Most discussed aspects</h2>
         <p className="card__hint">How many of the analysed reviews mention each aspect.</p>
         <div className="chart-wrap">
-          <ResponsiveContainer width="100%" height={Math.max(200, chartData.length * 32)}>
+          <ResponsiveContainer
+            key={`mentions-${chartKey}`}
+            width="100%"
+            height={Math.max(200, chartData.length * 32)}
+          >
             <BarChart data={chartData} layout="vertical" margin={{ left: 8, right: 28 }} barSize={16}>
               <XAxis
                 type="number"
@@ -191,7 +208,7 @@ export function Dashboard({ data }: { data: BatchAnalyzeResponse }) {
                   fontSize: 12,
                 }}
               />
-              <Bar dataKey="mentions" name="Mentions" radius={[0, 4, 4, 0]}>
+              <Bar dataKey="mentions" name="Mentions" radius={[0, 4, 4, 0]} isAnimationActive={false}>
                 {chartData.map((row) => (
                   // Colour follows the entity's sentiment, not its rank.
                   <Cell
