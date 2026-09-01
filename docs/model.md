@@ -220,6 +220,29 @@ a mixed review from a uniform one, which is precisely the thing it is failing at
 
 ---
 
+## A units error worth recording
+
+`docs/dataset.md` justified `max_length=128` with "covers 99.6% of reviews".
+That figure was measured in **words**; the model truncates in **tokens**.
+
+| Unit | Coverage at 128 |
+|---|---:|
+| words (whole reviews) | 99.6% |
+| tokens (sentence-pair inputs) | **96.97%** |
+
+So ~3% of training pairs are truncated, roughly 5× more than documented — median
+32 tokens, p99 162, max 205. `truncation="only_first"` means the aspect segment
+is always preserved and the review is what gets cut, which is the right side to
+lose, but the claim was still wrong.
+
+Raising the cap is now nearly free: with dynamic padding, `max_length` is a
+truncation ceiling rather than a padding target, so only the ~3% of batches
+containing a long pair pay for it. `max_length=192` would cover 99.71%. It is
+deliberately **not** changed mid-experiment — the runs in progress use 128, and
+changing it now would confound the mixed-weight comparison.
+
+---
+
 ## What would likely fix it
 
 Ranked by expected value, not yet attempted:

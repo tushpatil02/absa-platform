@@ -29,7 +29,12 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
 
-DEFAULT_MAX_LENGTH = 128  # covers 99.6% of reviews -- see docs/dataset.md
+# Measured in TOKENS, not words. 128 tokens covers 96.97% of sentence-pair
+# inputs (median 32, p99 162, max 205); the word-based "99.6%" figure quoted
+# earlier was the wrong unit. Since dynamic padding pads to each batch's longest
+# member, raising this only costs compute on the ~3% of batches that need it --
+# see docs/model.md.
+DEFAULT_MAX_LENGTH = 128
 
 
 def set_seed(seed: int = 42) -> None:

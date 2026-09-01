@@ -261,8 +261,10 @@ def plot_polarity_by_aspect(asc: pd.DataFrame, out_path: Path) -> Path:
 def plot_review_length(asc: pd.DataFrame, out_path: Path, *, token_budget: int = 128) -> Path:
     """Histogram of review length, with the chosen max_length marked.
 
-    The annotation is the point of the chart: it justifies ``max_length=128``
-    by showing how little is truncated.
+    The annotation marks the ``max_length`` cap in **words**, which is what this
+    chart plots. Note the model truncates in *tokens*: 128 tokens covers 96.97%
+    of sentence-pair inputs, not the 99.7% of reviews this word count suggests.
+    See docs/model.md.
     """
     words = asc.drop_duplicates("review_id")["text"].str.split().str.len()
 
