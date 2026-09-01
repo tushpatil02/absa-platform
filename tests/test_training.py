@@ -210,3 +210,58 @@ def test_pos_weight_is_clipped():
     weight = multilabel_pos_weight(y)
     assert weight[0].item() == pytest.approx(20.0)  # clipped from 999
     assert weight[1].item() == pytest.approx(0.1)   # clipped from 0
+
+
+# ---------------------------------------------------------------------------
+# Dynamic padding must not change the maths
+# ---------------------------------------------------------------------------
+
+
+def test_dynamic_padding_matches_fixed_padding_on_a_real_model():
+    """Padding is an optimisation, not a modelling change.
+
+    If the attention mask is padded correctly the model cannot see the padding,
+    so batching to the longest member must give the same logits as padding every
+    sequence to max_length. A wrong pad token or mask value would silently shift
+    predictions while keeping every tensor shape valid.
+    """
+    import pandas as pd
+    from torch.utils.data import DataLoader
+
+    model_dir = REPO_ROOT / "models" / "sentiment_classifier"
+    processed = REPO_ROOT / "data" / "processed" / "asc_dev.csv"
+    if not (model_dir / "model.safetensors").exists() or not processed.exists():
+        pytest.skip("Needs a trained transformer and the processed dev split")
+
+    from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+    from ml.preprocessing.transform import load_taxonomy
+    from ml.training.transformer import SentencePairDataset
+
+    taxonomy = load_taxonomy(REPO_ROOT / "ml" / "config" / "aspect_taxonomy.yaml")
+    frame = pd.read_csv(processed).head(48)
+    aspects = [taxonomy.descriptions[a] for a in frame["aspect"]]
+
+    tokenizer = AutoTokenizer.from_pretrained(model_dir)
+    model = AutoModelForSequenceClassification.from_pretrained(model_dir).eval()
+
+    with torch.no_grad():
+        encoded = tokenizer(
+            list(frame["text"]), aspects, truncation="only_first",
+            max_length=128, padding="max_length", return_tensors="pt",
+        )
+        fixed = model(**encoded).logits.numpy()
+
+    dataset = SentencePairDataset(
+        frame["text"], aspects, frame["label"].to_numpy(), tokenizer, 128
+    )
+    loader = DataLoader(dataset, batch_size=16, shuffle=False, collate_fn=make_collate(tokenizer))
+    batches = []
+    with torch.no_grad():
+        for batch in loader:
+            batch.pop("labels")
+            batches.append(model(**batch).logits.numpy())
+    dynamic = np.concatenate(batches)
+
+    assert np.abs(fixed - dynamic).max() < 1e-4
+    assert (fixed.argmax(1) == dynamic.argmax(1)).all()
