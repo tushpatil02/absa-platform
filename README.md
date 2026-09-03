@@ -5,7 +5,8 @@ phones ranked by what reviewers actually said about each one. A 4.5-star phone
 can have a superb camera and a battery everyone hates. The star rating hides
 that; this does not.
 
-Every score is learned from 68,000 Amazon reviews. Nothing is hard-coded.
+Every score is learned from Amazon reviews — 67,986 of them, of which 36,951 are
+scored sentence by sentence. Nothing is hard-coded.
 
 ## The result this project is actually about
 
@@ -115,7 +116,9 @@ always show real model output and can be regenerated after any UI change.
 
 ## The recommender
 
-Five sliders over 211 phones, built from 68,000 Amazon reviews.
+Five sliders over a 211-phone catalogue, built by scoring 36,951 Amazon reviews.
+**97 phones clear the evidence floor on all five axes** and are the ones actually
+ranked; the rest appear in the catalogue with a dash where a score would be.
 [Full design notes](docs/recommender.md).
 
 **Sliders are requirements.** `shortfall = max(0, requirement − profile)`, and
