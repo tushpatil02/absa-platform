@@ -72,20 +72,30 @@ project measures exactly this: see the
 ```
 absa-platform/
 ├── data/                     gitignored — fetched, never committed
-│   ├── raw/mabsa/            M-ABSA English phone + laptop
-│   └── processed/            asc_*.csv, acd_*.csv, build_report.json
+│   ├── raw/mabsa/            M-ABSA English phone + laptop (labels)
+│   ├── raw/amazon/           68k phone reviews, CC0 (product identity)
+│   ├── processed/            asc_*.csv · acd_*.csv · phones.csv
+│   │                         review_aspects.csv · phone_profiles.csv
+│   └── reviews.db            SQLite — submitted reviews, written at runtime
 │
 ├── ml/                       all ML logic, importable from anywhere
-│   ├── config/aspect_taxonomy.yaml    86+108 categories → 12 aspects
+│   ├── config/aspect_taxonomy.yaml    ENTITY#ATTRIBUTE → 12 aspects
 │   ├── preprocessing/        parse · clean · transform · split
 │   ├── training/             baseline (sklearn) · transformer (torch)
-│   ├── evaluation/           metrics · mixed_reviews diagnostic
-│   ├── inference/            predictor · scoring   ← shared with backend
+│   ├── evaluation/           metrics · mixed_reviews · multi_sentence
+│   │                         reliability          ← the recommender's gate
+│   ├── inference/            predictor · scoring · sentences
+│   │                                              ← shared with backend
+│   ├── catalog/              normalise · build · profiles
+│   ├── recommender/          similarity · price
 │   └── eda.py
 │
 ├── scripts/                  CLI entry points; notebooks drive these
 │   ├── download_data.py  build_dataset.py  run_eda.py
-│   └── train_baseline.py  train_transformer.py  compare_models.py
+│   ├── train_baseline.py  train_transformer.py  compare_models.py
+│   ├── eval_sentence_level.py
+│   └── download_phones.py  build_catalog.py  score_catalog.py
+│       build_profiles.py   evaluate_recommender.py
 │
 ├── notebooks/                orchestration only, no logic
 │   ├── 01_eda.ipynb
@@ -95,8 +105,21 @@ absa-platform/
 ├── backend/app/              FastAPI: main · api · schemas · core
 ├── frontend/src/             React: components · api · types
 ├── tests/                    preprocessing · scoring · eda · api
+│                             sentences · catalog · recommender · reliability
 └── docs/
 ```
+
+### Two corpora, two jobs
+
+M-ABSA supplies **labels**: it is the only dataset found with aspect *categories*
+and polarities, and it is what the models train on. It has no product identity,
+so it cannot answer "which phone should I buy".
+
+The Amazon corpus supplies **product identity**: 67,986 reviews attached to 720
+listings, but no aspect labels at all. It is never trained on — only scored.
+
+Neither dataset alone supports the application. The join between them is the
+taxonomy plus the trained model.
 
 ### Where logic is *not*
 
@@ -104,6 +127,23 @@ absa-platform/
   notebook holding logic cannot be diffed, tested, or imported by the API.
 - **Not duplicated in the backend.** `backend/app/` contains HTTP concerns only:
   routing, validation, error translation. It owns no ML code.
+
+## The offline pipeline
+
+Inference over the catalogue is expensive (~1 hour on CPU) and everything after
+it is arithmetic, so the two are separate stages with a file between them:
+
+```
+download_phones ─→ build_catalog ─→ score_catalog ─→ build_profiles ─→ API
+   9 MB, CC0        720→211 phones    37k reviews      shrinkage
+   no credentials   seconds           ~1 h, resumable  seconds
+                                            │
+                                            └─→ evaluate_recommender  (the gate)
+```
+
+`score_catalog.py` writes **per-review** rows, not per-phone averages. Aggregation
+has several open questions — shrinkage strength, mention floors, split-half
+resampling — and none of them should require re-running inference to explore.
 
 ## Request flow
 

@@ -1,30 +1,49 @@
-# ABSA Platform — Aspect-Based Sentiment Analysis for Product Reviews
+# Phone Finder — a recommender built on aspect-based sentiment analysis
 
-A full-stack NLP application that reads a customer review and reports **what the
-reviewer thought about each individual aspect** — camera, battery, display, price,
-delivery — rather than collapsing everything into one star rating.
+Move five sliders — **Battery, Camera, Price, Display, Processor** — and get
+phones ranked by what reviewers actually said about each one. A 4.5-star phone
+can have a superb camera and a battery everyone hates. The star rating hides
+that; this does not.
+
+Every score is learned from 68,000 Amazon reviews. Nothing is hard-coded.
+
+## The result this project is actually about
+
+One review, analysed two ways. This is live output, not an illustration:
 
 > *"The display is beautiful and the camera takes excellent photos, but the
 > battery life is disappointing."*
->
-> | Aspect | Sentiment | Score | Confidence |
-> |---|---|---|---|
-> | Battery | Negative | 3.4 / 10 | 70% |
-> | Camera | Negative | 4.1 / 10 | 63% |
-> | Display | Negative | 4.1 / 10 | 63% |
->
-> **Real, current output — and two of the three are wrong.** Camera and Display
-> should be positive. The shipped sentiment model is the one that won macro F1
-> (0.6538 vs 0.6088), and on mixed reviews like this it collapses to the
-> review's dominant tone 85% of the time — more often, and more confidently,
-> than the simpler baseline it beat.
->
-> That result is the substance of this project, not a footnote: see
-> [the diagnostic](#the-diagnostic-that-changes-the-conclusion). Showing a
-> flattering cherry-pick here would have been easy and worthless.
 
-A 4.5-star phone can have a superb camera and a battery everyone hates. The star
-rating hides that; this does not.
+| | Battery | Camera | Display |
+|---|---|---|---|
+| As **one sentence** | 3.14 neg | 3.74 **neg ✗** | 3.77 **neg ✗** |
+| As **three sentences** | 1.27 neg ✓ | 9.61 pos ✓ | 9.63 pos ✓ |
+
+Same model, same weights. The only difference is what gets handed to it.
+
+The sentiment model scores **0.83 on text carrying one opinion and 0.55 on text
+carrying several**. It was trained on M-ABSA, whose rows are single sentences —
+so a single sentence is the input distribution it actually learned. Real reviews
+average ~50 words and routinely praise one thing while criticising another,
+which put essentially the whole corpus in the 0.55 slice, *below the 0.674
+majority-class baseline*.
+
+Running the same model **per sentence** put each input back in the good slice:
+
+| | whole review | per sentence |
+|---|---:|---:|
+| mixed-review accuracy | 0.5917 | **0.7976** |
+| collapsed rate | 0.9442 | **0.2791** |
+
+"Collapsed" is the share of mixed reviews given one polarity for every aspect —
+the aspect ignored entirely. It fell from 94% to 28%.
+
+**And the top table shows the limit.** The first row is one sentence joined by
+"but", so there is no boundary to split on and it stays wrong. Sentence
+splitting fixes the input, not the model. 23.8% of the corpus has no sentence
+terminators at all, and on that slice the gain drops from +20.6 points to +5.7.
+
+Full measurement: [docs/model.md](docs/model.md).
 
 **Stack** — Python · scikit-learn · PyTorch/Transformers · FastAPI · React · TypeScript · Vite · Recharts · Docker
 
@@ -33,6 +52,7 @@ rating hides that; this does not.
 ## Contents
 
 - [What it does](#what-it-does)
+- [The recommender](#the-recommender)
 - [Results](#results)
 - [The 99% story](#the-99-story)
 - [Dataset](#dataset)
@@ -48,15 +68,27 @@ rating hides that; this does not.
 
 ## What it does
 
-**Single review** — paste a review, get every aspect it discusses with a polarity,
-a 1–10 score, and two separate confidence figures (was the aspect mentioned; how
-sure is the sentiment).
+**Find a phone** — five sliders, each a *minimum* rather than a weight. A phone
+is penalised for falling short and never for exceeding, so a slider left at 1
+means "I don't care about this" and genuinely drops out of the ranking. Results
+show a match percentage and name the axis each phone falls short on.
+
+**Browse the catalogue** — every phone with its five scores, unranked, so the
+recommender's ordering can be checked against the underlying numbers.
+
+**Phone pages** — the aspect profile plus **the sentences that produced each
+score**, strongest praise and strongest criticism together. A number a reader
+cannot trace is a number they have to trust.
+
+**Write a review** — submit one and see it analysed sentence by sentence. It is
+stored, but it does *not* move the published scores: a profile built from
+hundreds of reviews should not shift because one person typed a sentence, and a
+page where it did would be trivially gameable.
+
+**Single review / product dashboard** — the original tools, still here: paste any
+review or a few hundred, get per-aspect sentiment and aggregate breakdowns.
 
 ![Single review analysis](docs/screenshots/single-review.png)
-
-**Product dashboard** — paste or upload hundreds of reviews and get an aggregate
-per aspect: what customers like, what they complain about, and how often each
-comes up. This is the feature a star rating cannot provide.
 
 ![Product dashboard](docs/screenshots/dashboard.png)
 
@@ -67,6 +99,39 @@ mode is a selected palette for the dark surface, not an inversion
 
 Screenshots are generated by `python scripts/capture_screenshots.py`, so they
 always show real model output and can be regenerated after any UI change.
+
+---
+
+## The recommender
+
+Five sliders over 211 phones, built from 68,000 Amazon reviews.
+[Full design notes](docs/recommender.md).
+
+**Sliders are requirements.** `shortfall = max(0, requirement − profile)`, and
+match % is normalised by the worst score *this query* could produce — so it
+reads as "how much of what you asked for you get". Importance-weighting was
+rejected because renormalising weights makes moving the Camera slider change how
+much Battery counts; symmetric distance was rejected because it ranks a
+9-battery phone below a 6-battery one for someone who asked for 6.
+
+**Four axes come from sentiment. Price does not.** Price opinions in the
+training data are **85.6% positive** — 40 negative pairs out of 341. A
+sentiment-driven Price slider would look functional and barely reorder anything,
+so that axis uses the listed price (log-scaled, higher = cheaper) and the UI
+says so.
+
+**Thin evidence is shrunk, not stretched.** Per-phone means are pulled toward the
+catalogue mean by empirical Bayes. They are deliberately *not* z-scored or
+percentile-ranked afterwards: simulated on a null where every phone is identical,
+that manoeuvre produced a confident 1.83-point spread and a full 0–100th
+percentile range out of pure noise. The compression *is* the uncertainty.
+
+**There is a gate.** `scripts/evaluate_recommender.py` runs split-half
+reliability (Spearman–Brown corrected), checks whether the aspects add anything
+over Amazon's own star rating, and prints the spread that identical phones
+produce for free. It reports PASS, PARTIAL or FAIL. Everything above assumes a
+phone's score measures the phone; that is testable, and until it is tested the
+rest is decoration.
 
 ---
 

@@ -304,6 +304,70 @@ claim of a small improvement here, including the claims already made above.
 
 ---
 
+## The fix that worked: change the unit of inference
+
+Every result above is measured **per review**. The mixed-review gap is not a
+calibration problem and not, it turns out, mainly a training problem — it is a
+problem with what is being handed to the model.
+
+M-ABSA rows are single sentences, so a single sentence is the input distribution
+the sentiment model actually learned. Real Amazon reviews average ~50 words and
+routinely praise one aspect while criticising another, which puts essentially
+the whole corpus in the 0.55 slice — **below the 0.674 majority-class
+baseline**. Running the same model per sentence puts each input back in the 0.89
+slice, without retraining anything.
+
+### Measuring it needs a benchmark that does not exist
+
+M-ABSA cannot measure this directly: its rows are already single sentences, so
+splitting is a no-op and both modes score identically. So the benchmark is
+*composed* from held-out test rows ([`ml/evaluation/multi_sentence.py`](../ml/evaluation/multi_sentence.py)):
+
+* components are drawn from the **test split only** — no training text is touched;
+* components must have **disjoint aspect sets**, so the union of their gold
+  labels can never be self-contradictory;
+* every label is a real human annotation. Only the concatenation is synthetic.
+
+300 pseudo-reviews, 1,012 gold aspects, 71.7% of them mixed:
+
+| | whole-review | **sentence** | Δ |
+|---|---:|---:|---:|
+| **mixed-review accuracy** | 0.5917 | **0.7976** | **+0.2059** |
+| **collapsed rate** | 0.9442 | **0.2791** | −0.6651 |
+| detection recall | 0.5563 | **0.7875** | +0.2312 |
+| overall sentiment accuracy | 0.6927 | **0.8269** | +0.1342 |
+| uniform-review accuracy | **0.9610** | 0.9091 | **−0.0519** |
+
+The collapsed rate is the headline: whole-review inference gave **94% of mixed
+reviews one polarity for every aspect**. Per sentence, that falls to 28%.
+
+### The cost, stated plainly
+
+**Uniform reviews get worse** — 0.9610 → 0.9091. Whole-review inference has more
+context when the opinion is consistent, and a sentence in isolation can be
+misread. The trade is worth taking because mixed reviews are 71.7% of this
+benchmark and close to 100% of real Amazon prose, and overall accuracy still
+rises 13.4 points. But it is a real regression, not a free win.
+
+**Inference costs 1.5× more.** More units, more model calls.
+
+**It depends on punctuation.** Stripping the sentence terminators — the
+adversarial case, and 23.8% of the corpus has no terminators at all — cuts the
+mixed-review gain from +20.6 to **+5.7**. Sentence splitting cannot help where
+there are no sentence boundaries to find.
+
+Reproduce with `python scripts/eval_sentence_level.py`.
+
+### What this does not fix
+
+The model is unchanged. It is still 0.335 F1 on `neutral`, still trained on
+3,518 pairs, and still reads overall tone when a sentence carries two opinions
+("great screen but awful battery" remains one unit — splitting on contrastive
+conjunctions was considered and left as a measured change rather than an assumed
+one). Sentence splitting improves the *inputs*, not the model.
+
+---
+
 ## What would likely fix it
 
 Ranked by expected value, not yet attempted:
@@ -317,7 +381,9 @@ Ranked by expected value, not yet attempted:
 3. **More data.** The single biggest constraint. M-ABSA's other five English
    domains would roughly triple the corpus at the cost of a taxonomy mapping.
 4. **Aspect-aware augmentation** — split mixed reviews into single-aspect
-   clauses as additional training pairs.
+   clauses as additional training *pairs*. (The inference-time half of this idea
+   is now done and is the single largest improvement so far — see above. Doing
+   it during training as well is still untried.)
 
 Track this with `python scripts/compare_models.py`; the diagnostic runs on every
 sentiment model on disk.
