@@ -53,19 +53,17 @@ Multi-label, 12 sigmoid outputs. Threshold tuned on dev.
 | Model | Micro F1 | Macro F1 | Subset acc | Micro P | Micro R | Train time |
 |---|---:|---:|---:|---:|---:|---:|
 | **TF-IDF + OvR LogReg** | **0.7418** | 0.7391 | 0.4632 | 0.745 | 0.739 | 6 s |
-| DistilBERT † | 0.6192 | 0.6114 | 0.3575 | **0.525** | 0.756 | 26 min (CPU) |
+| DistilBERT | 0.6151 | 0.6312 | 0.2187 | **0.510** | 0.775 | 96 min (CPU) |
 
-† Measured **before** the taxonomy fix; the detector has not been retrained
-since, so this row is not strictly comparable to the one above it. It is kept
-because the gap is far too large for a remapping to close, but it should be
-read as indicative rather than current.
-
-**The baseline wins by roughly 12 micro-F1 points**, which was not the expected
-result.
+**The baseline wins by 12.7 micro-F1 points**, which was not the expected
+result. Both rows are post-taxonomy-fix; retraining the detector on the
+corrected mapping moved it 0.6192 → 0.6151, so the remapping neither caused nor
+closed the gap.
 
 The cause is visible in the precision column: DistilBERT's micro precision is
-0.525 against the baseline's 0.783 at similar recall. It over-predicts —
-`design` gets precision 0.218 at recall 0.829, meaning it flags that aspect
+0.510 against the baseline's 0.745, while its recall is *higher* (0.775 vs
+0.739). It over-predicts —
+`design` gets precision 0.221 at recall 0.714, meaning it flags that aspect
 almost everywhere. With 2,298 training reviews, 12 labels and `pos_weight` up to
 20 pushing hard toward positives on rare labels, the model learns to fire
 liberally.
@@ -168,13 +166,13 @@ serving layer composes them rather than forcing one:
 
 | Stage | Selected | Metric | Runner-up |
 |---|---|---|---|
-| A — aspect detection | **TF-IDF + OvR LogReg** | micro F1 0.7418 | DistilBERT 0.6192 † |
+| A — aspect detection | **TF-IDF + OvR LogReg** | micro F1 0.7418 | DistilBERT 0.6151 |
 | B — sentiment | **DistilBERT** | macro F1 0.6637 | TF-IDF 0.5993 |
 
 `ml/inference/predictor.py` reads `models/metadata/comparison.json` — written
 from held-out test metrics — and resolves each stage independently. With no
 comparison file it defaults to the baseline for both, because defaulting to the
-larger model would have shipped a detector roughly 12 points worse.
+larger model would have shipped a detector 12.7 points worse.
 
 Override per stage: `ABSA_ASPECT_MODEL` / `ABSA_SENTIMENT_MODEL`
 (`auto` | `baseline` | `transformer`).

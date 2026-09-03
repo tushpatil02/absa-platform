@@ -402,12 +402,28 @@ Stated plainly, because they shape what the metrics can mean.
 
 ## 8. Reproducing
 
+**Labels (M-ABSA):**
+
 ```bash
 python scripts/download_data.py     # fetch raw M-ABSA (English phone + laptop)
 python scripts/build_dataset.py     # clean, map, dedupe, split, assert no leakage
 python scripts/run_eda.py           # stats + figures into docs/figures/
-python -m pytest tests/ -q          # 39 tests
+python -m pytest tests/ -q
 ```
+
+**Product identity (Amazon), for the recommender:**
+
+```bash
+python scripts/download_phones.py   # 9 MB, CC0, no credentials
+python scripts/build_catalog.py     # 720 listings -> 211 phones; seconds
+python scripts/score_catalog.py     # 36,951 reviews; ~1 h on CPU, resumable
+python scripts/build_profiles.py    # shrinkage + evidence; seconds
+python scripts/evaluate_recommender.py   # the reliability gate
+```
+
+Only `score_catalog.py` is expensive. It writes per-review rows rather than
+per-phone averages precisely so aggregation can be re-tried without rerunning
+inference.
 
 Verified reproducible: a fresh `git clone` followed by the commands above
 produces **byte-identical** CSVs (md5-matched on all splits).

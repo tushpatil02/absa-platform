@@ -174,13 +174,13 @@ by review and leakage-asserted — see [Dataset](#dataset).
 | Model | Micro F1 | Macro F1 | Subset acc | Micro P | Micro R |
 |---|---:|---:|---:|---:|---:|
 | **TF-IDF + OvR LogReg** (selected) | **0.7418** | 0.7391 | 0.4632 | 0.745 | 0.739 |
-| DistilBERT | 0.6192 | 0.6114 | 0.3575 | **0.525** | 0.756 |
+| DistilBERT | 0.6151 | 0.6312 | 0.2187 | **0.510** | 0.775 |
 
-**The baseline beats the transformer by roughly 12 points here.** DistilBERT's
-precision collapses to 0.525 — it over-predicts badly (`design`: precision 0.218
-at recall 0.829). Aspect detection is largely a *lexical* problem, which word +
-character n-grams model directly, and 2,298 training reviews is not enough for an
-encoder to do better.
+**The baseline beats the transformer by 12.7 points here.** DistilBERT's
+precision collapses to 0.510 while its recall is *higher* — it over-predicts
+badly (`design`: precision 0.221 at recall 0.714). Aspect detection is largely a
+*lexical* problem, which word + character n-grams model directly, and 2,298
+training reviews is not enough for an encoder to do better.
 
 ### Stage B — Sentiment (3 classes)
 
@@ -229,7 +229,7 @@ likely to fix it.
 
 | Stage | Selected | Metric | Runner-up |
 |---|---|---|---|
-| A — aspect detection | **TF-IDF + OvR LogReg** | micro F1 0.7418 | DistilBERT 0.6192 |
+| A — aspect detection | **TF-IDF + OvR LogReg** | micro F1 0.7418 | DistilBERT 0.6151 |
 | B — sentiment | **DistilBERT** | macro F1 0.6637 | TF-IDF 0.5993 |
 
 The comparison picked different families for each stage, so the serving layer

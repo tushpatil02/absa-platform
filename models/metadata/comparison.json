@@ -6,9 +6,9 @@
     "candidates": [
       {
         "model": "distilbert-base-uncased",
-        "micro_f1": 0.6192468619246861,
-        "macro_f1": 0.6114141848439268,
-        "subset_accuracy": 0.35751295336787564
+        "micro_f1": 0.6150983519404573,
+        "macro_f1": 0.6312010213470566,
+        "subset_accuracy": 0.21865284974093263
       },
       {
         "model": "tfidf+logreg(ovr)",
