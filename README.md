@@ -126,12 +126,27 @@ percentile-ranked afterwards: simulated on a null where every phone is identical
 that manoeuvre produced a confident 1.83-point spread and a full 0–100th
 percentile range out of pure noise. The compression *is* the uncertainty.
 
-**There is a gate.** `scripts/evaluate_recommender.py` runs split-half
-reliability (Spearman–Brown corrected), checks whether the aspects add anything
-over Amazon's own star rating, and prints the spread that identical phones
-produce for free. It reports PASS, PARTIAL or FAIL. Everything above assumes a
-phone's score measures the phone; that is testable, and until it is tested the
-rest is decoration.
+**There is a gate, and it caught something.** `scripts/evaluate_recommender.py`
+runs split-half reliability, checks whether the aspects add anything over
+Amazon's own star rating, and compares each axis to a null matched to its own
+noise.
+
+On the full catalogue it initially **failed camera** at 0.528 — the score
+reflected which reviews were sampled more than it reflected the phone. Raising
+the publication floor to 15 mentions (the smallest value at which every axis is
+at least usable) fixed it, at the cost of 159 rankable phones falling to 97:
+
+| Axis | Split-half | vs null | vs stars |
+|---|---:|---:|---|
+| Battery | **0.821** strong | 2.4× | distinct |
+| Display | **0.814** strong | 2.5× | distinct |
+| Processor | 0.757 usable | 2.0× | distinct |
+| Camera | 0.653 usable | 1.9× | independent |
+
+**PASS — 4/4 reliable, none redundant with the star rating.** Camera is the
+weakest and the most independent of stars: the axis most worth improving, and
+the one to trust least today. Full numbers in
+[docs/recommender.md](docs/recommender.md).
 
 ---
 

@@ -84,8 +84,7 @@ the corpus carries an actual listed price, the axis uses it. Price sentiment is
 still computed and shown on the phone page — it is just not what the slider
 ranks on, and the UI labels the axis accordingly.
 
-**Direction.** Higher is cheaper: 10 is the least expensive phone in the
-catalogue, 1 the most expensive. Every slider then points the same way, so
+**Direction.** Higher is cheaper, so every slider points the same way and
 "Price 9" reads as "I want it cheap" exactly as "Camera 9" reads as "I want a
 good camera".
 
@@ -95,6 +94,19 @@ would squash three quarters of the catalogue (median \$200, max \$948) into the
 top of the scale. Log spacing also keeps genuinely similar prices close, which a
 percentile rank would not: percentiles push \$200 and \$210 apart whenever the
 catalogue happens to be dense between them.
+
+**Bounds are the 5th and 95th percentiles — \$65 and \$610 — not the extremes.**
+Anchored to min and max, a single \$14.99 feature phone stretched the scale so
+far that the middle half of the catalogue occupied under 2 points of the 9
+available (median score 4.38, IQR 1.82). Winsorising puts the median phone at
+5.05 and widens the spread to sd 2.14; prices outside the bounds clip rather
+than extrapolate.
+
+This is **not** the rescaling refused for sentiment in §4. Those scores carry
+sampling noise, so stretching them turns noise into apparent signal. A listed
+price is recorded exactly, with no measurement error, so the only question is
+which bounds are least arbitrary — and letting one outlier define the scale is
+the arbitrary option.
 
 ---
 
@@ -179,7 +191,60 @@ ship on those profiles.
 
 ---
 
-## 6. Why phones are excluded
+## 6. What the gate actually said
+
+Run on all 211 phones, 36,951 scored reviews:
+
+| Axis | Split-half (corrected) | vs matched null | vs star rating | Phones |
+|---|---:|---:|---|---:|
+| Battery | **0.821** strong | 2.4× | R² 0.47 — distinct | 140 |
+| Display | **0.814** strong | 2.5× | R² 0.45 — distinct | 122 |
+| Processor | 0.757 usable | 2.0× | R² 0.63 — distinct | 175 |
+| Camera | 0.653 usable | 1.9× | R² 0.31 — **independent** | 103 |
+
+**VERDICT: PASS — 4/4 axes reliable, none redundant with the star rating.**
+
+### It did not pass on the first run
+
+At the original floor of 5 mentions, **camera came out at 0.528 — "weak"**,
+meaning the score reflected which reviews happened to be sampled more than it
+reflected the phone. An earlier preview on 39 phones had shown 0.734, but those
+were the phones with the most reviews; the full catalogue told a different story.
+
+Sweeping the floor showed where each axis becomes trustworthy:
+
+| Floor | Battery | Camera | Display | Processor |
+|---:|---|---|---|---|
+| 5 | 0.733 [193] | **0.528 [168]** | 0.716 [176] | 0.670 [209] |
+| 10 | 0.772 [160] | **0.569 [133]** | 0.780 [146] | 0.688 [194] |
+| **15** | 0.821 [140] | 0.653 [103] | 0.814 [122] | 0.757 [175] |
+| 30 | 0.867 [90] | 0.710 [63] | 0.882 [83] | 0.749 [134] |
+
+*(corrected ρ, phones retained in brackets)*
+
+`MIN_MENTIONS = 15` is the smallest floor at which every axis is at least
+usable, with camera the binding constraint. Going higher buys little and costs
+phones — 15 leaves **97 rankable on all five axes**, 30 leaves 54.
+
+This changes only which scores are **published**. The model, the scores and how
+they are computed are untouched. An aspect below the floor shows a dash on the
+phone page and excludes that phone from recommendations.
+
+### What is weakest, and why
+
+**Camera** has the fewest mentions per phone (103 phones clear the floor, versus
+175 for Processor) and the lowest reliability. It is also the *most* independent
+of the star rating (R² 0.31), so it carries the most information stars do not —
+the two facts together mean it is the axis most worth improving and the one to
+trust least today.
+
+**Processor** is the most redundant (R² 0.63) and has the tightest spread
+(sd 0.90 against battery's 1.21). Phones genuinely differ least here, which the
+empirical-Bayes k confirms: 12.6, against 5.2–5.8 for the other three.
+
+---
+
+## 7. Why phones are excluded
 
 A phone is left out of the recommendations when:
 
@@ -188,7 +253,7 @@ A phone is left out of the recommendations when:
 | Its listing title could not be resolved to a specific model | `normalise.py::is_usable` |
 | Fewer than 20 reviews | `CatalogConfig.min_reviews` |
 | No listed price (the Price axis needs one) | `CatalogConfig.require_price` |
-| An aspect has fewer than 5 detected mentions | `profiles.py::MIN_MENTIONS` |
+| An aspect has fewer than **15** detected mentions | `profiles.py::MIN_MENTIONS` |
 
 Missing axes are **never imputed**. Filling a gap with the catalogue mean would
 let a phone be ranked on a measurement that was never taken; the phone page
@@ -196,7 +261,7 @@ shows a dash and says why.
 
 ---
 
-## 7. Reproducing the pipeline
+## 8. Reproducing the pipeline
 
 ```bash
 python scripts/download_phones.py      # CC0 corpus, no credentials
