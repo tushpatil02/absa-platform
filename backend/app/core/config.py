@@ -29,6 +29,14 @@ class Settings(BaseSettings):
     models_dir: Path = Field(default=REPO_ROOT / "models")
     taxonomy_path: Path = Field(default=REPO_ROOT / "ml" / "config" / "aspect_taxonomy.yaml")
 
+    # Derived catalogue artefacts (phones.csv, phone_profiles.csv,
+    # review_aspects.csv), produced by scripts/build_catalog.py and friends.
+    processed_dir: Path = Field(default=REPO_ROOT / "data" / "processed")
+    # Reviews submitted through the site. The only thing written at runtime.
+    database_path: Path = Field(default=REPO_ROOT / "data" / "reviews.db")
+    # Example sentences held per phone for the detail page.
+    evidence_per_phone: int = 12
+
     # "auto" follows models/metadata/comparison.json, which is written from
     # held-out test metrics. The two stages are resolved independently because
     # the comparison selected different families for each: TF-IDF wins aspect

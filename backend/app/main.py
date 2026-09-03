@@ -31,8 +31,12 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from app.api.phones import router as phones_router
 from app.api.routes import router
+from app.core.catalog import Catalog
 from app.core.config import get_settings
+from app.core.evidence import load_evidence
+from app.core.storage import ReviewStore
 from ml.inference.predictor import load_predictor
 from ml.preprocessing.transform import load_taxonomy
 
@@ -76,6 +80,18 @@ async def lifespan(app: FastAPI):
         app.state.load_error = f"Model failed to load: {exc}"
         logger.exception("Model failed to load")
 
+    # The catalogue and the model fail independently. A missing catalogue
+    # leaves /analyze working; a missing model leaves /phones working. Each
+    # route reports only the thing it actually needs.
+    app.state.catalog = Catalog.load(settings.processed_dir)
+    if not app.state.catalog.ready:
+        logger.warning("Catalogue unavailable: %s", app.state.catalog.error)
+
+    app.state.evidence = load_evidence(
+        settings.processed_dir, per_phone=settings.evidence_per_phone
+    )
+    app.state.review_store = ReviewStore(settings.database_path)
+
     yield
     logger.info("Shutting down")
 
@@ -86,11 +102,15 @@ app = FastAPI(
     title=settings.app_name,
     version=settings.version,
     description=(
-        "Aspect-Based Sentiment Analysis for product reviews. Detects which "
-        "aspects a review discusses (camera, battery, price, ...) and scores "
-        "sentiment for each on a 1-10 scale.\n\n"
+        "Aspect-Based Sentiment Analysis for phone reviews, and a recommender "
+        "built on top of it. Detects which aspects a review discusses (camera, "
+        "battery, price, ...), scores sentiment for each on a 1-10 scale, and "
+        "ranks phones against five sliders.\n\n"
+        "Inference runs per sentence: the sentiment model scores 0.83 on "
+        "single-opinion text and 0.54 on text mixing opinions, and real reviews "
+        "are overwhelmingly the latter.\n\n"
         "See `docs/scoring.md` for how the score is derived from model "
-        "probabilities."
+        "probabilities, and `docs/recommender.md` for what the sliders mean."
     ),
     lifespan=lifespan,
     docs_url="/docs",
@@ -106,6 +126,7 @@ app.add_middleware(
 )
 
 app.include_router(router, prefix="/api")
+app.include_router(phones_router, prefix="/api")
 
 
 @app.exception_handler(Exception)

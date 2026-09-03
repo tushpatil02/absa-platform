@@ -2,7 +2,7 @@
   "aspect_detection": {
     "selected": "tfidf+logreg(ovr)",
     "metric": "micro_f1",
-    "value": 0.7755242351323479,
+    "value": 0.7417619367854741,
     "candidates": [
       {
         "model": "distilbert-base-uncased",
@@ -12,16 +12,16 @@
       },
       {
         "model": "tfidf+logreg(ovr)",
-        "micro_f1": 0.7755242351323479,
-        "macro_f1": 0.738690598282351,
-        "subset_accuracy": 0.5523316062176166
+        "micro_f1": 0.7417619367854741,
+        "macro_f1": 0.7390536386289109,
+        "subset_accuracy": 0.46321243523316064
       }
     ]
   },
   "sentiment": {
     "selected": "distilbert-base-uncased",
     "metric": "macro_f1",
-    "value": 0.6537545245818027,
+    "value": 0.6637017491693739,
     "candidates": [
       {
         "model": "distilbert-base-uncased+mixed3",
@@ -34,25 +34,53 @@
         }
       },
       {
-        "model": "distilbert-base-uncased",
-        "macro_f1": 0.6537545245818027,
-        "accuracy": 0.8148400272294077,
+        "model": "distilbert-base-uncased+mixed8",
+        "macro_f1": 0.611317213671197,
+        "accuracy": 0.7556160653505786,
         "per_class_f1": {
-          "negative": 0.7609195402298851,
-          "neutral": 0.3157894736842105,
-          "positive": 0.8845545598313126
+          "negative": 0.755656108597285,
+          "neutral": 0.2462686567164179,
+          "positive": 0.832026875699888
+        }
+      },
+      {
+        "model": "distilbert-base-uncased",
+        "macro_f1": 0.6637017491693739,
+        "accuracy": 0.8245144005358339,
+        "per_class_f1": {
+          "negative": 0.7651162790697674,
+          "neutral": 0.33540372670807456,
+          "positive": 0.8905852417302799
         }
       },
       {
         "model": "tfidf+logreg",
-        "macro_f1": 0.6088069286584689,
-        "accuracy": 0.786929884275017,
+        "macro_f1": 0.599297451774232,
+        "accuracy": 0.7849966510381782,
         "per_class_f1": {
-          "negative": 0.7202718006795017,
-          "neutral": 0.24358974358974358,
-          "positive": 0.8625592417061612
+          "negative": 0.7126696832579186,
+          "neutral": 0.2236842105263158,
+          "positive": 0.8615384615384616
         }
       }
     ]
-  }
+  },
+  "aspect_conditioning": [
+    {
+      "model": "baseline (tfidf)",
+      "mixed_accuracy": 0.5228070175438596,
+      "uniform_accuracy": 0.8468543046357616,
+      "gap": 0.324047287091902,
+      "collapsed_rate": 0.8137254901960784,
+      "n_mixed_reviews": 102
+    },
+    {
+      "model": "transformer (distilbert-base-uncased)",
+      "mixed_accuracy": 0.5473684210526316,
+      "uniform_accuracy": 0.8899006622516556,
+      "gap": 0.34253224119902403,
+      "collapsed_rate": 0.8823529411764706,
+      "n_mixed_reviews": 102
+    }
+  ]
 }

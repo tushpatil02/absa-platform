@@ -1,6 +1,6 @@
 """Run ABSA over the catalogue's reviews and record per-review aspect results.
 
-This is the expensive pass -- roughly 90 minutes of CPU inference for 37,000
+This is the expensive pass -- around an hour of CPU inference for 37,000
 reviews. It writes **per-review** rows rather than per-phone averages, on
 purpose: aggregation is cheap and there are several things to try (shrinkage,
 weighting, split-half reliability), and none of them should require re-running
@@ -45,7 +45,18 @@ FIELDS = [
     "p_neutral",
     "p_positive",
     "rating",
+    # The sentences that produced this aspect's score. Captured here because
+    # inference is the expensive step: recovering them later would mean a
+    # second pass over the corpus, and a sampled second pass would only ever
+    # explain some phones. A score a reader cannot trace is a score they have
+    # to take on trust.
+    "evidence",
 ]
+
+# Evidence is joined with this and truncated, so one rambling review cannot
+# blow up the CSV. Most aspects are carried by one or two sentences.
+EVIDENCE_SEPARATOR = " || "
+MAX_EVIDENCE_CHARS = 400
 
 
 def completed_phones(path: Path) -> set[str]:
@@ -68,7 +79,7 @@ def main() -> int:
         "--whole-review",
         action="store_true",
         help="Score each review as one unit instead of per sentence. Kept for "
-        "comparison; sentence-level is 19.6 points better on mixed reviews.",
+        "comparison; sentence-level is 20.6 points better on mixed reviews.",
     )
     args = parser.parse_args()
 
@@ -145,6 +156,9 @@ def main() -> int:
                             "p_neutral": sentiment.probabilities.get("neutral"),
                             "p_positive": sentiment.probabilities.get("positive"),
                             "rating": review.rating,
+                            "evidence": EVIDENCE_SEPARATOR.join(prediction.evidence)[
+                                :MAX_EVIDENCE_CHARS
+                            ],
                         }
                     )
                 scored += 1

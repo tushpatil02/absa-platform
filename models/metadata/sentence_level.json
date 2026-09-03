@@ -6,58 +6,58 @@
       "n_mixed": 215,
       "results": {
         "whole-review": {
-          "detection_recall": 0.5405,
-          "sentiment_accuracy": 0.6874,
-          "mixed_sentiment_accuracy": 0.5825,
-          "uniform_sentiment_accuracy": 0.9728,
-          "collapsed_rate": 0.8744,
+          "detection_recall": 0.5563,
+          "sentiment_accuracy": 0.6927,
+          "mixed_sentiment_accuracy": 0.5917,
+          "uniform_sentiment_accuracy": 0.961,
+          "collapsed_rate": 0.9442,
           "n_reviews": 300,
           "n_gold_aspects": 1012,
-          "n_scored": 547,
-          "seconds": 27.9
+          "n_scored": 563,
+          "seconds": 24.1
         },
         "sentence": {
-          "detection_recall": 0.754,
-          "sentiment_accuracy": 0.8034,
-          "mixed_sentiment_accuracy": 0.7782,
-          "uniform_sentiment_accuracy": 0.8769,
-          "collapsed_rate": 0.2512,
+          "detection_recall": 0.7875,
+          "sentiment_accuracy": 0.8269,
+          "mixed_sentiment_accuracy": 0.7976,
+          "uniform_sentiment_accuracy": 0.9091,
+          "collapsed_rate": 0.2791,
           "n_reviews": 300,
           "n_gold_aspects": 1012,
-          "n_scored": 763,
-          "seconds": 42.5
+          "n_scored": 797,
+          "seconds": 36.4
         }
       },
-      "mixed_delta": 0.1957
+      "mixed_delta": 0.2059
     },
     "no-terminators": {
       "n_reviews": 300,
       "n_mixed": 215,
       "results": {
         "whole-review": {
-          "detection_recall": 0.5405,
-          "sentiment_accuracy": 0.6782,
-          "mixed_sentiment_accuracy": 0.5711,
-          "uniform_sentiment_accuracy": 0.9726,
-          "collapsed_rate": 0.9116,
+          "detection_recall": 0.5563,
+          "sentiment_accuracy": 0.6821,
+          "mixed_sentiment_accuracy": 0.578,
+          "uniform_sentiment_accuracy": 0.9608,
+          "collapsed_rate": 0.9302,
           "n_reviews": 300,
           "n_gold_aspects": 1012,
-          "n_scored": 547,
-          "seconds": 24.6
+          "n_scored": 563,
+          "seconds": 23.7
         },
         "sentence": {
-          "detection_recall": 0.6502,
-          "sentiment_accuracy": 0.7188,
-          "mixed_sentiment_accuracy": 0.65,
-          "uniform_sentiment_accuracy": 0.9045,
+          "detection_recall": 0.667,
+          "sentiment_accuracy": 0.7081,
+          "mixed_sentiment_accuracy": 0.6352,
+          "uniform_sentiment_accuracy": 0.8984,
           "collapsed_rate": 0.6279,
           "n_reviews": 300,
           "n_gold_aspects": 1012,
-          "n_scored": 658,
-          "seconds": 33.9
+          "n_scored": 675,
+          "seconds": 29.7
         }
       },
-      "mixed_delta": 0.0789
+      "mixed_delta": 0.0572
     }
   }
 }
