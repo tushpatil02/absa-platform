@@ -35,7 +35,6 @@ from app.api.phones import router as phones_router
 from app.api.routes import router
 from app.core.catalog import Catalog
 from app.core.config import get_settings
-from app.core.evidence import load_evidence
 from app.core.storage import ReviewStore
 from ml.inference.predictor import load_predictor
 from ml.preprocessing.transform import load_taxonomy
@@ -83,13 +82,11 @@ async def lifespan(app: FastAPI):
     # The catalogue and the model fail independently. A missing catalogue
     # leaves /analyze working; a missing model leaves /phones working. Each
     # route reports only the thing it actually needs.
-    app.state.catalog = Catalog.load(settings.processed_dir)
+    app.state.catalog = Catalog.load(settings.catalog_dir)
     if not app.state.catalog.ready:
         logger.warning("Catalogue unavailable: %s", app.state.catalog.error)
 
-    app.state.evidence = load_evidence(
-        settings.processed_dir, per_phone=settings.evidence_per_phone
-    )
+    app.state.evidence = app.state.catalog.evidence
     app.state.review_store = ReviewStore(settings.database_path)
 
     yield

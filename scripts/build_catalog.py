@@ -23,6 +23,9 @@ sys.path.insert(0, str(REPO_ROOT))
 from ml.catalog.build import CatalogConfig, CatalogReport, build_candidates
 
 RAW_DIR = REPO_ROOT / "data" / "raw" / "amazon"
+# The phone list is small and final, so it lives with the other deployable
+# artefacts. The sampled reviews are a working file for the scoring pass.
+CATALOG_DIR = REPO_ROOT / "data" / "catalog"
 OUT_DIR = REPO_ROOT / "data" / "processed"
 
 
@@ -38,6 +41,7 @@ def main() -> int:
     )
     parser.add_argument("--raw-dir", type=Path, default=RAW_DIR)
     parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
+    parser.add_argument("--catalog-dir", type=Path, default=CATALOG_DIR)
     args = parser.parse_args()
 
     items_path = args.raw_dir / "20191226-items.csv"
@@ -62,14 +66,15 @@ def main() -> int:
     print(f"[catalog]   {report.summary()}")
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
-    phones_path = args.out_dir / "phones.csv"
+    args.catalog_dir.mkdir(parents=True, exist_ok=True)
+    phones_path = args.catalog_dir / "phones.csv"
     reviews_out = args.out_dir / "phone_reviews.csv"
     phones.to_csv(phones_path, index=False)
     sampled[
         ["review_id", "model_key", "asin", "name", "rating", "date", "verified", "title", "body"]
     ].to_csv(reviews_out, index=False)
 
-    (args.out_dir / "catalog_report.json").write_text(
+    (args.catalog_dir / "catalog_report.json").write_text(
         json.dumps(report.__dict__ | {"config": config.__dict__}, indent=2), encoding="utf-8"
     )
 

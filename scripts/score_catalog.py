@@ -31,6 +31,7 @@ from ml.inference.predictor import EmptyReviewError, ReviewTooLongError, load_pr
 from ml.preprocessing.transform import load_taxonomy
 
 PROCESSED = REPO_ROOT / "data" / "processed"
+CATALOG = REPO_ROOT / "data" / "catalog"
 
 FIELDS = [
     "model_key",
@@ -83,7 +84,7 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    phones_path = PROCESSED / "phones.csv"
+    phones_path = CATALOG / "phones.csv"
     reviews_path = PROCESSED / "phone_reviews.csv"
     for path in (phones_path, reviews_path):
         if not path.exists():

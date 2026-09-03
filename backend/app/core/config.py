@@ -29,13 +29,12 @@ class Settings(BaseSettings):
     models_dir: Path = Field(default=REPO_ROOT / "models")
     taxonomy_path: Path = Field(default=REPO_ROOT / "ml" / "config" / "aspect_taxonomy.yaml")
 
-    # Derived catalogue artefacts (phones.csv, phone_profiles.csv,
-    # review_aspects.csv), produced by scripts/build_catalog.py and friends.
-    processed_dir: Path = Field(default=REPO_ROOT / "data" / "processed")
+    # The deployable catalogue: phones.csv, phone_profiles.csv and
+    # phone_evidence.json, all small. The ~45 MB review_aspects.csv that
+    # produced them is an intermediate and is never read here.
+    catalog_dir: Path = Field(default=REPO_ROOT / "data" / "catalog")
     # Reviews submitted through the site. The only thing written at runtime.
     database_path: Path = Field(default=REPO_ROOT / "data" / "reviews.db")
-    # Example sentences held per phone for the detail page.
-    evidence_per_phone: int = 12
 
     # "auto" follows models/metadata/comparison.json, which is written from
     # held-out test metrics. The two stages are resolved independently because

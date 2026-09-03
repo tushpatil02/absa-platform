@@ -9,6 +9,7 @@ degradation behaviour, and the contract the frontend depends on.
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -82,24 +83,31 @@ def catalog_dir(tmp_path_factory):
             )
     pd.DataFrame(rows).to_csv(directory / "phone_profiles.csv", index=False)
 
-    pd.DataFrame(
-        [
+    # Evidence is distilled at build time by scripts/build_profiles.py, so the
+    # API reads this JSON rather than the ~45 MB review_aspects.csv.
+    (directory / "phone_evidence.json").write_text(
+        json.dumps(
             {
-                "model_key": "alpha one",
-                "aspect": "battery",
-                "polarity": "positive",
-                "score": 9.4,
-                "evidence": "The battery easily lasts a day and a half of heavy use.",
-            },
-            {
-                "model_key": "alpha one",
-                "aspect": "camera",
-                "polarity": "negative",
-                "score": 2.1,
-                "evidence": "Photos come out grainy whenever the light is low.",
-            },
-        ]
-    ).to_csv(directory / "review_aspects.csv", index=False)
+                "alpha one": [
+                    {
+                        "aspect": "battery",
+                        "display_name": "Battery",
+                        "polarity": "positive",
+                        "score": 9.4,
+                        "sentence": "The battery easily lasts a day and a half of heavy use.",
+                    },
+                    {
+                        "aspect": "camera",
+                        "display_name": "Camera",
+                        "polarity": "negative",
+                        "score": 2.1,
+                        "sentence": "Photos come out grainy whenever the light is low.",
+                    },
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
 
     return directory
 
@@ -111,7 +119,7 @@ def client(catalog_dir, tmp_path_factory):
 
     get_settings.cache_clear()
     settings = get_settings()
-    settings.processed_dir = catalog_dir
+    settings.catalog_dir = catalog_dir
     settings.database_path = tmp_path_factory.mktemp("db") / "reviews.db"
 
     from app.main import app

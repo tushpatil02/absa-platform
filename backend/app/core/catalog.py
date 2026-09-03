@@ -1,10 +1,14 @@
 """The phone catalogue, held in memory and served to the API.
 
-Loaded once at startup from the CSVs that ``build_catalog.py`` and
-``build_profiles.py`` produce. The whole catalogue is a few hundred rows, so
-there is nothing to gain from a database here -- and keeping the derived
-artefacts as plain files means a reviewer can open them and check the numbers
-against the pipeline that made them.
+Loaded once at startup from ``data/catalog/`` -- three small files that
+``build_catalog.py`` and ``build_profiles.py`` produce. The whole catalogue is a
+few hundred rows, so there is nothing to gain from a database here, and keeping
+the derived artefacts as plain files means a reviewer can open them and check
+the numbers against the pipeline that made them.
+
+Evidence sentences come from ``phone_evidence.json``, already distilled at build
+time. The file they were selected from is around 45 MB -- neither shippable nor
+something to parse on every boot.
 
 User-submitted reviews go to SQLite instead, because those are written at
 runtime. See ``app.core.storage``.
@@ -16,6 +20,7 @@ loader does: the API starts, says what is missing and which script produces it.
 
 from __future__ import annotations
 
+import json
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -73,6 +78,7 @@ class Catalog:
     """Phones plus their aspect profiles."""
 
     phones: dict[str, Phone] = field(default_factory=dict)
+    evidence: dict[str, list[dict]] = field(default_factory=dict)
     price_bounds: tuple[float, float] | None = None
     error: str | None = None
 
@@ -85,10 +91,11 @@ class Catalog:
         return [phone for phone in self.phones.values() if phone.rankable]
 
     @classmethod
-    def load(cls, processed_dir: Path) -> Catalog:
+    def load(cls, catalog_dir: Path) -> Catalog:
         """Load the catalogue, or return one carrying an explanatory error."""
-        phones_path = processed_dir / "phones.csv"
-        profiles_path = processed_dir / "phone_profiles.csv"
+        phones_path = catalog_dir / "phones.csv"
+        profiles_path = catalog_dir / "phone_profiles.csv"
+        evidence_path = catalog_dir / "phone_evidence.json"
 
         missing = [path.name for path in (phones_path, profiles_path) if not path.exists()]
         if missing:
@@ -138,7 +145,16 @@ class Catalog:
         priced = phones_frame[phones_frame["price"] > 0]["price"]
         bounds = (float(priced.min()), float(priced.max())) if len(priced) else None
 
-        catalog = cls(phones=phones, price_bounds=bounds)
+        # Evidence is optional: the catalogue is still usable without it, and a
+        # phone page simply shows no example sentences.
+        evidence: dict[str, list[dict]] = {}
+        if evidence_path.exists():
+            try:
+                evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+            except (json.JSONDecodeError, OSError) as exc:
+                logger.warning("Could not read %s: %s", evidence_path.name, exc)
+
+        catalog = cls(phones=phones, evidence=evidence, price_bounds=bounds)
         logger.info(
             "Catalogue loaded: %d phones, %d rankable on all five axes",
             len(catalog.phones),

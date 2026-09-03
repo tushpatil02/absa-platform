@@ -20,6 +20,13 @@ data/interim/
 *.csv
 *.tsv
 *.parquet
+
+# ...but the built catalogue is the product, not an intermediate. Three small
+# files (~500 KB) that let a clone run the app without an hour of CPU inference.
+# The 45 MB review_aspects.csv they were distilled from stays ignored.
+!data/catalog/
+!data/catalog/*.csv
+!data/catalog/*.json
 !data/**/CITATION.bib
 !tests/fixtures/*.csv
 
