@@ -41,6 +41,10 @@ function EvidenceList({ items }: { items: Evidence[] }) {
     <ul className="evidence">
       {items.map((item, index) => (
         <li className={`evidence__item evidence__item--${item.polarity}`} key={index}>
+          {/* The aspect label is not decoration. One sentence can support two
+              aspects ("the camera is awesome and battery life is great"), so
+              without it the same quote appears twice looking like a bug. */}
+          <span className="evidence__aspect">{item.display_name}</span>
           <span className="evidence__score">{item.score.toFixed(1)}</span>
           <q className="evidence__text">{item.sentence}</q>
         </li>

@@ -58,6 +58,26 @@ def set_textarea(page, selector: str, text: str) -> None:
     )
 
 
+def set_slider(page, element_id: str, value: int) -> None:
+    """Move a controlled React range input.
+
+    Setting `.value` directly does not notify React, so the native setter is
+    called on the prototype and an input event dispatched -- the same trick
+    set_textarea uses.
+    """
+    page.evaluate(
+        """([id, value]) => {
+            const el = document.getElementById(id);
+            const setter = Object.getOwnPropertyDescriptor(
+                window.HTMLInputElement.prototype, 'value').set;
+            setter.call(el, String(value));
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+        }""",
+        [element_id, value],
+    )
+
+
 def capture(base_url: str, theme: str) -> list[Path]:
     from playwright.sync_api import sync_playwright
 
@@ -74,7 +94,36 @@ def capture(base_url: str, theme: str) -> list[Path]:
         page.evaluate("t => localStorage.setItem('absa-theme', t)", theme)
         page.reload(wait_until="networkidle")
 
+        # ---- recommender (the default view) --------------------------------
+        page.wait_for_selector(".match-card", timeout=30000)
+        # Ask for something specific, so the shot shows the sliders doing work
+        # rather than the everything-matches-100% case.
+        set_slider(page, "slider-battery", 9)
+        set_slider(page, "slider-camera", 8)
+        set_slider(page, "slider-price", 7)
+        # The component debounces slider input by 250 ms before refetching.
+        page.wait_for_timeout(1200)
+        page.wait_for_selector(".match-card", timeout=30000)
+
+        path = OUT_DIR / f"recommender{suffix}.png"
+        page.screenshot(path=str(path), full_page=True)
+        written.append(path)
+
+        # ---- phone page ----------------------------------------------------
+        page.click(".match-card__name")
+        page.wait_for_selector(".profile-grid", timeout=30000)
+        page.wait_for_timeout(400)
+
+        path = OUT_DIR / f"phone-page{suffix}.png"
+        page.screenshot(path=str(path), full_page=True)
+        written.append(path)
+
+        page.click("button:has-text('Back to results')")
+        page.wait_for_selector(".tabs", timeout=15000)
+
         # ---- single review -------------------------------------------------
+        page.click("[role=tab]:has-text('Analyse a review')")
+        page.wait_for_selector("textarea", timeout=15000)
         set_textarea(page, "textarea", MIXED_REVIEW)
         page.click("button[type=submit]")
         page.wait_for_selector(".aspect", timeout=15000)
