@@ -13,6 +13,11 @@ import type {
   AspectsResponse,
   BatchAnalyzeResponse,
   HealthResponse,
+  PhoneDetail,
+  PhoneListResponse,
+  Preferences,
+  RecommendResponse,
+  SubmitReviewResponse,
 } from "../types";
 
 /** Relative by default so the Vite dev proxy and same-origin deploys both work. */
@@ -103,4 +108,32 @@ export const api = {
         product_name: productName || null,
       }),
     }),
+
+  phones: (params: { q?: string; brand?: string; limit?: number; offset?: number } = {}) => {
+    const query = new URLSearchParams();
+    if (params.q) query.set("q", params.q);
+    if (params.brand) query.set("brand", params.brand);
+    if (params.limit != null) query.set("limit", String(params.limit));
+    if (params.offset != null) query.set("offset", String(params.offset));
+    const suffix = query.toString();
+    return request<PhoneListResponse>(`/api/phones${suffix ? `?${suffix}` : ""}`);
+  },
+
+  phone: (modelKey: string) =>
+    request<PhoneDetail>(`/api/phones/${encodeURIComponent(modelKey)}`),
+
+  recommend: (preferences: Preferences, limit = 12) =>
+    request<RecommendResponse>("/api/recommend", {
+      method: "POST",
+      body: JSON.stringify({ ...preferences, limit }),
+    }),
+
+  submitReview: (modelKey: string, text: string, rating?: number) =>
+    request<SubmitReviewResponse>(
+      `/api/phones/${encodeURIComponent(modelKey)}/reviews`,
+      {
+        method: "POST",
+        body: JSON.stringify({ text, rating: rating ?? null }),
+      },
+    ),
 };

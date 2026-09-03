@@ -1,0 +1,600 @@
+/* Recommender, catalogue and phone pages.
+ *
+ * Split from styles.css, which covers the analyzer and dashboard. Both use the
+ * same design tokens, declared once in styles.css.
+ */
+
+.recommender {
+  display: grid;
+  grid-template-columns: minmax(280px, 340px) 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .recommender {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- sliders ------------------------------------------------------------ */
+
+.sliders {
+  position: sticky;
+  top: 16px;
+}
+
+@media (max-width: 900px) {
+  .sliders {
+    position: static;
+  }
+}
+
+.sliders__intro {
+  margin: 0 0 18px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+
+.slider {
+  margin-bottom: 18px;
+}
+
+.slider__label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.slider__name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-primary);
+}
+
+/* Price is not sentiment-derived, and this badge is how the interface says so
+   without a paragraph beside every slider. */
+.slider__badge {
+  padding: 1px 6px;
+  border: 1px solid var(--line-hairline);
+  border-radius: 999px;
+  background: var(--surface-sunken);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+}
+
+.slider__value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+
+.slider__value em {
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.slider__input {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.slider__hint {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+/* --- results ------------------------------------------------------------ */
+
+.results__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.results__head h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.results__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.results__note {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  font-size: 13px;
+  color: var(--ink-secondary);
+}
+
+.match-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.match-card {
+  display: grid;
+  grid-template-columns: 28px auto 1fr 96px;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-card);
+}
+
+@media (max-width: 620px) {
+  .match-card {
+    grid-template-columns: 28px 1fr;
+  }
+
+  .match-card__image,
+  .match-card__score {
+    grid-column: 2;
+  }
+}
+
+.match-card__rank {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+.match-card__image {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+
+.match-card__name {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-primary);
+  text-align: left;
+  cursor: pointer;
+}
+
+.match-card__name:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.match-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 3px 0 8px;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.match-card__score {
+  text-align: right;
+}
+
+.match-card__score strong {
+  display: block;
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.match-card__score span {
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+.match-card__gap {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  font-style: normal;
+  color: var(--ink-muted);
+}
+
+.match--strong strong {
+  color: var(--status-good);
+}
+
+.match--good strong {
+  color: var(--accent);
+}
+
+.match--fair strong {
+  color: var(--ink-secondary);
+}
+
+.match--weak strong {
+  color: var(--status-critical);
+}
+
+/* --- per-aspect bars ---------------------------------------------------- */
+
+.aspect-bars {
+  display: grid;
+  gap: 3px;
+}
+
+.aspect-bar {
+  display: grid;
+  grid-template-columns: 62px 1fr 28px;
+  gap: 8px;
+  align-items: center;
+  font-size: 11px;
+}
+
+.aspect-bar__label {
+  color: var(--ink-muted);
+}
+
+.aspect-bar__track {
+  height: 5px;
+  border-radius: 3px;
+  background: var(--surface-sunken);
+  overflow: hidden;
+}
+
+.aspect-bar__fill {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent);
+}
+
+/* An axis that misses its requirement is marked, so the shortfall behind the
+   match percentage is visible rather than implied. */
+.aspect-bar__fill--short {
+  background: var(--polarity-negative);
+}
+
+.aspect-bar__value {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-secondary);
+  text-align: right;
+}
+
+/* --- catalogue ---------------------------------------------------------- */
+
+.browser__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.input {
+  padding: 8px 10px;
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--radius-sm);
+  background: var(--surface-card);
+  color: var(--ink-primary);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.phone-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.phone-tile__button {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.phone-tile__button:hover {
+  border-color: var(--accent);
+}
+
+.phone-tile__image {
+  align-self: center;
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+}
+
+.phone-tile__name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-primary);
+}
+
+.phone-tile__meta {
+  display: flex;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+.phone-tile__scores {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--line-hairline);
+}
+
+.phone-tile__score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 9px;
+}
+
+.phone-tile__score em {
+  font-style: normal;
+  color: var(--ink-muted);
+}
+
+.phone-tile__score strong {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+/* --- phone page --------------------------------------------------------- */
+
+.phone-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.phone-page > .card,
+.phone-page > section {
+  width: 100%;
+}
+
+.phone-hero {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.phone-hero__image {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+}
+
+.phone-hero h1 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.phone-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.profile-cell {
+  padding: 12px;
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  text-align: center;
+}
+
+/* An axis with too few mentions shows a dash, not a number. Imputing one
+   would present a guess as a measurement. */
+.profile-cell--missing {
+  opacity: 0.6;
+}
+
+.profile-cell__name {
+  display: block;
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+.profile-cell__value {
+  display: block;
+  margin: 4px 0;
+  font-size: 24px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.profile-cell__note {
+  display: block;
+  font-size: 10px;
+  color: var(--ink-muted);
+}
+
+.score--positive {
+  color: var(--polarity-positive);
+}
+
+.score--neutral {
+  color: var(--polarity-neutral);
+}
+
+.score--negative {
+  color: var(--polarity-negative);
+}
+
+/* --- evidence ----------------------------------------------------------- */
+
+.evidence {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.evidence__item {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 10px;
+  align-items: start;
+  padding: 8px 10px;
+  border-left: 3px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  font-size: 13px;
+}
+
+.evidence__item--positive {
+  border-left-color: var(--polarity-positive);
+}
+
+.evidence__item--negative {
+  border-left-color: var(--polarity-negative);
+}
+
+.evidence__item--neutral {
+  border-left-color: var(--polarity-neutral);
+}
+
+.evidence__score {
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-secondary);
+}
+
+.evidence__text {
+  color: var(--ink-secondary);
+  line-height: 1.5;
+}
+
+/* --- review submission -------------------------------------------------- */
+
+.textarea {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--radius-sm);
+  background: var(--surface-card);
+  color: var(--ink-primary);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.submitted {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-hairline);
+}
+
+.submitted h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  padding: 3px 9px;
+  border: 1px solid var(--line-hairline);
+  border-radius: 999px;
+  background: var(--surface-sunken);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.muted {
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.muted.small {
+  margin-top: 10px;
+  font-size: 11px;
+}

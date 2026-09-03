@@ -71,3 +71,88 @@ export interface HealthResponse {
   model: string | null;
   detail: string | null;
 }
+
+// ---------------------------------------------------------------------------
+// Catalogue and recommender — mirrors backend/app/schemas/phones.py
+// ---------------------------------------------------------------------------
+
+/** The five slider axes, in the order the UI lays them out. */
+export const AXES = ["battery", "camera", "price", "display", "performance"] as const;
+export type Axis = (typeof AXES)[number];
+
+export interface AspectScore {
+  aspect: string;
+  display_name: string;
+  /** 1–10. */
+  score: number;
+  mentions: number;
+  /**
+   * Where the number came from. `price` is derived from the listed price rather
+   * than review sentiment — price opinions in the training data are 85.6%
+   * positive, so a sentiment-driven Price axis cannot separate phones. The UI
+   * must label this rather than implying shoppers praised the price.
+   */
+  source: "reviews" | "listed_price";
+}
+
+export interface PhoneSummary {
+  model_key: string;
+  name: string;
+  brand: string;
+  price: number | null;
+  image: string | null;
+  url: string | null;
+  reviews_total: number;
+  avg_rating: number | null;
+  aspects: AspectScore[];
+  /** False when an axis is missing; such phones are not recommended. */
+  rankable: boolean;
+}
+
+export interface PhoneListResponse {
+  phones: PhoneSummary[];
+  total: number;
+  limit: number;
+  offset: number;
+  brands: string[];
+}
+
+export interface Evidence {
+  aspect: string;
+  display_name: string;
+  polarity: Polarity;
+  score: number;
+  sentence: string;
+}
+
+export interface PhoneDetail extends PhoneSummary {
+  reviews_scored: number;
+  evidence: Evidence[];
+}
+
+export interface Match {
+  phone: PhoneSummary;
+  /** Share of the requirement met, 0–100. */
+  match_percent: number;
+  shortfalls: Record<string, number>;
+  worst_axis: string | null;
+}
+
+export interface RecommendResponse {
+  matches: Match[];
+  preferences: Record<string, number>;
+  considered: number;
+  /** Listed price the Price slider position corresponds to. */
+  price_target: number | null;
+}
+
+export type Preferences = Record<Axis, number>;
+
+export interface SubmitReviewResponse {
+  review_id: number;
+  phone: string;
+  aspects: AspectScore[];
+  evidence: Evidence[];
+  overall_score: number | null;
+  model: string;
+}
