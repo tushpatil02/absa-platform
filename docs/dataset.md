@@ -17,7 +17,7 @@ aspect **spans** ("the camera"), and certainly not just a star rating.
 | **M-ABSA** | [GitHub](https://github.com/swaggy66/M-ABSA) · [EMNLP 2025](https://aclanthology.org/2025.emnlp-main.128/) | 14,776 sentences / 21,017 triplets across 7 domains | **Yes** — term + category + polarity | **Selected** |
 | SemEval-2014 Task 4 | [QCRI](https://alt.qcri.org/semeval2014/task4/) | ~6,500 sentences | Restaurant only; **laptop split has none** | Rejected |
 | ABSA-QUAD (Rest15/16) | [GitHub](https://github.com/IsakZhang/ABSA-QUAD) | 3,204 sentences | Yes (quads) | Rejected — restaurants only, too small |
-| Amazon Reviews (McAuley / Kaggle) | UCSD, Kaggle | Millions | **No — star rating only** | Rejected |
+| Amazon Reviews (McAuley / Kaggle) | UCSD, Kaggle | Millions | **No — star rating only** | Rejected *as a label source* — but see §1b |
 | SetFit-ABSA SemEval | [HF](https://huggingface.co/datasets/tomaarsen/setfit-absa-semeval-laptops) | ~3,000 | No — spans only | Rejected |
 | OATS-ABSA | [HF](https://huggingface.co/datasets/jordiclive/OATS-ABSA) | ~4,000 | Yes (quads) | Backup |
 
@@ -46,6 +46,85 @@ M-ABSA's repository **ships no LICENSE file**. Consequently:
 - Only the **English** splits are used. The other 20 languages are machine
   translated with human review, which adds a translation-artefact confound this
   project has no reason to take on.
+
+---
+
+## 1b. A second corpus, for a different job
+
+M-ABSA supplies **labels**. It has no product identity — its rows are sentences,
+not reviews of a named phone — so it cannot answer "which phone should I buy".
+The recommender needs reviews attached to products.
+
+So there are two corpora, and they are never confused:
+
+| | M-ABSA | Amazon Cell Phones |
+|---|---|---|
+| Supplies | aspect + polarity **labels** | product **identity** |
+| Used for | training and evaluating the models | scoring, never training |
+| Size | 4,227 sentences, 5,859 pairs | 67,986 reviews, 720 listings |
+| Licence | none published | **CC0 1.0** |
+
+**Amazon Cell Phones Reviews**, Griko Nibras —
+[Kaggle](https://www.kaggle.com/datasets/grikomsn/amazon-cell-phones-reviews) ·
+[scraper source](https://github.com/grikomsn/amazon-cell-phones-reviews).
+Scraped 2019-12-26.
+
+Two properties made it the choice over larger alternatives:
+
+1. **CC0 1.0 public domain**, verified from the LICENSE file in the source
+   repository rather than taken from the Kaggle page. The larger
+   `masaladata/14M` set publishes no licence at all, which rules out
+   redistribution and reuse.
+2. **No credentials required.** Kaggle's download endpoint serves it
+   unauthenticated — verified, not assumed. A dataset behind an API token
+   cannot run in CI or be reproduced by a reader.
+
+Rejected alternatives: `masaladata/14M` (no licence, auth wall), a Flipkart set
+(non-commercial licence, 62% duplicate review text, median 10 words),
+`sergionefedov` (synthetic — it ships `true_quality` and `fake_rate` columns).
+
+### It carries no aspect labels, and none are invented
+
+The Amazon corpus is **only ever scored**, never trained on. Manufacturing
+aspect labels for it — with a keyword list, or with the model's own output — is
+exactly how a project ends up measuring its own label generator. Every metric in
+[model.md](model.md) comes from M-ABSA's held-out split; the Amazon corpus is
+evaluated instead by [reliability](recommender.md), which asks whether the
+resulting per-phone scores are stable rather than whether they match a label
+that was never collected.
+
+### What the corpus is like
+
+| | |
+|---|---|
+| Reviews | 67,986 across 720 listings |
+| Era | 64% from 2018–19; 411 listings have a median review year of 2019 |
+| Length | median 23 words, mean 55, p90 124 |
+| Punctuation | **76.2% contain a sentence terminator** — the other 23.8% are where sentence splitting cannot help |
+| Ratings | bimodal: 55.5% five-star, 18.7% one-star |
+| Verified | 90.1% |
+| Listed price | present for 82.8% (124 of 720 listings have none) |
+| Brands | Samsung 346 · Motorola 105 · Apple 63 · Xiaomi 46 · Nokia 44 · Google 38 |
+
+Samsung is nearly half the catalogue, which is a real skew: conclusions about
+"phones" here are disproportionately conclusions about Samsung phones.
+
+### Listings are not models
+
+720 listings collapse to **364 phones**. The Galaxy Note 5 alone appears 19
+times, differing only by colour, storage, carrier and condition. Left unmerged
+the recommender shows one phone nineteen times and splits its reviews nineteen
+ways, so none accumulates enough evidence for a stable profile.
+
+[`ml/catalog/normalise.py`](../ml/catalog/normalise.py) does the merging, and it
+**under-merges by design**. Splitting one phone across two entries costs
+statistical power; pooling two different phones into one is silently wrong. So a
+title that reduces to nothing but its brand is treated as a *failure* and
+excluded — 17 listings, 844 reviews. Pooling those produced one fictitious
+"Nokia" holding 692 reviews from eight different handsets.
+
+Duplicate reviews are removed on `(model, reviewer name, body)`. Body alone was
+too aggressive: "Great phone" occurs 222 times from 186 different reviewers.
 
 ---
 
