@@ -144,10 +144,10 @@ by review and leakage-asserted — see [Dataset](#dataset).
 
 | Model | Micro F1 | Macro F1 | Subset acc | Micro P | Micro R |
 |---|---:|---:|---:|---:|---:|
-| **TF-IDF + OvR LogReg** (selected) | **0.7755** | 0.7387 | 0.5523 | 0.783 | 0.768 |
+| **TF-IDF + OvR LogReg** (selected) | **0.7418** | 0.7391 | 0.4632 | 0.745 | 0.739 |
 | DistilBERT | 0.6192 | 0.6114 | 0.3575 | **0.525** | 0.756 |
 
-**The baseline beats the transformer by 15.6 points here.** DistilBERT's
+**The baseline beats the transformer by roughly 12 points here.** DistilBERT's
 precision collapses to 0.525 — it over-predicts badly (`design`: precision 0.218
 at recall 0.829). Aspect detection is largely a *lexical* problem, which word +
 character n-grams model directly, and 2,298 training reviews is not enough for an
@@ -157,12 +157,12 @@ encoder to do better.
 
 | Model | **Macro F1** | Accuracy | neg F1 | neu F1 | pos F1 |
 |---|---:|---:|---:|---:|---:|
-| **DistilBERT** (selected) | **0.6538** | 0.8148 | 0.761 | 0.316 | 0.885 |
-| TF-IDF + LogReg | 0.6088 | 0.7869 | 0.720 | 0.244 | 0.863 |
+| **DistilBERT** (selected) | **0.6637** | 0.8245 | 0.765 | 0.335 | 0.891 |
+| TF-IDF + LogReg | 0.5993 | 0.7850 | 0.713 | 0.224 | 0.862 |
 | TF-IDF + LinearSVC | 0.5319 | **0.8169** | 0.712 | **0.000** | 0.884 |
 
 **Read the last row carefully.** The SVM has the *highest accuracy* of the three
-and is the worst model: it never predicts `neutral` even once. `neutral` is 5.3%
+and is the worst model: it never predicts `neutral` even once. `neutral` is 5.2%
 of the data, so refusing to predict it costs almost nothing in accuracy and
 destroys a third of the label space.
 
@@ -179,8 +179,8 @@ for different aspects, which is the entire point of ABSA:
 
 | Model | Mixed acc | Uniform acc | Gap | Collapsed |
 |---|---:|---:|---:|---:|
-| TF-IDF + LogReg | 0.5451 | 0.8404 | +0.2953 | 0.7553 |
-| DistilBERT | 0.5414 | 0.8753 | +0.3340 | **0.8511** |
+| TF-IDF + LogReg | 0.5228 | 0.8469 | +0.3240 | 0.8137 |
+| DistilBERT | 0.5474 | 0.8899 | +0.3425 | **0.8824** |
 
 *Collapsed* = share of mixed reviews given one single polarity for every aspect,
 i.e. the aspect was ignored entirely.
@@ -190,8 +190,8 @@ task.** Its whole gain came from uniform reviews (0.840 → 0.875). On mixed
 reviews it is flat, and it ignores the aspect *more* often than the baseline
 (85% vs 76%).
 
-So the reported 0.6538 macro F1 is real, and it should be read alongside this:
-**neither model reliably does aspect-conditional sentiment at 3,464 training
+So the reported 0.6637 macro F1 is real, and it should be read alongside this:
+**neither model reliably does aspect-conditional sentiment at 3,518 training
 pairs.** Finding that, rather than reporting the F1 and stopping, is the point.
 [docs/model.md](docs/model.md) has the failure examples and the four things most
 likely to fix it.
@@ -200,8 +200,8 @@ likely to fix it.
 
 | Stage | Selected | Metric | Runner-up |
 |---|---|---|---|
-| A — aspect detection | **TF-IDF + OvR LogReg** | micro F1 0.7755 | DistilBERT 0.6192 |
-| B — sentiment | **DistilBERT** | macro F1 0.6538 | TF-IDF 0.6088 |
+| A — aspect detection | **TF-IDF + OvR LogReg** | micro F1 0.7418 | DistilBERT 0.6192 |
+| B — sentiment | **DistilBERT** | macro F1 0.6637 | TF-IDF 0.5993 |
 
 The comparison picked different families for each stage, so the serving layer
 composes them. `load_predictor` reads `comparison.json` — written from held-out
@@ -258,10 +258,10 @@ manufactured, which is exactly how you end up measuring your own label generator
 | | |
 |---|---|
 | Reviews | 3,836 |
-| (review, aspect) pairs | 5,763 |
+| (review, aspect) pairs | 5,859 |
 | Aspects | 12 |
-| Splits | train 3,464 · dev 830 · test 1,469 |
-| Polarity | positive 66.9% · negative 27.8% · **neutral 5.3%** |
+| Splits | train 3,518 · dev 848 · test 1,493 |
+| Polarity | positive 67.4% · negative 27.4% · **neutral 5.2%** |
 
 ![Polarity mix by aspect](docs/figures/polarity_by_aspect.png)
 
@@ -426,9 +426,9 @@ commands produces **byte-identical** CSVs.
 
 Stated because they bound what the numbers mean.
 
-1. **Small dataset.** 5,763 pairs. Differences under roughly ±0.02 macro F1
+1. **Small dataset.** 5,859 pairs. Differences under roughly ±0.02 macro F1
    should be treated as noise; nothing here is seed-averaged yet.
-2. **`neutral` is weak** — 5.3% of the data, F1 0.316. Scores near 5.5 are the
+2. **`neutral` is weak** — 5.2% of the data, F1 0.335. Scores near 5.5 are the
    least reliable region of the scale.
 3. **Neither model reliably conditions on the aspect.** Mixed-review accuracy is
    0.545 (baseline) and 0.541 (DistilBERT), and both collapse most mixed reviews
@@ -456,7 +456,7 @@ Ordered by expected value against the limitations above.
 
 1. **DeBERTa-v3-base on a Colab GPU** — the cheapest untried experiment (~12 min
    on a T4). Only for Stage B; Stage A should stay TF-IDF unless something
-   actually beats 0.7755.
+   actually beats 0.7418.
 2. **Seed-averaged evaluation** with confidence intervals. Promoted from
    nice-to-have to prerequisite: the upweighting experiment showed mixed-review
    accuracy swinging ±4 points between dev and test on a single seed, which

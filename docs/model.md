@@ -30,18 +30,19 @@ beside it because the tail aspects are small.
 
 **Stage B (sentiment)** — **macro F1**, never accuracy.
 
-That is not a stylistic preference. `neutral` is 5.3% of the pairs, so a model
+That is not a stylistic preference. `neutral` is 5.2% of the pairs, so a model
 that never predicts it loses almost nothing in accuracy. The baselines
-demonstrate this concretely:
+demonstrate this concretely (dev split, where selection happens):
 
 | Model | Macro F1 | Accuracy | neg F1 | **neu F1** | pos F1 |
 |---|---:|---:|---:|---:|---:|
-| TF-IDF + LogReg | **0.6088** | 0.7869 | 0.720 | **0.244** | 0.863 |
-| TF-IDF + LinearSVC | 0.5319 | **0.8169** | 0.712 | **0.000** | 0.884 |
+| TF-IDF + LogReg | **0.5912** | 0.7842 | 0.700 | **0.207** | 0.866 |
+| TF-IDF + LinearSVC | 0.5339 | **0.8219** | 0.713 | **0.000** | 0.888 |
 
-The SVM is 3 points *better* on accuracy and predicts `neutral` **zero times**.
-Selecting on accuracy would have shipped the model that silently dropped a third
-of the label space. Both rows are kept in the comparison for exactly that reason.
+The SVM is nearly 4 points *better* on accuracy and predicts `neutral` **zero
+times**. Selecting on accuracy would have shipped the model that silently
+dropped a third of the label space. Both rows are kept in the comparison for
+exactly that reason.
 
 ---
 
@@ -51,10 +52,16 @@ Multi-label, 12 sigmoid outputs. Threshold tuned on dev.
 
 | Model | Micro F1 | Macro F1 | Subset acc | Micro P | Micro R | Train time |
 |---|---:|---:|---:|---:|---:|---:|
-| **TF-IDF + OvR LogReg** | **0.7755** | 0.7387 | 0.5523 | 0.783 | 0.768 | 6 s |
-| DistilBERT | 0.6192 | 0.6114 | 0.3575 | **0.525** | 0.756 | 26 min (CPU) |
+| **TF-IDF + OvR LogReg** | **0.7418** | 0.7391 | 0.4632 | 0.745 | 0.739 | 6 s |
+| DistilBERT † | 0.6192 | 0.6114 | 0.3575 | **0.525** | 0.756 | 26 min (CPU) |
 
-**The baseline wins by 15.6 micro-F1 points**, which was not the expected result.
+† Measured **before** the taxonomy fix; the detector has not been retrained
+since, so this row is not strictly comparable to the one above it. It is kept
+because the gap is far too large for a remapping to close, but it should be
+read as indicative rather than current.
+
+**The baseline wins by roughly 12 micro-F1 points**, which was not the expected
+result.
 
 The cause is visible in the precision column: DistilBERT's micro precision is
 0.525 against the baseline's 0.783 at similar recall. It over-predicts —
@@ -77,22 +84,25 @@ Sentence-pair input, following Sun et al. (2019):
 `[CLS] review [SEP] aspect description [SEP]`. Class-weighted cross-entropy for
 the neutral imbalance.
 
+Test split. The LinearSVC lost on dev and was never run on test — the test set
+is touched once, by the winner.
+
 | Model | Macro F1 | Accuracy | neg F1 | neu F1 | pos F1 | Train time |
 |---|---:|---:|---:|---:|---:|---:|
-| TF-IDF + LinearSVC | 0.5319 | 0.8169 | 0.712 | 0.000 | 0.884 | 8 s |
-| TF-IDF + LogReg | 0.6088 | 0.7869 | 0.720 | 0.244 | 0.863 | 7 s |
-| **DistilBERT** | **0.6538** | **0.8148** | **0.761** | **0.316** | **0.885** | 39.5 min (CPU) |
+| TF-IDF + LinearSVC *(dev)* | 0.5339 | 0.8219 | 0.713 | 0.000 | 0.888 | 8 s |
+| TF-IDF + LogReg | 0.5993 | 0.7850 | 0.713 | 0.224 | 0.862 | 7 s |
+| **DistilBERT** | **0.6637** | **0.8245** | **0.765** | **0.335** | **0.891** | 43 min (CPU) |
 
 DistilBERT wins on every column. The largest relative gain is on `neutral`
-(0.244 → 0.316, +30%), which is the class the metric was chosen to protect.
+(0.224 → 0.335, +50%), which is the class the metric was chosen to protect.
 
 Confusion matrix, DistilBERT (rows = true, cols = predicted):
 
 ```
               neg  neu  pos
-negative      331   31   43
-neutral        22   27   23
-positive      112   41  839
+negative      329   27   49
+neutral        20   27   25
+positive      106   35  875
 ```
 
 Neutral remains the weak class: 27 of 72 correct. With 305 neutral pairs in the
@@ -107,20 +117,20 @@ reviews are uniformly positive or negative, so a model that reads only overall
 tone still scores well. The capability this product actually sells is the other
 case.
 
-Sliced to **mixed reviews** — the 94 test reviews (266 pairs) carrying different
-polarities for different aspects:
+Sliced to **mixed reviews** — the 102 test reviews (285 pairs) carrying
+different polarities for different aspects:
 
 | Model | Mixed acc | Uniform acc | Gap | **Collapsed** |
 |---|---:|---:|---:|---:|
-| TF-IDF + LogReg | 0.5451 | 0.8404 | +0.2953 | 0.7553 |
-| DistilBERT | **0.5414** | **0.8753** | **+0.3340** | **0.8511** |
+| TF-IDF + LogReg | 0.5228 | 0.8469 | +0.3240 | 0.8137 |
+| DistilBERT | **0.5474** | **0.8899** | **+0.3425** | **0.8824** |
 
 *Collapsed* = share of mixed reviews given one single polarity for every aspect.
 
-**DistilBERT is better overall and no better — marginally worse — at the actual
-task.** Its entire gain came from uniform reviews (0.8404 → 0.8753). On mixed
-reviews it is flat, and it ignores the aspect *more* often than the baseline
-(85.1% vs 75.5% collapsed).
+**DistilBERT is much better overall and barely better at the actual task.** It
+gains 4.3 points on uniform reviews (0.8469 → 0.8899) and 2.5 on mixed, while
+ignoring the aspect *more* often than the baseline (88.2% vs 81.4% collapsed).
+The gap between the two slices is 34 points either way.
 
 Concretely:
 
@@ -137,7 +147,7 @@ Concretely:
 It *can* separate aspects; it usually does not, defaulting to the review's
 dominant tone.
 
-**Why.** Most likely dataset size. 3,464 training pairs, of which mixed reviews
+**Why.** Most likely dataset size. 3,518 training pairs, of which mixed reviews
 are a small minority, is not enough signal for the model to learn that the
 second segment should override the first's overall tone. Reading tone is the
 easier hypothesis and fits nearly as well.
@@ -145,7 +155,7 @@ easier hypothesis and fits nearly as well.
 **What this means for the reported result.** DistilBERT is selected — it is
 better on every metric that was defined in advance, and changing the criterion
 after seeing results would be exactly the kind of post-hoc rationalisation this
-project exists to avoid. But the headline macro F1 of 0.6538 should be read
+project exists to avoid. But the headline macro F1 of 0.6637 should be read
 alongside the fact that **neither model reliably does aspect-conditional
 sentiment at this dataset size.**
 
@@ -158,13 +168,13 @@ serving layer composes them rather than forcing one:
 
 | Stage | Selected | Metric | Runner-up |
 |---|---|---|---|
-| A — aspect detection | **TF-IDF + OvR LogReg** | micro F1 0.7755 | DistilBERT 0.6192 |
-| B — sentiment | **DistilBERT** | macro F1 0.6538 | TF-IDF 0.6088 |
+| A — aspect detection | **TF-IDF + OvR LogReg** | micro F1 0.7418 | DistilBERT 0.6192 † |
+| B — sentiment | **DistilBERT** | macro F1 0.6637 | TF-IDF 0.5993 |
 
 `ml/inference/predictor.py` reads `models/metadata/comparison.json` — written
 from held-out test metrics — and resolves each stage independently. With no
 comparison file it defaults to the baseline for both, because defaulting to the
-larger model would have shipped a detector 15.6 points worse.
+larger model would have shipped a detector roughly 12 points worse.
 
 Override per stage: `ABSA_ASPECT_MODEL` / `ABSA_SENTIMENT_MODEL`
 (`auto` | `baseline` | `transformer`).
@@ -244,6 +254,13 @@ changing it now would confound the mixed-weight comparison.
 ---
 
 ## Experiment: upweighting mixed reviews (result: no change)
+
+> **Historical.** This experiment was run on the dataset as it stood *before*
+> the ENTITY#ATTRIBUTE taxonomy fix, which moved 402 pairs out of `overall` and
+> changed every split. The numbers below are a faithful record of that run and
+> have not been reproduced since; the conclusion — that upweighting did nothing
+> on dev, and that the apparent test-set gain was noise — is what carried
+> forward. The models are kept under `models/_experiments/`.
 
 Roadmap item 2 was "upweight mixed reviews so reading overall tone stops being a
 sufficient hypothesis". It was implemented (`--mixed-weight`), run at w=3 and
@@ -375,7 +392,7 @@ Ranked by expected value, not yet attempted:
 1. **DeBERTa-v3-base on a Colab GPU.** Stronger encoder, better at the
    long-range attention this needs. Cheapest experiment (~12 min on a T4). Note
    it would only be adopted for Stage B — Stage A should stay TF-IDF unless a
-   transformer actually beats 0.7755.
+   transformer actually beats 0.7418.
 2. **Oversample or upweight mixed reviews** during training so the easy
    tone-reading hypothesis stops being sufficient.
 3. **More data.** The single biggest constraint. M-ABSA's other five English
@@ -403,6 +420,6 @@ Or [`notebooks/absa_training.ipynb`](../notebooks/absa_training.ipynb) in Colab,
 which detects the GPU and upgrades the model accordingly.
 
 Seeds are fixed (42) but CPU/GPU kernel differences mean runs are not
-bit-identical across devices. With 5,763 pairs, treat differences under roughly
+bit-identical across devices. With 5,859 pairs, treat differences under roughly
 ±0.02 macro F1 as noise — a proper claim needs seed-averaged runs, which is on
 the roadmap and not yet done.

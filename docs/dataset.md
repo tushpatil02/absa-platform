@@ -235,18 +235,18 @@ suite.
 | Metric | Value |
 | --- | --- |
 | Reviews | 3,836 |
-| (review, aspect) pairs | 5,763 |
+| (review, aspect) pairs | 5,859 |
 | Aspects | 12 |
 | Mean aspects per review | 1.50 |
 | Max aspects on one review | 8 |
 | Review length | median 16 words, p90 40, p99 107, max 172 |
-| Domains | phone 3,418 · laptop 2,345 pairs |
+| Domains | phone 3,418 · laptop 2,441 pairs |
 
 | Split | Pairs | Reviews |
 |---|---:|---:|
-| train | 3,464 | 2,298 |
-| dev | 830 | 573 |
-| test | 1,469 | 965 |
+| train | 3,518 | 2,298 |
+| dev | 848 | 573 |
+| test | 1,493 | 965 |
 
 ### Polarity
 

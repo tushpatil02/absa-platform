@@ -149,7 +149,7 @@ Stated because they bound what the number means.
 2. **The anchors are a modelling choice.** Placing neutral at 0.5 assumes it sits
    exactly between the poles. That is the natural reading of an ordinal scale,
    but it is an assumption, not a measurement.
-3. **Neutral is the weakest class.** It is 5.3% of the training data and has the
+3. **Neutral is the weakest class.** It is 5.2% of the training data and has the
    lowest per-class F1. Scores near 5.5 are therefore the least reliable region
    of the scale.
 4. **No human calibration study.** Nothing here has been checked against human
