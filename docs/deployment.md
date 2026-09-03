@@ -186,6 +186,8 @@ All backend settings are prefixed `ABSA_`; see [`.env.example`](../.env.example)
 | `ABSA_CORS_ORIGINS` | localhost dev | **Must include the deployed frontend origin** |
 | `ABSA_MAX_REVIEW_CHARS` | `5000` | Per review |
 | `ABSA_MAX_BATCH_SIZE` | `500` | Per batch request |
+| `ABSA_CATALOG_DIR` | `./data/catalog` | phones.csv · phone_profiles.csv · phone_evidence.json |
+| `ABSA_DATABASE_PATH` | `./data/reviews.db` | Submitted reviews; the only runtime write |
 
 Never commit a real `.env`; it is gitignored. In Colab use the secrets panel
 rather than a file.
