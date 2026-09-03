@@ -5,9 +5,12 @@ Two transformations happen here, and both are lossy on purpose.
 **Category collapse.** M-ABSA's ``phone`` domain uses 86 fine-grained
 categories and ``laptop`` uses 108, drawn from two *completely disjoint* label
 schemes (phone is an e-commerce taxonomy, laptop is SemEval-2014 style -- they
-share zero coarse labels). 41 of the phone categories have fewer than 30
+share zero entity labels). 41 of the phone categories have fewer than 30
 examples. Both schemes are mapped onto 12 shopper-recognisable aspects by
-``ml/config/aspect_taxonomy.yaml``.
+``ml/config/aspect_taxonomy.yaml``, which reads the *whole* ``ENTITY#ATTRIBUTE``
+label -- mapping on the entity alone filed every ``LAPTOP#PRICE`` row under
+``overall`` and scattered ``DISPLAY#PRICE`` and ``HARD_DISC#PRICE`` into the
+component aspects.
 
 **Polarity aggregation.** After collapsing, one review can carry several
 triplets for the same aspect ("the screen is bright" + "the screen scratches").
@@ -52,26 +55,64 @@ class Taxonomy:
     descriptions: dict[str, str]
     phone_map: dict[str, str]
     laptop_map: dict[str, str]
+    attribute_overrides: dict[str, str]
+    product_entities: frozenset[str]
+    product_attribute_map: dict[str, str]
     drop: frozenset[str]
     polarities: tuple[str, ...]
 
-    def map_category(self, category: str, domain: str) -> str | None:
-        """Map a raw category to an aspect id.
+    @staticmethod
+    def split_category(category: str) -> tuple[str, str]:
+        """Split ``ENTITY#ATTRIBUTE`` into its two halves.
 
-        Returns ``None`` when the label is on the explicit drop list. Raises for
-        an unrecognised label, so a taxonomy that has drifted from the data
+        A label with no ``#`` is all entity and no attribute. A label with more
+        than one ``#`` keeps everything after the first as the attribute, which
+        matters for phone labels like ``Screen#Clarity#Detail``.
+
+        >>> Taxonomy.split_category("BATTERY#OPERATION_PERFORMANCE")
+        ('BATTERY', 'OPERATION_PERFORMANCE')
+        >>> Taxonomy.split_category("Overall")
+        ('Overall', '')
+        """
+        entity, separator, attribute = category.partition("#")
+        return entity.strip(), attribute.strip() if separator else ""
+
+    def map_category(self, category: str, domain: str) -> str | None:
+        """Map a raw ``ENTITY#ATTRIBUTE`` category to an aspect id.
+
+        Applies the three rules documented at the top of
+        ``aspect_taxonomy.yaml``: an attribute-level override, then the
+        whole-product entity table, then the per-domain entity map.
+
+        Returns ``None`` when the entity is on the explicit drop list. Raises
+        for an unrecognised label, so a taxonomy that has drifted from the data
         fails loudly at build time instead of silently discarding rows.
         """
-        coarse = category.split("#")[0].strip()
-        if coarse in self.drop:
+        entity, attribute = self.split_category(category)
+        if entity in self.drop:
             return None
 
+        # Rule 1: the attribute names an aspect the entity does not.
+        if attribute in self.attribute_overrides:
+            return self.attribute_overrides[attribute]
+
+        # Rule 2: the entity is the product itself, so it carries no aspect.
+        if entity in self.product_entities:
+            if attribute in self.product_attribute_map:
+                return self.product_attribute_map[attribute]
+            raise KeyError(
+                f"Unmapped attribute {attribute!r} (from {category!r}) on "
+                f"whole-product entity {entity!r}. Add it to "
+                f"product_attribute_map in aspect_taxonomy.yaml."
+            )
+
+        # Rule 3: the entity decides and the attribute is discarded.
         mapping = self.phone_map if domain == "phone" else self.laptop_map
-        if coarse in mapping:
-            return mapping[coarse]
+        if entity in mapping:
+            return mapping[entity]
 
         raise KeyError(
-            f"Unmapped category {coarse!r} (from {category!r}) in domain {domain!r}. "
+            f"Unmapped entity {entity!r} (from {category!r}) in domain {domain!r}. "
             f"Add it to {domain}_map or to `drop` in aspect_taxonomy.yaml."
         )
 
@@ -91,11 +132,19 @@ def load_taxonomy(path: Path) -> Taxonomy:
 
     phone_map = dict(config["phone_map"])
     laptop_map = dict(config["laptop_map"])
+    attribute_overrides = dict(config.get("attribute_overrides", {}))
+    product_attribute_map = dict(config.get("product_attribute_map", {}))
 
     # Every mapping target must be a declared aspect, or the dataset would gain
     # a phantom label that the model head has no slot for.
     known = set(aspect_ids)
-    for name, mapping in (("phone_map", phone_map), ("laptop_map", laptop_map)):
+    tables = (
+        ("phone_map", phone_map),
+        ("laptop_map", laptop_map),
+        ("attribute_overrides", attribute_overrides),
+        ("product_attribute_map", product_attribute_map),
+    )
+    for name, mapping in tables:
         unknown = {target for target in mapping.values() if target not in known}
         if unknown:
             raise ValueError(f"{name} points at undeclared aspects: {sorted(unknown)}")
@@ -106,6 +155,9 @@ def load_taxonomy(path: Path) -> Taxonomy:
         descriptions={entry["id"]: entry["description"] for entry in aspects},
         phone_map=phone_map,
         laptop_map=laptop_map,
+        attribute_overrides=attribute_overrides,
+        product_entities=frozenset(config.get("product_entities", [])),
+        product_attribute_map=product_attribute_map,
         drop=frozenset(config.get("drop", [])),
         polarities=tuple(config["polarities"]),
     )

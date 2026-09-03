@@ -71,7 +71,7 @@ The two electronics domains use **completely different label schemes**:
 | `phone` | e-commerce | 86 | `Battery/Longevity#Battery Life` |
 | `laptop` | SemEval-2014 | 108 | `BATTERY#OPERATION_PERFORMANCE` |
 
-They share **zero** coarse labels. Merging them requires an explicit mapping —
+They share **zero** entity labels. Merging them requires an explicit mapping —
 that is [`ml/config/aspect_taxonomy.yaml`](../ml/config/aspect_taxonomy.yaml).
 Collapsing is also necessary on its own terms: **41 of the 86 phone categories
 have fewer than 30 examples**, far too sparse to learn or to evaluate honestly.
@@ -80,7 +80,64 @@ Both schemes map onto **12 shopper-recognisable aspects**: `overall`,
 `delivery`, `build_quality`, `battery`, `customer_service`, `display`,
 `software`, `performance`, `price`, `camera`, `design`, `audio`.
 
-Three coarse labels are deliberately dropped, listed explicitly in the YAML so
+#### Mapping reads the whole label, not just the entity
+
+Every label is `ENTITY#ATTRIBUTE`, and the first version of this mapping used
+only the entity. That was **a bug**, and an invisible one: nothing crashed, no
+metric moved sharply, and the aspect table still looked reasonable.
+
+What it did:
+
+* All **116 `LAPTOP#PRICE`** rows — "great machine for the price" — were filed
+  under `overall`, because the entity is `LAPTOP`.
+* `DISPLAY#PRICE` and `HARD_DISC#PRICE` ("you can't beat the storage for the
+  price") were scattered into `display` and `performance`.
+* Every `LAPTOP#*` row landed in `overall` whatever its attribute, including
+  319 `LAPTOP#OPERATION_PERFORMANCE` rows that are plainly about speed.
+
+The net effect was a `price` class trained on **phone data only**, and an
+`overall` class inflated with opinions that belonged elsewhere.
+
+Mapping now applies three rules in order:
+
+| # | Rule | Applies when |
+|---|---|---|
+| 1 | `attribute_overrides` — the attribute wins | The attribute names an aspect the entity does not. **Only `PRICE` qualifies.** |
+| 2 | `product_attribute_map` — the attribute decides | The entity *is* the whole product (`LAPTOP`), so it carries no aspect information |
+| 3 | Entity map, attribute discarded | Everything else |
+
+Rule 1 is deliberately narrow. `DISPLAY#QUALITY` and `CPU#OPERATION_PERFORMANCE`
+are genuinely *about* the display and the CPU, so promoting `QUALITY` or
+`OPERATION_PERFORMANCE` would empty the component aspects into two catch-alls.
+Rule 2's residual attributes (`GENERAL`, `DESIGN_FEATURES`, `USABILITY`,
+`MISCELLANEOUS`) stay at `overall` because sampling found no coherent aspect in
+them — three consecutive draws from `LAPTOP#DESIGN_FEATURES` gave "it felt
+flimsy", "enough power to multi-task" and "won the display roulette".
+
+**phone/en needed no override.** Checked across all 4,810 phone triplets,
+`#Price` and `#Value for Money` occur under the `Price` entity and nowhere
+else, so rule 3 alone already handled it.
+
+What the fix moved (mapped pairs, before splitting):
+
+| Aspect | Before | After | Change | % positive before → after |
+|---|---:|---:|---:|---|
+| `performance` | 339 | **611** | **+272** | 45.4% → 54.2% |
+| `price` | 217 | **341** | **+124** (+57%) | 90.8% → 85.6% |
+| `build_quality` | 453 | **531** | +78 | 57.6% → 56.5% |
+| `design` | 150 | **179** | +29 | 66.7% → 71.5% |
+| `display` · `software` · `customer_service` | — | — | −2 each | their `#PRICE` rows left |
+| `overall` | 2,130 | **1,728** | **−402** | 73.5% → 76.4% |
+
+`battery`, `camera`, `delivery` and `audio` are unchanged: none of their
+entities carries a `PRICE` attribute.
+
+It did **not** fix the `price` class imbalance — price remains **85.6%
+positive**, down from 90.8%. A sentiment-derived Price score therefore cannot
+discriminate between phones, which is why the recommender's Price axis is
+driven by listed price instead. See [`docs/model.md`](model.md).
+
+Three entities are deliberately dropped, listed explicitly in the YAML so
 the loader can tell "intentionally excluded" from "unrecognised" and **raise on
 the latter**:
 
@@ -195,9 +252,9 @@ suite.
 
 | Class | Pairs | Share |
 |---|---:|---:|
-| positive | 3,856 | 66.9% |
-| negative | 1,602 | 27.8% |
-| **neutral** | **305** | **5.3%** |
+| positive | 3,948 | 67.4% |
+| negative | 1,606 | 27.4% |
+| **neutral** | **305** | **5.2%** |
 
 ### Per aspect
 
@@ -207,18 +264,21 @@ suite.
 
 | Aspect | Pairs | % negative |
 |---|---:|---:|
-| overall | 2,118 | 23.2% |
+| overall | 1,718 | 20.6% |
 | delivery | 645 | 13.2% |
-| build_quality | 451 | 37.5% |
-| software | 421 | 36.6% |
+| performance | 610 | 37.0% |
+| build_quality | 529 | 38.8% |
+| software | 419 | 36.8% |
 | battery | 404 | 35.4% |
-| customer_service | 373 | 33.2% |
-| display | 347 | 31.1% |
-| performance | 339 | 41.9% |
-| price | 217 | 8.8% |
+| customer_service | 371 | 33.2% |
+| display | 345 | 31.3% |
+| price | 341 | 11.7% |
+| design | 179 | 23.5% |
 | camera | 162 | 33.3% |
-| design | 150 | 27.3% |
 | audio | 136 | 52.9% |
+
+**5,859 pairs total.** `price` at 11.7% negative is the flattest class in the
+set — see the note on the Price axis above.
 
 ![Review length](figures/review_length.png)
 
@@ -230,17 +290,23 @@ suite.
 
 Stated plainly, because they shape what the metrics can mean.
 
-1. **Small.** 5,763 pairs is modest. Expect a transformer's advantage over a
+1. **Small.** 5,859 pairs is modest. Expect a transformer's advantage over a
    TF-IDF baseline to be real but not dramatic, and expect run-to-run variance —
    evaluation should be seed-averaged.
-2. **`neutral` is only 5.3%** (305 pairs). Per-class F1 for neutral will be the
+2. **`neutral` is only 5.2%** (305 pairs). Per-class F1 for neutral will be the
    weakest number in the report. **Accuracy is not a valid selection metric
    here**; macro F1 is.
-3. **`overall` dominates** at 37% of pairs. A model can look competent while
-   being poor at the twelve aspects users actually care about — hence per-aspect
+3. **`overall` dominates** at 29% of pairs — down from 37% since the mapping
+   fix moved 402 pairs out of it. A model can still look competent while being
+   poor at the twelve aspects users actually care about, hence per-aspect
    reporting.
-4. **Tail aspects are thin.** `audio` (136), `design` (150), `camera` (162)
+4. **Tail aspects are thin.** `audio` (136), `camera` (162) and `design` (179)
    will have wide confidence intervals.
+5. **`price` is near-degenerate.** 88.3% of price pairs are non-negative, and
+   only 40 of 341 are negative. This is a property of the source data, not of
+   the mapping: annotators record price complaints far less often than praise.
+   A model can score well here by always answering "positive", so the
+   recommender does not use sentiment for its Price axis.
 5. **Coverage gap between domains.** `laptop` carries no `price` or `camera`
    labels, so those two aspects come from `phone` only. A laptop review
    discussing price is unlabelled for it — a source of false negatives in

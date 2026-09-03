@@ -1,0 +1,63 @@
+{
+  "model": "aspect=tfidf-logreg \u00b7 sentiment=distilbert-base-uncased",
+  "variants": {
+    "punctuated": {
+      "n_reviews": 300,
+      "n_mixed": 215,
+      "results": {
+        "whole-review": {
+          "detection_recall": 0.5405,
+          "sentiment_accuracy": 0.6874,
+          "mixed_sentiment_accuracy": 0.5825,
+          "uniform_sentiment_accuracy": 0.9728,
+          "collapsed_rate": 0.8744,
+          "n_reviews": 300,
+          "n_gold_aspects": 1012,
+          "n_scored": 547,
+          "seconds": 27.9
+        },
+        "sentence": {
+          "detection_recall": 0.754,
+          "sentiment_accuracy": 0.8034,
+          "mixed_sentiment_accuracy": 0.7782,
+          "uniform_sentiment_accuracy": 0.8769,
+          "collapsed_rate": 0.2512,
+          "n_reviews": 300,
+          "n_gold_aspects": 1012,
+          "n_scored": 763,
+          "seconds": 42.5
+        }
+      },
+      "mixed_delta": 0.1957
+    },
+    "no-terminators": {
+      "n_reviews": 300,
+      "n_mixed": 215,
+      "results": {
+        "whole-review": {
+          "detection_recall": 0.5405,
+          "sentiment_accuracy": 0.6782,
+          "mixed_sentiment_accuracy": 0.5711,
+          "uniform_sentiment_accuracy": 0.9726,
+          "collapsed_rate": 0.9116,
+          "n_reviews": 300,
+          "n_gold_aspects": 1012,
+          "n_scored": 547,
+          "seconds": 24.6
+        },
+        "sentence": {
+          "detection_recall": 0.6502,
+          "sentiment_accuracy": 0.7188,
+          "mixed_sentiment_accuracy": 0.65,
+          "uniform_sentiment_accuracy": 0.9045,
+          "collapsed_rate": 0.6279,
+          "n_reviews": 300,
+          "n_gold_aspects": 1012,
+          "n_scored": 658,
+          "seconds": 33.9
+        }
+      },
+      "mixed_delta": 0.0789
+    }
+  }
+}

@@ -44,6 +44,7 @@ from typing import Protocol
 import numpy as np
 
 from ml.inference.scoring import SentimentScore, aggregate_scores, build_score
+from ml.inference.sentences import split_sentences
 from ml.preprocessing.clean import clean_text, is_usable
 
 logger = logging.getLogger(__name__)
@@ -71,12 +72,23 @@ class AspectPrediction:
     display_name: str
     detection_confidence: float
     sentiment: SentimentScore
+    # Which sentences produced this. Empty when the review was scored whole.
+    # Carried through to the API so a score can always be traced back to the
+    # text that caused it, rather than asking the reader to trust the number.
+    evidence: tuple[str, ...] = ()
+
+    @property
+    def mentions(self) -> int:
+        """How many sentences supported this aspect."""
+        return len(self.evidence)
 
     def as_dict(self) -> dict:
         return {
             "aspect": self.aspect,
             "display_name": self.display_name,
             "detection_confidence": self.detection_confidence,
+            "mentions": self.mentions,
+            "evidence": list(self.evidence),
             **self.sentiment.as_dict(),
         }
 
@@ -235,6 +247,15 @@ class TransformerSentimentClassifier(_TransformerStage):
 # ---------------------------------------------------------------------------
 
 
+@dataclass(frozen=True)
+class _Evidence:
+    """One sentence's contribution to one aspect."""
+
+    detection: float
+    probabilities: np.ndarray
+    sentence: str
+
+
 class Predictor:
     """Composes one aspect detector and one sentiment classifier.
 
@@ -276,43 +297,109 @@ class Predictor:
             )
         return cleaned
 
-    def _select_aspects(self, scores: np.ndarray, top_k: int | None) -> list[str]:
-        """Aspects above threshold; falls back to the single best.
-
-        The fallback matters for UX: a short review like "love it" may clear no
-        per-aspect threshold, and returning an empty list looks like a failure.
-        Returning the top aspect with its (low) confidence attached is more
-        honest than showing nothing.
-        """
-        above = [self.aspects[i] for i in np.flatnonzero(scores >= self.threshold)]
-        if not above:
-            above = [self.aspects[int(scores.argmax())]]
-        above.sort(key=lambda aspect: -scores[self.aspects.index(aspect)])
-        return above[:top_k] if top_k else above
-
     # -- inference ----------------------------------------------------------
 
-    def analyze(self, review: str, *, top_k: int | None = None) -> AnalysisResult:
-        cleaned = self._prepare(review)
+    def _gather(self, units: list[str], *, force_best: bool) -> dict[str, list[_Evidence]]:
+        """Run both stages over each unit and collect per-aspect evidence.
 
-        scores = self.detector.detect(cleaned)
-        selected = self._select_aspects(scores, top_k)
-        probabilities = self.classifier.classify(
-            cleaned, [self.descriptions[aspect] for aspect in selected]
-        )
+        Args:
+            units: Sentences, or a single element for whole-review scoring.
+            force_best: When no aspect clears the threshold in a unit, take that
+                unit's highest-scoring aspect anyway. Used only for the
+                whole-review fallback -- applying it per sentence would make
+                every "Arrived Tuesday." contribute a spurious vote.
+        """
+        evidence: dict[str, list[_Evidence]] = {}
 
-        predictions = [
-            AspectPrediction(
-                aspect=aspect,
-                display_name=self.display_names.get(aspect, aspect),
-                detection_confidence=round(float(scores[self.aspects.index(aspect)]), 4),
-                sentiment=build_score(probabilities[index], self.polarities),
+        for unit in units:
+            scores = np.asarray(self.detector.detect(unit), dtype=float).ravel()
+
+            present = [self.aspects[i] for i in np.flatnonzero(scores >= self.threshold)]
+            if not present and force_best:
+                present = [self.aspects[int(scores.argmax())]]
+            if not present:
+                continue
+
+            probabilities = self.classifier.classify(
+                unit, [self.descriptions[aspect] for aspect in present]
             )
-            for index, aspect in enumerate(selected)
-        ]
+            for index, aspect in enumerate(present):
+                evidence.setdefault(aspect, []).append(
+                    _Evidence(
+                        detection=float(scores[self.aspects.index(aspect)]),
+                        probabilities=np.asarray(probabilities[index], dtype=float).ravel(),
+                        sentence=unit,
+                    )
+                )
+
+        return evidence
+
+    def _combine(self, evidence: dict[str, list[_Evidence]]) -> list[AspectPrediction]:
+        """Reduce each aspect's sentences to one prediction.
+
+        Class probabilities are averaged across sentences, weighted by how
+        confidently the detector placed that sentence on the aspect: a sentence
+        it is 0.95 sure is about the battery should outweigh one it barely
+        admitted at 0.51.
+
+        Averaging *probabilities* rather than the derived 1-10 scores keeps the
+        arithmetic in one place, so build_score stays the only thing that turns
+        a distribution into a number and serving cannot drift from training.
+        """
+        predictions: list[AspectPrediction] = []
+
+        for aspect, items in evidence.items():
+            # Floor the weight so a detection of exactly 0.0 cannot make the
+            # denominator vanish.
+            weights = np.array([max(item.detection, 1e-6) for item in items])
+            stacked = np.vstack([item.probabilities for item in items])
+            mean = (stacked * weights[:, None]).sum(axis=0) / weights.sum()
+
+            predictions.append(
+                AspectPrediction(
+                    aspect=aspect,
+                    display_name=self.display_names.get(aspect, aspect),
+                    detection_confidence=round(max(item.detection for item in items), 4),
+                    sentiment=build_score(mean, self.polarities),
+                    evidence=tuple(item.sentence for item in items),
+                )
+            )
+
         # Strongest detection first -- the aspect the model is surest about is
         # the one a reader should see at the top.
         predictions.sort(key=lambda prediction: -prediction.detection_confidence)
+        return predictions
+
+    def analyze(
+        self,
+        review: str,
+        *,
+        top_k: int | None = None,
+        by_sentence: bool = True,
+    ) -> AnalysisResult:
+        """Analyse one review, sentence by sentence.
+
+        Sentence-level is the default because the sentiment model scores 0.875
+        on single-opinion text and 0.541 on text mixing opinions, and real
+        reviews are overwhelmingly the latter -- see ml/inference/sentences.py
+        for the measurement. ``by_sentence=False`` scores the review as one
+        unit, which is how the published per-stage metrics were computed.
+        """
+        cleaned = self._prepare(review)
+        units = split_sentences(cleaned) if by_sentence else [cleaned]
+
+        evidence = self._gather(units, force_best=not by_sentence)
+
+        if not evidence:
+            # No individual sentence cleared the threshold. Returning nothing
+            # reads as a failure, so fall back to scoring the whole review and
+            # surfacing its single best aspect with its (low) confidence
+            # attached, which is more honest than showing an empty result.
+            evidence = self._gather([cleaned], force_best=True)
+
+        predictions = self._combine(evidence)
+        if top_k:
+            predictions = predictions[:top_k]
 
         return AnalysisResult(
             review=review,
@@ -322,8 +409,16 @@ class Predictor:
             model=self.model_name,
         )
 
-    def analyze_batch(self, reviews: list[str], *, top_k: int | None = None) -> list[AnalysisResult]:
-        return [self.analyze(review, top_k=top_k) for review in reviews]
+    def analyze_batch(
+        self,
+        reviews: list[str],
+        *,
+        top_k: int | None = None,
+        by_sentence: bool = True,
+    ) -> list[AnalysisResult]:
+        return [
+            self.analyze(review, top_k=top_k, by_sentence=by_sentence) for review in reviews
+        ]
 
 
 # ---------------------------------------------------------------------------

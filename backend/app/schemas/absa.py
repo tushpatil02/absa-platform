@@ -99,6 +99,15 @@ class AspectSentiment(BaseModel):
     detection_confidence: float = Field(
         ge=0.0, le=1.0, description="Probability that this aspect is discussed at all."
     )
+    mentions: int = Field(
+        default=0, description="How many sentences in this review discussed the aspect."
+    )
+    evidence: list[str] = Field(
+        default_factory=list,
+        description="The sentences that produced this score, in the order they "
+        "appear. Inference runs per sentence, so every score can be traced "
+        "back to the text that caused it instead of being taken on trust.",
+    )
     probabilities: dict[str, float] = Field(description="Full distribution over polarities.")
 
 

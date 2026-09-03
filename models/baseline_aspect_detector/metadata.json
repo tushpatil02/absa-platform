@@ -17,6 +17,6 @@
   ],
   "threshold": 0.4600000000000001,
   "input_format": "raw review text",
-  "dev_micro_f1": 0.7769784172661871,
+  "dev_micro_f1": 0.7467760844079718,
   "sklearn_version": "1.9.0"
 }

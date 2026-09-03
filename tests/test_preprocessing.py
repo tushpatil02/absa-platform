@@ -187,8 +187,75 @@ def test_taxonomy_returns_none_for_dropped_labels():
 def test_taxonomy_raises_on_unknown_label():
     """An unmapped label must fail the build, not vanish silently."""
     taxonomy = load_taxonomy(TAXONOMY_PATH)
-    with pytest.raises(KeyError, match="Unmapped category"):
+    with pytest.raises(KeyError, match="Unmapped entity"):
         taxonomy.map_category("Telepathy#Mind Reading", "phone")
+
+
+def test_taxonomy_raises_on_unknown_product_attribute():
+    """A new attribute on a whole-product entity must fail loudly too.
+
+    Rule 2 has no entity fallback: silently routing an unrecognised
+    ``LAPTOP#SOMETHING`` to `overall` is how LAPTOP#PRICE went unnoticed.
+    """
+    taxonomy = load_taxonomy(TAXONOMY_PATH)
+    with pytest.raises(KeyError, match="Unmapped attribute"):
+        taxonomy.map_category("LAPTOP#TELEPATHY", "laptop")
+
+
+def test_price_attribute_overrides_the_entity():
+    """Rule 1: "<component> is good for the PRICE" is about price.
+
+    The regression this pins: mapping on the entity alone sent all 116
+    ``LAPTOP#PRICE`` rows to `overall`, and scattered the rest across the
+    component aspects, leaving the price class trained on phone data only.
+    """
+    taxonomy = load_taxonomy(TAXONOMY_PATH)
+    assert taxonomy.map_category("LAPTOP#PRICE", "laptop") == "price"
+    assert taxonomy.map_category("DISPLAY#PRICE", "laptop") == "price"
+    assert taxonomy.map_category("HARD_DISC#PRICE", "laptop") == "price"
+
+
+def test_entity_scoped_attributes_do_not_override():
+    """Rule 1 is deliberately narrow.
+
+    QUALITY and OPERATION_PERFORMANCE describe *the entity*, so they must keep
+    resolving through the entity map. Promoting them would empty the component
+    aspects into two catch-alls.
+    """
+    taxonomy = load_taxonomy(TAXONOMY_PATH)
+    assert taxonomy.map_category("DISPLAY#QUALITY", "laptop") == "display"
+    assert taxonomy.map_category("CPU#OPERATION_PERFORMANCE", "laptop") == "performance"
+    assert taxonomy.map_category("BATTERY#QUALITY", "laptop") == "battery"
+
+
+def test_whole_product_entity_maps_on_its_attribute():
+    """Rule 2: LAPTOP names no aspect, so the attribute has to carry it."""
+    taxonomy = load_taxonomy(TAXONOMY_PATH)
+    assert taxonomy.map_category("LAPTOP#OPERATION_PERFORMANCE", "laptop") == "performance"
+    assert taxonomy.map_category("LAPTOP#QUALITY", "laptop") == "build_quality"
+    assert taxonomy.map_category("LAPTOP#PORTABILITY", "laptop") == "design"
+    assert taxonomy.map_category("LAPTOP#GENERAL", "laptop") == "overall"
+
+
+def test_phone_scheme_is_unaffected_by_the_new_rules():
+    """Verified against all 4,810 phone triplets: `#Price` and `#Value for
+    Money` occur under the `Price` entity and nowhere else, so rule 3 alone
+    already handled phone. These pin that the new rules changed nothing there.
+    """
+    taxonomy = load_taxonomy(TAXONOMY_PATH)
+    assert taxonomy.map_category("Price#Price", "phone") == "price"
+    assert taxonomy.map_category("Price#Value for Money", "phone") == "price"
+    assert taxonomy.map_category("Screen#Clarity", "phone") == "display"
+    assert taxonomy.map_category("Camera#Pixel", "phone") == "camera"
+
+
+def test_split_category_handles_missing_and_extra_separators():
+    taxonomy = load_taxonomy(TAXONOMY_PATH)
+    assert taxonomy.split_category("Overall") == ("Overall", "")
+    assert taxonomy.split_category("BATTERY#QUALITY") == ("BATTERY", "QUALITY")
+    # Everything after the first "#" is the attribute.
+    assert taxonomy.split_category("A#B#C") == ("A", "B#C")
+    assert taxonomy.split_category("  BATTERY # QUALITY ") == ("BATTERY", "QUALITY")
 
 
 def test_polarity_ids_are_stable():

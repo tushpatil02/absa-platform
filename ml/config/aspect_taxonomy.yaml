@@ -10,14 +10,32 @@
 # that mapping. It collapses both schemes onto 12 product aspects that a shopper
 # would actually recognise.
 #
-# Mapping is done on the COARSE label (the part before "#"). Fine-grained
-# distinctions like Screen#Clarity vs Screen#Size are intentionally discarded:
-# 41 of the 86 phone categories have fewer than 30 examples, which is far too
-# sparse to learn or to evaluate honestly.
+# Every label is ENTITY#ATTRIBUTE. Mapping applies three rules, in order:
 #
-# Any coarse label not listed here is dropped (see `drop` at the bottom).
+#   1. `attribute_overrides` -- the attribute names an aspect the entity does
+#      not, so it wins regardless of entity. Only PRICE qualifies: the laptop
+#      scheme tags "screen is nice for the price" as DISPLAY#PRICE and "can't
+#      beat the storage for the price" as HARD_DISC#PRICE. Both are price
+#      opinions. Mapping on the entity alone filed them under display and
+#      performance, and sent all 116 LAPTOP#PRICE rows to `overall`.
+#
+#   2. `product_attribute_map` -- when the entity IS the whole product it
+#      carries no aspect information at all, so the attribute is the only
+#      signal. LAPTOP#OPERATION_PERFORMANCE ("surprisingly fast") is a
+#      performance opinion, not an overall one.
+#
+#   3. Otherwise the entity decides, and the attribute is discarded.
+#      Fine distinctions like Screen#Clarity vs Screen#Size are deliberately
+#      collapsed: 41 of the 86 phone categories have fewer than 30 examples,
+#      far too sparse to learn or to evaluate honestly.
+#
+# phone/en needs no override: `#Price` and `#Value for Money` appear under the
+# `Price` entity and nowhere else (verified across all 4,810 phone triplets), so
+# rule 3 alone already handles it.
+#
+# Any entity not listed here is dropped (see `drop` at the bottom).
 
-version: 2
+version: 3
 
 # ---------------------------------------------------------------------------
 # The 12 aspects exposed by the API and the UI.
@@ -73,6 +91,40 @@ aspects:
   - id: audio
     display_name: Audio
     description: speakers, sound quality, microphone and multimedia
+
+# ---------------------------------------------------------------------------
+# RULE 1 -- attribute wins over entity, in every domain.
+#
+# Deliberately minimal. An attribute earns a place here only when it names an
+# aspect orthogonal to the entity, so that "<component> is good for the PRICE"
+# is a statement about price rather than about the component. Attributes such as
+# QUALITY or OPERATION_PERFORMANCE are entity-scoped (DISPLAY#QUALITY really is
+# about the display) and must NOT be listed.
+# ---------------------------------------------------------------------------
+attribute_overrides:
+  PRICE: price
+
+# ---------------------------------------------------------------------------
+# RULE 2 -- entities that name the whole product rather than a part of it.
+# For these the attribute carries all of the aspect meaning.
+# ---------------------------------------------------------------------------
+product_entities:
+  - LAPTOP
+
+product_attribute_map:
+  OPERATION_PERFORMANCE: performance   # 319: "surprisingly fast", "works fine for gaming"
+  QUALITY: build_quality               # 104: "cheap and flimsy", "shut down after 2 months"
+  PORTABILITY: design                  #  32: "light and compact", "easy to carry around"
+  CONNECTIVITY: performance            #   9
+
+  # Left at `overall` on purpose. Sampling these showed no coherent aspect:
+  # LAPTOP#DESIGN_FEATURES covers "it felt flimsy", "enough power to multi-task"
+  # and "won the display roulette" in three consecutive draws. Splitting a
+  # catch-all on its label alone would move noise into three real classes.
+  GENERAL: overall                     # 624
+  DESIGN_FEATURES: overall             # 243
+  USABILITY: overall                   #  67
+  MISCELLANEOUS: overall               #   8
 
 # ---------------------------------------------------------------------------
 # phone/en  (M-ABSA e-commerce scheme) -> aspect id
