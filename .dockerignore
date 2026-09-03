@@ -14,6 +14,12 @@ docs/
 scripts/
 frontend/
 
+# ...except the built catalogue, which the API serves. Three small files;
+# the ~45 MB review_aspects.csv they were distilled from stays excluded.
+!data/catalog/
+!data/catalog/*.csv
+!data/catalog/*.json
+
 # Large weights are pulled at deploy time, not baked into the image.
 models/**/*.safetensors
 models/**/*.bin

@@ -28,10 +28,13 @@ ENV PATH="/opt/venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
 
-# Only what serving needs. Training code, notebooks, data and tests stay out.
+# Only what serving needs. Training code, notebooks, tests and the large
+# intermediate data stay out; the built catalogue comes in, because the
+# recommender cannot answer anything without it.
 COPY --chown=absa:absa ml/ ./ml/
 COPY --chown=absa:absa backend/ ./backend/
 COPY --chown=absa:absa models/ ./models/
+COPY --chown=absa:absa data/catalog/ ./data/catalog/
 
 USER absa
 EXPOSE 8000

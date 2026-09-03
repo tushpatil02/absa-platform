@@ -45,6 +45,57 @@ back to the baseline otherwise, so the same image serves both.
 
 ---
 
+## 1b. Catalogue artefacts
+
+The recommender needs three files in `data/catalog/`. Unlike weights, these
+**are** committed — together they are around 500 KB, and without them a clone
+would need an hour of CPU inference before the app could answer anything.
+
+| File | What it is |
+|---|---|
+| `phones.csv` | 211 phones: name, brand, listed price, image, review counts |
+| `phone_profiles.csv` | one row per (phone, aspect): shrunk score, raw score, mentions |
+| `phone_evidence.json` | example sentences per phone, distilled at build time |
+
+They are copied into the Docker image. The ~45 MB `review_aspects.csv` they were
+built from is **not** — it is an intermediate whose only purpose is letting
+aggregation be re-tried without re-running the model.
+
+To rebuild them from scratch:
+
+```bash
+python scripts/download_phones.py    # 9 MB, CC0, no credentials
+python scripts/build_catalog.py      # seconds
+python scripts/score_catalog.py      # ~1 hour on CPU; resumable
+python scripts/build_profiles.py     # seconds
+```
+
+A missing catalogue is not fatal. `/api/health` stays 200, `/api/analyze` keeps
+working, and the catalogue routes return 503 naming the scripts above. The model
+and the catalogue fail independently on purpose.
+
+---
+
+## 1c. Submitted reviews (SQLite)
+
+`ABSA_DATABASE_PATH` (default `data/reviews.db`) holds reviews submitted through
+the site. It is the only thing the API writes.
+
+**On an ephemeral container this is lost on every restart.** That is acceptable
+for a portfolio deployment — submitted reviews never feed back into the
+published scores, so losing them degrades nothing but the "recently submitted"
+list. If they should persist, mount a volume:
+
+```yaml
+volumes:
+  - absa-data:/app/data
+```
+
+and note that the image's `data/catalog/` must remain readable, so mount a
+subpath (`/app/data/reviews.db`) rather than shadowing the whole directory.
+
+---
+
 ## 2. Backend
 
 ### Docker
