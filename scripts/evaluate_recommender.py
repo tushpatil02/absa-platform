@@ -32,6 +32,7 @@ import pandas as pd
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
+from ml.catalog.profiles import MIN_MENTIONS
 from ml.evaluation.reliability import compare_to_null, split_half_reliability, star_baseline
 from ml.recommender.similarity import AXES
 
@@ -45,7 +46,9 @@ SENTIMENT_AXES = tuple(axis for axis in AXES if axis != "price")
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--min-mentions", type=int, default=10)
+    # Defaults to the publication floor, so the reliability reported here is the
+    # reliability of the scores that actually ship.
+    parser.add_argument("--min-mentions", type=int, default=MIN_MENTIONS)
     parser.add_argument("--repeats", type=int, default=25)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--scores", type=Path, default=PROCESSED / "review_aspects.csv")

@@ -138,7 +138,8 @@ def test_phones_below_the_mention_floor_get_no_score():
 def test_shrunk_scores_are_less_spread_than_raw():
     """The compression is the uncertainty; it must actually happen."""
     frame = reviews({f"p{i}": (1.0 + i, 8) for i in range(9)})
-    profiles, _ = build_profiles(frame)
+    # Explicit floor: this checks shrinkage, not the publication threshold.
+    profiles, _ = build_profiles(frame, min_mentions=5)
     assert profiles["score"].std() < profiles["raw_score"].std()
 
 
@@ -159,7 +160,7 @@ def test_mentions_are_counted_per_aspect():
     frame = pd.concat(
         [reviews({"a": (5.0, 30)}, aspect="battery"), reviews({"a": (7.0, 12)}, aspect="camera")]
     )
-    profiles, _ = build_profiles(frame)
+    profiles, _ = build_profiles(frame, min_mentions=5)
     by_aspect = profiles.set_index("aspect")["mentions"]
     assert by_aspect["battery"] == 30
     assert by_aspect["camera"] == 12

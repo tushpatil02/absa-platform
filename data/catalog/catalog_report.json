@@ -1,0 +1,20 @@
+{
+  "listings_in": 720,
+  "listings_unnormalisable": 17,
+  "reviews_in": 67986,
+  "reviews_empty": 6130,
+  "reviews_duplicated": 2705,
+  "reviews_orphaned": 794,
+  "models_found": 364,
+  "models_too_few_reviews": 125,
+  "models_no_price": 28,
+  "phones_out": 211,
+  "reviews_sampled": 37080,
+  "config": {
+    "min_reviews": 20,
+    "require_price": true,
+    "review_cap": 400,
+    "seed": 0,
+    "min_review_words": 3
+  }
+}

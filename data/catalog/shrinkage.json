@@ -1,0 +1,105 @@
+{
+  "min_mentions": 15,
+  "price_bounds": {
+    "cheapest": 64.99,
+    "dearest": 609.98
+  },
+  "aspects": [
+    {
+      "aspect": "audio",
+      "grand_mean": 4.687357859531772,
+      "within_variance": 9.76114274919744,
+      "between_variance": 3.0710892586351486,
+      "k": 3.1783976065663033,
+      "n_phones": 192
+    },
+    {
+      "aspect": "battery",
+      "grand_mean": 5.294700123915737,
+      "within_variance": 9.719771026083636,
+      "between_variance": 1.6673056338400873,
+      "k": 5.8296276512287415,
+      "n_phones": 211
+    },
+    {
+      "aspect": "build_quality",
+      "grand_mean": 5.249899132896832,
+      "within_variance": 10.411236635220689,
+      "between_variance": 1.9732695246070477,
+      "k": 5.276135117575466,
+      "n_phones": 210
+    },
+    {
+      "aspect": "camera",
+      "grand_mean": 6.964183872224385,
+      "within_variance": 10.26732448343822,
+      "between_variance": 1.9345722155108223,
+      "k": 5.3072841639706585,
+      "n_phones": 205
+    },
+    {
+      "aspect": "customer_service",
+      "grand_mean": 4.605756041426928,
+      "within_variance": 8.932914010727947,
+      "between_variance": 1.2187541971728724,
+      "k": 7.329545228602705,
+      "n_phones": 204
+    },
+    {
+      "aspect": "delivery",
+      "grand_mean": 6.561596760196702,
+      "within_variance": 7.845001021829549,
+      "between_variance": 1.236706761532892,
+      "k": 6.343460928527397,
+      "n_phones": 202
+    },
+    {
+      "aspect": "design",
+      "grand_mean": 7.052710365853659,
+      "within_variance": 8.37217401323861,
+      "between_variance": 1.6593318658817033,
+      "k": 5.045509090365096,
+      "n_phones": 205
+    },
+    {
+      "aspect": "display",
+      "grand_mean": 5.484516333650491,
+      "within_variance": 10.457732813141183,
+      "between_variance": 2.008474814020235,
+      "k": 5.2068030627721,
+      "n_phones": 206
+    },
+    {
+      "aspect": "overall",
+      "grand_mean": 6.902122817656633,
+      "within_variance": 8.149497841603177,
+      "between_variance": 0.46152900260394003,
+      "k": 17.657607204799323,
+      "n_phones": 211
+    },
+    {
+      "aspect": "performance",
+      "grand_mean": 5.704632303932459,
+      "within_variance": 9.88949720998714,
+      "between_variance": 0.7829122912482783,
+      "k": 12.631679589829005,
+      "n_phones": 211
+    },
+    {
+      "aspect": "price",
+      "grand_mean": 7.852461342260482,
+      "within_variance": 6.925261543148369,
+      "between_variance": 1.0979298177437466,
+      "k": 6.307563043856327,
+      "n_phones": 208
+    },
+    {
+      "aspect": "software",
+      "grand_mean": 5.852788950811728,
+      "within_variance": 10.146963036092638,
+      "between_variance": 0.5402300032522029,
+      "k": 18.782672148913566,
+      "n_phones": 211
+    }
+  ]
+}

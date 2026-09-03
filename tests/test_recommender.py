@@ -217,3 +217,40 @@ def test_price_round_trips():
 def test_invalid_price_bounds_raise(cheapest, dearest):
     with pytest.raises(ValueError):
         price_to_score(50, cheapest, dearest)
+
+
+def test_bounds_ignore_outliers():
+    """The regression this pins.
+
+    Anchored to min and max, one $14.99 phone in a $65-$610 catalogue stretched
+    the log scale until the middle half of the phones occupied under 2 points
+    of the 9 available.
+    """
+    from ml.recommender.price import bounds_from
+
+    prices = [14.99, *range(100, 600, 10)]
+    lower, _ = bounds_from(prices)
+    assert lower > 14.99
+
+
+def test_bounds_widen_the_usable_scale():
+    from ml.recommender.price import bounds_from
+
+    prices = [14.99, 27.9, *([200.0] * 40), 948.0]
+    naive = [price_to_score(p, min(prices), max(prices)) for p in prices]
+    robust = [price_to_score(p, *bounds_from(prices)) for p in prices]
+    assert np.std(robust) >= np.std(naive)
+
+
+def test_bounds_fall_back_when_prices_are_degenerate():
+    """Percentiles cannot separate a single-price catalogue."""
+    from ml.recommender.price import bounds_from
+
+    assert bounds_from([200.0, 200.0, 200.0]) == (200.0, 200.0)
+
+
+def test_bounds_reject_an_empty_catalogue():
+    from ml.recommender.price import bounds_from
+
+    with pytest.raises(ValueError, match="No positive prices"):
+        bounds_from([0, -5])

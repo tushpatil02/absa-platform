@@ -38,6 +38,10 @@ import numpy as np
 SCORE_MIN = 1.0
 SCORE_MAX = 10.0
 
+# Percentiles used to anchor the scale, so one outlier cannot define it.
+LOWER_PERCENTILE = 5.0
+UPPER_PERCENTILE = 95.0
+
 
 def price_to_score(
     price: float | np.ndarray,
@@ -92,3 +96,25 @@ def score_to_price(score: float, cheapest: float, dearest: float) -> float:
         return float(cheapest)
     position = (SCORE_MAX - float(score)) / (SCORE_MAX - SCORE_MIN)
     return float(np.exp(np.log(cheapest) + position * (np.log(dearest) - np.log(cheapest))))
+
+
+def bounds_from(prices) -> tuple[float, float]:
+    """Robust scale anchors for a catalogue of listed prices.
+
+    Uses the 5th and 95th percentiles rather than the extremes -- see the module
+    docstring for the measurement that motivates it.
+
+    >>> bounds_from([100, 200, 300])
+    (110.0, 290.0)
+    """
+    values = np.asarray([float(price) for price in prices if float(price) > 0])
+    if values.size == 0:
+        raise ValueError("No positive prices to derive bounds from")
+
+    lower = float(np.percentile(values, LOWER_PERCENTILE))
+    upper = float(np.percentile(values, UPPER_PERCENTILE))
+    # A degenerate catalogue -- every price identical, or too few rows for the
+    # percentiles to separate -- falls back to the true extremes.
+    if upper <= lower:
+        return float(values.min()), float(values.max())
+    return lower, upper

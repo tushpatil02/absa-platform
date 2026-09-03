@@ -33,7 +33,7 @@ sys.path.insert(0, str(REPO_ROOT))
 
 from ml.catalog.evidence import DEFAULT_PER_PHONE, select_evidence
 from ml.catalog.profiles import MIN_MENTIONS, build_profiles
-from ml.recommender.price import price_to_score
+from ml.recommender.price import bounds_from, price_to_score
 from ml.recommender.similarity import AXES
 
 PROCESSED = REPO_ROOT / "data" / "processed"
@@ -70,7 +70,10 @@ def main() -> int:
 
     # --- the Price axis, from listed price -------------------------------
     priced = phones[phones["price"] > 0]
-    cheapest, dearest = float(priced["price"].min()), float(priced["price"].max())
+    # Percentile anchors, not the extremes: one $14.99 feature phone otherwise
+    # stretches the log scale until the middle half of the catalogue occupies
+    # under 2 points of the 9 available.
+    cheapest, dearest = bounds_from(priced["price"])
     price_scores = np.round(price_to_score(priced["price"].to_numpy(), cheapest, dearest), 3)
     price_rows = pd.DataFrame(
         {
@@ -87,7 +90,10 @@ def main() -> int:
     profiles = pd.concat(
         [profiles[profiles["aspect"] != "price"], price_rows], ignore_index=True
     )
-    print(f"\nPrice axis from listed price: ${cheapest:,.0f} -> 10.0, ${dearest:,.0f} -> 1.0")
+    print(
+        f"\nPrice axis from listed price: ${cheapest:,.0f} -> 10.0, "
+        f"${dearest:,.0f} -> 1.0  (5th-95th percentile; outside clips)"
+    )
 
     # --- which phones can be ranked on all five axes ----------------------
     coverage = profiles[profiles["aspect"].isin(AXES)].pivot(

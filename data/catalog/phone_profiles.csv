@@ -1,0 +1,1555 @@
+model_key,aspect,score,raw_score,mentions,mean_confidence
+apple iphone 6s,audio,3.568,3.331,15,0.797
+apple iphone 7,audio,2.664,2.286,17,0.871
+apple iphone 7 plus,audio,2.986,2.77,25,0.852
+asus zenfone 5z,audio,5.972,6.176,20,0.756
+asus zenfone max plus,audio,4.285,4.199,15,0.802
+google pixel,audio,2.36,2.212,50,0.906
+google pixel 2,audio,4.44,4.411,27,0.815
+google pixel 2 xl,audio,3.611,3.534,44,0.851
+google pixel 4,audio,5.734,5.909,19,0.829
+google pixel xl,audio,4.781,4.795,22,0.812
+google pixel xl g2pw210032gbbk,audio,2.823,2.691,45,0.876
+huawei mate 10 pro,audio,5.261,5.315,34,0.785
+motorola barrage,audio,5.74,5.908,20,0.83
+motorola droid razr m,audio,4.681,4.681,26,0.842
+motorola droid turbo,audio,3.935,3.846,27,0.844
+motorola e plus,audio,4.836,4.868,15,0.852
+motorola g6,audio,4.673,4.671,30,0.883
+motorola moto g,audio,6.337,6.628,18,0.784
+motorola moto g7,audio,4.24,4.196,32,0.832
+motorola moto g7 power,audio,4.294,4.232,20,0.845
+nokia 2,audio,4.01,3.884,17,0.902
+nokia 3.1,audio,5.286,5.413,15,0.778
+nokia 3310,audio,4.914,4.933,37,0.829
+nokia 6,audio,4.714,4.716,52,0.864
+nokia 7.1,audio,3.42,3.32,40,0.829
+nokia lumia 900,audio,3.455,3.248,19,0.909
+nokia lumia 920,audio,5.866,5.957,41,0.773
+nokia lumia 928,audio,4.581,4.573,44,0.839
+rog gaming zs600kl s845,audio,6.887,7.178,24,0.764
+samsung convoy 3 rugged,audio,3.453,3.222,17,0.876
+samsung galaxy a20 us,audio,4.994,5.059,15,0.833
+samsung galaxy a70 6.7,audio,5.134,5.205,20,0.78
+samsung galaxy note 10,audio,4.577,4.554,15,0.793
+samsung galaxy note8,audio,4.673,4.67,15,0.832
+samsung galaxy prevail ii,audio,3.526,3.309,17,0.842
+samsung galaxy s6 edge,audio,4.94,4.99,16,0.893
+samsung gophone,audio,7.009,7.33,23,0.867
+sony xperia 1 6.5,audio,6.343,6.694,15,0.747
+sony xperia 1 and,audio,6.343,6.694,15,0.747
+sony xperia 10 plus,audio,5.086,5.17,15,0.756
+sony xperia l2,audio,5.6,5.761,18,0.693
+sony xperia xa ultra,audio,4.523,4.509,39,0.847
+sony xperia xa1 ultra,audio,4.541,4.52,23,0.846
+sony xperia xa2 ultra,audio,6.002,6.106,40,0.843
+sony xperia xz,audio,4.748,4.754,29,0.833
+sony xperia xz forest,audio,4.139,4.037,17,0.77
+sony xperia xz premium,audio,5.652,5.745,33,0.752
+sony xperia xz2 premium,audio,5.83,6.072,15,0.809
+xiaomi mi a2,audio,6.0,6.16,26,0.797
+xiaomi redmi note 6,audio,4.93,4.976,17,0.848
+xiaomi redmi note 7,audio,6.252,6.43,28,0.846
+apple iphone 6s,battery,3.901,3.845,146,0.808
+apple iphone 6s plus,battery,4.652,4.539,33,0.814
+apple iphone 7,battery,4.127,4.035,74,0.786
+apple iphone 7 plus,battery,5.587,5.613,66,0.803
+apple iphone 8,battery,5.237,5.227,36,0.826
+apple iphone 8 plus,battery,3.979,3.645,23,0.829
+apple iphone se,battery,4.799,4.618,16,0.798
+apple iphone x,battery,5.165,5.157,93,0.774
+apple iphone xs,battery,4.915,4.856,38,0.794
+apple iphone xs max,battery,5.617,5.698,23,0.863
+apple mglw2ll a ipad,battery,4.325,4.079,23,0.78
+asus zenfone 5z,battery,7.124,7.519,27,0.807
+asus zenfone max plus,battery,5.908,5.998,40,0.78
+google pixel,battery,3.571,3.496,134,0.816
+google pixel 2,battery,4.618,4.584,116,0.778
+google pixel 2 google,battery,5.076,5.047,44,0.766
+google pixel 2 xl,battery,5.122,5.114,131,0.795
+google pixel 3,battery,4.495,4.262,20,0.821
+google pixel 3 clearly,battery,4.456,4.288,29,0.775
+google pixel 3 xl,battery,4.863,4.812,50,0.775
+google pixel 4,battery,4.721,4.682,85,0.737
+google pixel xl,battery,4.752,4.719,95,0.796
+google pixel xl g2pw210032gbbk,battery,4.509,4.457,88,0.798
+huawei ascend xt 2,battery,5.921,6.149,16,0.794
+huawei mate 10 pro,battery,7.148,7.231,130,0.817
+huawei mate 20 lite,battery,7.473,7.663,67,0.82
+huawei mate 20 pro,battery,7.436,7.803,34,0.83
+huawei p20 lite,battery,5.927,5.987,61,0.825
+huawei p30 plus,battery,6.595,6.876,27,0.806
+motorola barrage,battery,4.85,4.806,59,0.834
+motorola droid razr m,battery,4.653,4.623,126,0.772
+motorola droid turbo,battery,6.114,6.152,128,0.795
+motorola droid turbo 2,battery,3.882,3.425,18,0.876
+motorola droid turbo ballistic,battery,3.853,3.386,18,0.851
+motorola e plus,battery,6.728,6.779,165,0.791
+motorola g6,battery,6.0,6.032,130,0.803
+motorola g6 play,battery,6.638,7.05,19,0.857
+motorola g6 plus,battery,5.566,5.622,28,0.785
+motorola g7,battery,5.427,5.455,28,0.779
+motorola g7 plus plus,battery,5.908,6.02,32,0.833
+motorola g7 power plus,battery,6.53,6.77,30,0.809
+motorola moto g,battery,4.994,4.958,49,0.78
+motorola moto g7,battery,5.934,5.969,106,0.791
+motorola moto g7 power,battery,6.985,7.05,152,0.806
+motorola moto z4,battery,5.416,5.454,19,0.83
+motorola one,battery,6.617,6.925,25,0.819
+motorola pre paid,battery,4.975,4.851,15,0.767
+motorola x4,battery,6.379,6.503,51,0.797
+motorola z play,battery,6.297,6.422,47,0.762
+motorola z3 play moto,battery,5.618,5.672,35,0.788
+nokia 2,battery,5.59,5.611,79,0.806
+nokia 3.1,battery,5.488,5.527,29,0.762
+nokia 3310,battery,5.786,5.818,89,0.823
+nokia 6,battery,5.279,5.278,81,0.833
+nokia 7.1,battery,4.453,4.425,177,0.799
+nokia 7.2,battery,4.916,4.786,17,0.74
+nokia 9 pureview,battery,5.225,5.201,17,0.768
+nokia lumia 530,battery,4.432,4.296,37,0.776
+nokia lumia 635,battery,4.453,4.33,40,0.844
+nokia lumia 822,battery,4.164,3.937,29,0.735
+nokia lumia 900,battery,3.995,3.85,52,0.813
+nokia lumia 920,battery,5.115,5.106,127,0.751
+nokia lumia 925,battery,4.442,4.215,22,0.845
+nokia lumia 928,battery,5.328,5.33,85,0.786
+nokia lumia icon,battery,5.975,6.128,26,0.767
+oneplus 6t mirror,battery,5.581,5.65,24,0.81
+rog gaming zs600kl s845,battery,5.586,5.644,29,0.785
+samsung convoy 3 rugged,battery,3.718,3.412,30,0.879
+samsung convoy 4 rugged,battery,3.767,3.243,17,0.779
+samsung convoy ruggedized ptt,battery,4.279,3.983,20,0.827
+samsung galaxy a10,battery,6.529,6.693,44,0.818
+samsung galaxy a10 duos,battery,7.522,8.206,19,0.849
+samsung galaxy a20,battery,6.22,6.489,20,0.841
+samsung galaxy a20 us,battery,6.93,7.106,54,0.849
+samsung galaxy a30,battery,6.364,6.497,47,0.838
+samsung galaxy a50 duos,battery,6.344,6.447,59,0.832
+samsung galaxy a50 us,battery,6.626,6.854,34,0.845
+samsung galaxy a70 6.7,battery,6.728,6.824,87,0.805
+samsung galaxy j2 2018,battery,5.697,5.853,15,0.834
+samsung galaxy j3 2018,battery,4.659,4.511,25,0.766
+samsung galaxy j3 prime,battery,4.479,4.262,22,0.834
+samsung galaxy j5,battery,4.881,4.791,27,0.828
+samsung galaxy j7,battery,5.602,5.63,65,0.773
+samsung galaxy note 10,battery,5.205,5.196,54,0.77
+samsung galaxy note 3,battery,5.054,5.036,78,0.818
+samsung galaxy note 4,battery,3.861,3.774,96,0.802
+samsung galaxy note 5,battery,4.498,4.428,66,0.801
+samsung galaxy note 8,battery,4.928,4.896,67,0.843
+samsung galaxy note 9,battery,6.585,6.687,74,0.85
+samsung galaxy note8,battery,4.653,4.606,79,0.804
+samsung galaxy prevail ii,battery,3.768,3.381,23,0.831
+samsung galaxy s10,battery,5.663,5.701,57,0.82
+samsung galaxy s10 plus,battery,6.015,6.102,48,0.808
+samsung galaxy s10e,battery,5.692,5.798,22,0.797
+samsung galaxy s10e plus,battery,5.919,6.064,25,0.802
+samsung galaxy s4,battery,4.633,4.577,69,0.803
+samsung galaxy s4 sgh,battery,3.359,2.941,27,0.837
+samsung galaxy s5,battery,3.127,2.992,94,0.8
+samsung galaxy s6,battery,3.012,2.885,105,0.851
+samsung galaxy s6 active,battery,4.665,4.613,70,0.767
+samsung galaxy s6 edge,battery,3.707,3.611,97,0.769
+samsung galaxy s6 wireless,battery,3.087,2.611,27,0.828
+samsung galaxy s7,battery,3.451,3.33,89,0.813
+samsung galaxy s7 active,battery,4.684,4.613,50,0.842
+samsung galaxy s7 edge,battery,4.669,4.61,62,0.84
+samsung galaxy s8,battery,4.464,4.374,54,0.819
+samsung galaxy s8 active,battery,5.197,5.186,48,0.784
+samsung galaxy s8 plus,battery,4.876,4.827,50,0.781
+samsung galaxy s9,battery,5.727,5.848,21,0.877
+samsung galaxy s9 plus,battery,4.941,4.907,60,0.815
+samsung gophone,battery,5.835,5.889,58,0.834
+samsung gusto 3,battery,4.363,4.252,49,0.837
+samsung net 10 unlimited,battery,4.853,4.761,28,0.822
+samsung replenish,battery,4.388,4.076,17,0.761
+sony xperia 10 plus,battery,5.292,5.291,21,0.774
+sony xperia l1,battery,4.401,4.174,23,0.803
+sony xperia l2,battery,5.38,5.394,36,0.769
+sony xperia x,battery,5.386,5.397,49,0.796
+sony xperia x performance,battery,4.49,4.328,29,0.817
+sony xperia xa ultra,battery,4.519,4.48,116,0.779
+sony xperia xa1,battery,5.311,5.314,28,0.833
+sony xperia xa1 ultra,battery,4.148,4.024,54,0.838
+sony xperia xa2 ultra,battery,6.353,6.422,90,0.789
+sony xperia xz,battery,5.384,5.394,54,0.796
+sony xperia xz forest,battery,5.318,5.321,47,0.787
+sony xperia xz premium,battery,5.876,5.959,41,0.802
+sony xperia xz1,battery,5.043,4.982,24,0.799
+sony xperia xz2 premium,battery,6.341,6.606,23,0.733
+xiaomi mi 8 lite,battery,6.335,6.514,34,0.795
+xiaomi mi 9 plus,battery,5.727,5.86,19,0.812
+xiaomi mi 9t pro,battery,6.263,6.545,20,0.815
+xiaomi mi a2,battery,5.443,5.453,86,0.798
+xiaomi mi a2 lite,battery,6.71,6.976,31,0.759
+xiaomi mi a3,battery,6.606,6.803,39,0.805
+xiaomi mi a3 plus,battery,6.606,6.803,39,0.805
+xiaomi pocophone f1,battery,7.105,7.312,51,0.838
+xiaomi redmi 7 plus,battery,6.859,7.21,26,0.874
+xiaomi redmi note 6,battery,6.8,6.893,94,0.82
+xiaomi redmi note 7,battery,6.661,6.754,86,0.778
+xiaomi redmi note 8,battery,5.94,6.036,39,0.811
+apple iphone 6s,build_quality,3.723,3.527,41,0.867
+apple iphone 6s plus,build_quality,5.132,5.094,16,0.815
+apple iphone 7,build_quality,3.821,3.599,34,0.876
+apple iphone 7 plus,build_quality,4.455,4.342,37,0.8
+apple iphone x,build_quality,3.965,3.776,36,0.816
+apple iphone xs max,build_quality,5.082,5.023,15,0.718
+asus zenfone 5z,build_quality,5.465,5.51,25,0.818
+asus zenfone max plus,build_quality,4.286,4.117,30,0.78
+google pixel,build_quality,4.088,4.013,82,0.83
+google pixel 2,build_quality,4.806,4.771,67,0.838
+google pixel 2 google,build_quality,4.316,4.152,30,0.808
+google pixel 2 xl,build_quality,4.683,4.637,66,0.832
+google pixel 3 xl,build_quality,5.121,5.098,30,0.769
+google pixel 4,build_quality,5.739,5.819,32,0.828
+google pixel xl,build_quality,5.212,5.209,67,0.821
+google pixel xl g2pw210032gbbk,build_quality,3.777,3.671,73,0.841
+huawei mate 10 pro,build_quality,6.743,6.837,84,0.825
+huawei mate 20 lite,build_quality,6.495,6.619,53,0.776
+huawei mate 20 pro,build_quality,6.484,6.809,20,0.822
+huawei p20 lite,build_quality,5.946,6.002,66,0.832
+motorola barrage,build_quality,6.681,6.818,55,0.858
+motorola droid razr m,build_quality,4.923,4.902,81,0.762
+motorola droid turbo,build_quality,5.146,5.137,61,0.818
+motorola e plus,build_quality,4.666,4.607,52,0.795
+motorola g4 play,build_quality,3.877,3.515,20,0.857
+motorola g6,build_quality,5.681,5.708,84,0.844
+motorola g6 plus,build_quality,4.301,4.109,26,0.81
+motorola g7,build_quality,6.498,6.885,17,0.856
+motorola g7 plus plus,build_quality,6.351,6.641,20,0.864
+motorola moto g,build_quality,6.175,6.279,47,0.771
+motorola moto g7,build_quality,5.111,5.101,76,0.823
+motorola moto g7 power,build_quality,5.382,5.395,54,0.803
+motorola pre paid,build_quality,5.957,6.048,41,0.84
+motorola x4,build_quality,6.021,6.167,28,0.788
+motorola z play,build_quality,4.297,3.982,16,0.86
+nokia 2,build_quality,5.625,5.656,64,0.841
+nokia 3.1,build_quality,5.052,5.021,33,0.821
+nokia 3310,build_quality,4.382,4.325,80,0.808
+nokia 5,build_quality,6.248,6.54,18,0.854
+nokia 6,build_quality,5.893,5.92,128,0.82
+nokia 7.1,build_quality,4.55,4.526,153,0.833
+nokia 9 pureview,build_quality,5.286,5.294,24,0.851
+nokia lumia 530,build_quality,4.547,4.444,36,0.879
+nokia lumia 635,build_quality,5.544,5.601,27,0.883
+nokia lumia 822,build_quality,6.01,6.21,20,0.743
+nokia lumia 900,build_quality,5.185,5.178,49,0.853
+nokia lumia 920,build_quality,6.26,6.297,146,0.792
+nokia lumia 925,build_quality,6.295,6.479,30,0.89
+nokia lumia 928,build_quality,6.249,6.303,99,0.833
+nokia lumia icon,build_quality,6.415,6.581,37,0.816
+oneplus 6t mirror,build_quality,4.849,4.724,17,0.77
+rog gaming zs600kl s845,build_quality,5.222,5.217,26,0.779
+samsung convoy 3 rugged,build_quality,4.902,4.825,24,0.786
+samsung convoy 4 rugged,build_quality,5.172,5.153,22,0.823
+samsung galaxy a10,build_quality,5.854,5.947,34,0.863
+samsung galaxy a10 duos,build_quality,7.065,7.544,20,0.806
+samsung galaxy a20 us,build_quality,6.04,6.133,45,0.804
+samsung galaxy a30,build_quality,5.666,5.739,30,0.84
+samsung galaxy a50 duos,build_quality,5.286,5.29,41,0.874
+samsung galaxy a50 us,build_quality,4.291,4.103,27,0.804
+samsung galaxy a70 6.7,build_quality,6.218,6.337,43,0.807
+samsung galaxy j3 prime,build_quality,5.311,5.33,17,0.88
+samsung galaxy j5,build_quality,6.272,6.451,30,0.882
+samsung galaxy j7,build_quality,4.857,4.811,45,0.868
+samsung galaxy note 10,build_quality,4.558,4.469,41,0.773
+samsung galaxy note 3,build_quality,5.076,5.051,38,0.836
+samsung galaxy note 4,build_quality,3.951,3.755,35,0.824
+samsung galaxy note 5,build_quality,4.668,4.598,44,0.818
+samsung galaxy note 8,build_quality,4.727,4.641,32,0.802
+samsung galaxy note 9,build_quality,5.238,5.236,39,0.84
+samsung galaxy note8,build_quality,5.72,5.754,72,0.794
+samsung galaxy prevail ii,build_quality,4.716,4.581,21,0.869
+samsung galaxy s10,build_quality,4.941,4.866,22,0.858
+samsung galaxy s10 plus,build_quality,5.013,4.973,31,0.779
+samsung galaxy s10e plus,build_quality,5.623,5.733,18,0.9
+samsung galaxy s4,build_quality,5.723,5.783,42,0.866
+samsung galaxy s4 sgh,build_quality,3.506,3.068,21,0.879
+samsung galaxy s5,build_quality,3.632,3.461,50,0.85
+samsung galaxy s6,build_quality,3.474,3.206,35,0.849
+samsung galaxy s6 active,build_quality,4.706,4.651,52,0.78
+samsung galaxy s6 edge,build_quality,4.724,4.672,53,0.82
+samsung galaxy s7,build_quality,3.776,3.595,43,0.88
+samsung galaxy s7 active,build_quality,4.656,4.555,31,0.83
+samsung galaxy s7 edge,build_quality,4.074,3.926,42,0.827
+samsung galaxy s8,build_quality,4.157,4.02,42,0.819
+samsung galaxy s8 active,build_quality,4.34,4.185,31,0.83
+samsung galaxy s8 plus,build_quality,4.394,4.3,48,0.814
+samsung galaxy s9,build_quality,4.587,4.452,26,0.812
+samsung galaxy s9 plus,build_quality,4.877,4.801,26,0.842
+samsung gophone,build_quality,5.83,5.903,42,0.861
+samsung gusto 3,build_quality,5.841,5.91,45,0.816
+samsung net 10 unlimited,build_quality,5.708,5.771,38,0.74
+samsung replenish,build_quality,6.37,6.666,20,0.817
+samsung rugby ii,build_quality,5.441,5.476,28,0.762
+sony xperia 10 plus,build_quality,5.81,5.915,28,0.814
+sony xperia l1,build_quality,4.658,4.493,19,0.783
+sony xperia l2,build_quality,6.013,6.139,32,0.827
+sony xperia x,build_quality,4.974,4.93,33,0.772
+sony xperia x performance,build_quality,6.351,6.615,22,0.779
+sony xperia xa ultra,build_quality,4.418,4.373,97,0.833
+sony xperia xa1,build_quality,3.325,3.137,54,0.844
+sony xperia xa1 ultra,build_quality,5.09,5.076,57,0.823
+sony xperia xa2 ultra,build_quality,5.483,5.5,73,0.809
+sony xperia xz,build_quality,5.855,5.917,52,0.791
+sony xperia xz forest,build_quality,4.81,4.749,38,0.776
+sony xperia xz premium,build_quality,5.865,5.956,36,0.781
+sony xperia xz1,build_quality,6.383,6.613,26,0.822
+sony xperia xz2 premium,build_quality,5.555,5.645,18,0.79
+xiaomi mi 8 lite,build_quality,6.389,6.629,25,0.816
+xiaomi mi 9t pro,build_quality,5.346,5.38,15,0.723
+xiaomi mi a2,build_quality,5.913,5.968,64,0.814
+xiaomi mi a2 lite,build_quality,6.93,7.316,23,0.83
+xiaomi mi a3,build_quality,5.275,5.28,29,0.756
+xiaomi mi a3 plus,build_quality,5.275,5.28,29,0.756
+xiaomi pocophone f1,build_quality,5.662,5.749,25,0.796
+xiaomi redmi 7 plus,build_quality,5.991,6.196,19,0.761
+xiaomi redmi note 6,build_quality,6.159,6.23,68,0.806
+xiaomi redmi note 7,build_quality,6.237,6.307,75,0.78
+xiaomi redmi note 8,build_quality,6.657,6.875,34,0.763
+apple iphone 7 plus,camera,5.86,5.605,23,0.886
+apple iphone xs max,camera,5.936,5.573,15,0.767
+asus zenfone 5z,camera,7.252,7.311,26,0.845
+asus zenfone max plus,camera,5.906,5.719,30,0.757
+google pixel,camera,7.538,7.592,56,0.837
+google pixel 2,camera,7.037,7.042,83,0.863
+google pixel 2 google,camera,6.649,6.597,32,0.806
+google pixel 2 xl,camera,7.846,7.906,79,0.862
+google pixel 3,camera,6.797,6.75,19,0.88
+google pixel 3 clearly,camera,7.46,7.615,17,0.872
+google pixel 3 xl,camera,7.21,7.254,30,0.838
+google pixel 4,camera,6.776,6.761,68,0.82
+google pixel xl,camera,8.288,8.397,65,0.852
+google pixel xl g2pw210032gbbk,camera,7.834,7.918,55,0.853
+huawei mate 10 pro,camera,7.741,7.775,120,0.848
+huawei mate 20 lite,camera,7.211,7.231,68,0.834
+huawei mate 20 pro,camera,7.636,7.729,38,0.824
+huawei p20 lite,camera,7.757,7.811,77,0.86
+huawei p30 plus,camera,7.877,8.019,34,0.864
+motorola barrage,camera,6.251,6.052,19,0.85
+motorola droid razr m,camera,5.274,5.098,51,0.76
+motorola droid turbo,camera,5.5,5.311,41,0.824
+motorola e plus,camera,6.101,6.03,64,0.811
+motorola g6,camera,6.731,6.714,70,0.811
+motorola g6 plus,camera,7.143,7.185,23,0.82
+motorola g7,camera,7.425,7.561,18,0.724
+motorola g7 plus plus,camera,6.986,6.992,22,0.763
+motorola moto g,camera,7.233,7.27,39,0.836
+motorola moto g7,camera,6.817,6.806,68,0.81
+motorola moto g7 power,camera,7.058,7.068,52,0.807
+motorola x4,camera,6.459,6.375,32,0.797
+motorola z play,camera,6.433,6.311,23,0.818
+nokia 2,camera,5.043,4.788,40,0.777
+nokia 3.1,camera,5.73,5.403,20,0.806
+nokia 3310,camera,4.246,3.645,24,0.815
+nokia 6,camera,5.771,5.672,64,0.819
+nokia 7.1,camera,7.115,7.123,107,0.824
+nokia 7.2,camera,7.495,7.671,16,0.792
+nokia 9 pureview,camera,5.764,5.576,34,0.787
+nokia lumia 530,camera,3.999,3.457,29,0.762
+nokia lumia 635,camera,6.081,5.943,34,0.793
+nokia lumia 822,camera,6.044,5.756,17,0.792
+nokia lumia 900,camera,6.803,6.783,43,0.788
+nokia lumia 920,camera,7.671,7.697,144,0.801
+nokia lumia 925,camera,7.334,7.428,21,0.852
+nokia lumia 928,camera,7.601,7.636,98,0.82
+nokia lumia icon,camera,7.842,7.917,62,0.847
+oneplus 6t storage plus,camera,7.243,7.33,17,0.889
+samsung galaxy a10,camera,6.742,6.689,22,0.859
+samsung galaxy a10 duos,camera,7.513,7.639,23,0.877
+samsung galaxy a20 us,camera,7.619,7.691,48,0.842
+samsung galaxy a30,camera,7.102,7.123,34,0.83
+samsung galaxy a50 duos,camera,7.718,7.771,75,0.854
+samsung galaxy a50 us,camera,7.092,7.114,30,0.859
+samsung galaxy a70 6.7,camera,6.966,6.966,69,0.816
+samsung galaxy j5,camera,7.542,7.613,43,0.891
+samsung galaxy j7,camera,6.326,6.253,46,0.846
+samsung galaxy note 10,camera,7.614,7.694,43,0.802
+samsung galaxy note 3,camera,6.457,6.368,30,0.85
+samsung galaxy note 4,camera,5.822,5.503,19,0.789
+samsung galaxy note 9,camera,6.918,6.907,23,0.843
+samsung galaxy note8,camera,7.133,7.147,65,0.801
+samsung galaxy s10,camera,7.726,7.805,51,0.87
+samsung galaxy s10 plus,camera,7.184,7.211,43,0.855
+samsung galaxy s4,camera,7.515,7.632,25,0.801
+samsung galaxy s5,camera,5.974,5.697,19,0.84
+samsung galaxy s6 active,camera,6.546,6.457,25,0.846
+samsung galaxy s6 edge,camera,7.151,7.176,41,0.843
+samsung galaxy s7,camera,7.39,7.531,16,0.839
+samsung galaxy s7 active,camera,6.76,6.715,24,0.862
+samsung galaxy s7 edge,camera,6.98,6.983,26,0.859
+samsung galaxy s8,camera,7.237,7.297,24,0.912
+samsung galaxy s8 plus,camera,6.566,6.505,35,0.879
+samsung galaxy s9 plus,camera,8.377,8.644,28,0.856
+samsung gophone,camera,5.154,4.736,23,0.754
+sony xperia 1 6.5,camera,7.765,7.989,19,0.824
+sony xperia 1 and,camera,7.765,7.989,19,0.824
+sony xperia 10 plus,camera,6.456,6.359,28,0.802
+sony xperia l1,camera,5.9,5.603,19,0.851
+sony xperia l2,camera,6.782,6.754,34,0.768
+sony xperia x,camera,6.658,6.636,72,0.801
+sony xperia x performance,camera,6.975,6.977,30,0.806
+sony xperia xa ultra,camera,6.942,6.941,115,0.821
+sony xperia xa1,camera,5.72,5.574,45,0.781
+sony xperia xa1 ultra,camera,6.924,6.92,56,0.83
+sony xperia xa2 ultra,camera,6.895,6.891,89,0.87
+sony xperia xz,camera,7.094,7.106,60,0.831
+sony xperia xz forest,camera,6.873,6.864,59,0.844
+sony xperia xz premium,camera,7.027,7.033,54,0.741
+sony xperia xz1,camera,6.723,6.676,27,0.746
+sony xperia xz2 premium,camera,6.853,6.833,29,0.809
+xiaomi mi 8 lite,camera,8.282,8.467,38,0.878
+xiaomi mi 9 plus,camera,8.615,9.102,18,0.9
+xiaomi mi 9t pro,camera,7.299,7.37,25,0.856
+xiaomi mi a2,camera,8.224,8.304,83,0.837
+xiaomi mi a2 lite,camera,6.776,6.741,29,0.826
+xiaomi mi a3,camera,7.771,7.876,41,0.823
+xiaomi mi a3 plus,camera,7.771,7.876,41,0.823
+xiaomi pocophone f1,camera,7.483,7.566,33,0.792
+xiaomi redmi 7 plus,camera,7.652,7.881,16,0.857
+xiaomi redmi note 6,camera,7.99,8.071,67,0.862
+xiaomi redmi note 7,camera,8.061,8.134,80,0.817
+xiaomi redmi note 8,camera,6.764,6.736,39,0.83
+apple iphone 6s,customer_service,4.766,4.789,52,0.758
+apple iphone 6s plus,customer_service,5.741,6.203,18,0.848
+apple iphone 7,customer_service,4.107,4.028,46,0.769
+apple iphone 7 plus,customer_service,4.21,4.129,36,0.82
+apple iphone 8,customer_service,3.382,2.822,16,0.844
+apple iphone x,customer_service,4.995,5.063,42,0.746
+apple iphone xs,customer_service,5.353,5.657,18,0.751
+apple iphone xs max,customer_service,4.647,4.664,18,0.694
+asus zenfone max plus,customer_service,4.137,3.994,24,0.722
+google pixel,customer_service,4.178,4.141,86,0.803
+google pixel 2,customer_service,4.071,4.015,69,0.793
+google pixel 2 google,customer_service,4.681,4.701,27,0.799
+google pixel 2 xl,customer_service,5.137,5.212,52,0.785
+google pixel 3 xl,customer_service,4.716,4.74,33,0.791
+google pixel 4,customer_service,3.853,3.563,19,0.789
+google pixel xl,customer_service,4.598,4.597,61,0.737
+google pixel xl g2pw210032gbbk,customer_service,3.759,3.684,83,0.831
+huawei mate 10 pro,customer_service,4.071,4.001,56,0.808
+huawei mate 20 lite,customer_service,5.758,6.022,32,0.792
+huawei mate 20 pro,customer_service,5.606,6.014,18,0.848
+huawei p20 lite,customer_service,4.974,5.056,33,0.747
+motorola barrage,customer_service,4.793,4.835,32,0.785
+motorola droid razr m,customer_service,4.733,4.757,38,0.845
+motorola droid turbo,customer_service,4.398,4.365,46,0.796
+motorola e plus,customer_service,4.36,4.314,39,0.82
+motorola g6,customer_service,4.115,4.04,48,0.781
+motorola g6 plus,customer_service,4.112,3.954,23,0.777
+motorola moto g,customer_service,5.69,5.879,42,0.827
+motorola moto g7,customer_service,4.794,4.833,35,0.811
+motorola moto g7 power,customer_service,3.834,3.703,43,0.763
+motorola one,customer_service,4.548,4.529,22,0.76
+motorola x4,customer_service,4.253,4.109,18,0.737
+motorola z play,customer_service,4.658,4.678,19,0.791
+nokia 2,customer_service,3.315,2.843,20,0.879
+nokia 3.1,customer_service,3.43,2.924,17,0.776
+nokia 3310,customer_service,3.339,3.066,34,0.879
+nokia 6,customer_service,3.66,3.495,42,0.784
+nokia 7.1,customer_service,3.086,2.964,92,0.824
+nokia lumia 530,customer_service,4.553,4.535,21,0.806
+nokia lumia 635,customer_service,5.549,5.779,30,0.822
+nokia lumia 822,customer_service,4.742,4.798,18,0.846
+nokia lumia 900,customer_service,4.977,5.02,63,0.809
+nokia lumia 920,customer_service,5.331,5.431,53,0.815
+nokia lumia 925,customer_service,4.738,4.803,15,0.755
+nokia lumia 928,customer_service,4.883,4.922,52,0.821
+oneplus 6t storage plus,customer_service,4.235,4.054,15,0.821
+rog gaming zs600kl s845,customer_service,4.025,3.9,34,0.715
+samsung galaxy a10,customer_service,4.431,4.388,30,0.734
+samsung galaxy a20 us,customer_service,4.659,4.67,36,0.813
+samsung galaxy a30,customer_service,4.675,4.693,27,0.791
+samsung galaxy a50 duos,customer_service,4.76,4.787,42,0.754
+samsung galaxy a70 6.7,customer_service,5.042,5.117,43,0.825
+samsung galaxy j3 prime,customer_service,3.865,3.503,15,0.841
+samsung galaxy j5,customer_service,4.697,4.723,25,0.863
+samsung galaxy j7,customer_service,4.173,4.074,32,0.783
+samsung galaxy note 10,customer_service,4.699,4.714,46,0.722
+samsung galaxy note 3,customer_service,5.803,5.998,45,0.804
+samsung galaxy note 4,customer_service,4.521,4.503,33,0.832
+samsung galaxy note 5,customer_service,4.647,4.653,47,0.805
+samsung galaxy note 8,customer_service,5.267,5.377,44,0.795
+samsung galaxy note 9,customer_service,5.171,5.228,72,0.758
+samsung galaxy note8,customer_service,4.751,4.766,71,0.795
+samsung galaxy prevail ii,customer_service,5.209,5.486,16,0.803
+samsung galaxy s10,customer_service,4.478,4.454,39,0.769
+samsung galaxy s10 plus,customer_service,5.25,5.36,43,0.77
+samsung galaxy s10e,customer_service,5.012,5.178,18,0.778
+samsung galaxy s4,customer_service,5.395,5.566,34,0.783
+samsung galaxy s4 sgh,customer_service,4.618,4.623,17,0.84
+samsung galaxy s5,customer_service,4.515,4.504,64,0.799
+samsung galaxy s6,customer_service,5.427,5.567,43,0.828
+samsung galaxy s6 active,customer_service,3.717,3.551,39,0.798
+samsung galaxy s6 edge,customer_service,4.384,4.346,42,0.762
+samsung galaxy s7,customer_service,4.761,4.782,53,0.809
+samsung galaxy s7 active,customer_service,3.84,3.674,34,0.846
+samsung galaxy s7 edge,customer_service,4.933,4.975,57,0.762
+samsung galaxy s8,customer_service,4.506,4.492,53,0.763
+samsung galaxy s8 active,customer_service,3.867,3.641,24,0.793
+samsung galaxy s8 plus,customer_service,4.784,4.807,56,0.791
+samsung galaxy s9,customer_service,4.719,4.755,23,0.803
+samsung galaxy s9 plus,customer_service,5.38,5.506,45,0.8
+samsung gophone,customer_service,4.343,4.28,31,0.78
+samsung gusto 3,customer_service,4.023,3.897,34,0.828
+samsung net 10 unlimited,customer_service,5.547,5.931,18,0.805
+samsung rugby ii,customer_service,3.614,3.25,20,0.773
+sony xperia xa ultra,customer_service,3.569,3.4,45,0.847
+sony xperia xa1,customer_service,3.438,3.143,29,0.86
+sony xperia xa1 ultra,customer_service,4.838,4.901,27,0.774
+sony xperia xa2 ultra,customer_service,3.952,3.848,46,0.803
+sony xperia xz,customer_service,3.949,3.819,37,0.804
+sony xperia xz forest,customer_service,4.406,4.353,28,0.858
+sony xperia xz premium,customer_service,4.487,4.45,23,0.763
+xiaomi mi 8 lite,customer_service,4.838,4.951,15,0.761
+xiaomi mi a2,customer_service,4.493,4.469,36,0.757
+xiaomi mi a3,customer_service,4.869,4.989,16,0.829
+xiaomi mi a3 plus,customer_service,4.869,4.989,16,0.829
+xiaomi pocophone f1,customer_service,4.953,5.047,27,0.734
+xiaomi redmi 7 plus,customer_service,4.812,4.906,16,0.709
+xiaomi redmi note 6,customer_service,5.631,5.89,29,0.711
+xiaomi redmi note 7,customer_service,5.184,5.302,36,0.811
+xiaomi redmi note 8,customer_service,5.174,5.363,22,0.808
+apple iphone 6s,delivery,7.21,7.282,57,0.815
+apple iphone 6s plus,delivery,7.697,7.869,42,0.833
+apple iphone 7,delivery,6.872,6.905,59,0.804
+apple iphone 7 plus,delivery,6.598,6.602,76,0.815
+apple iphone 8,delivery,6.922,6.975,43,0.769
+apple iphone 8 plus,delivery,7.019,7.14,24,0.819
+apple iphone x,delivery,6.749,6.762,94,0.785
+apple iphone xs,delivery,6.253,6.199,36,0.781
+apple iphone xs max,delivery,5.945,5.788,25,0.779
+apple mglw2ll a ipad,delivery,6.264,6.159,18,0.795
+google pixel,delivery,5.82,5.744,62,0.781
+google pixel 2,delivery,6.086,6.047,76,0.771
+google pixel 2 xl,delivery,6.724,6.739,71,0.765
+google pixel 3 clearly,delivery,6.056,5.878,18,0.739
+google pixel 3 xl,delivery,6.444,6.423,36,0.785
+google pixel xl,delivery,6.711,6.729,50,0.787
+google pixel xl g2pw210032gbbk,delivery,5.961,5.879,46,0.819
+huawei mate 10 pro,delivery,6.076,5.943,23,0.789
+huawei mate 20 lite,delivery,6.081,5.902,17,0.821
+huawei p20 lite,delivery,7.0,7.126,22,0.829
+motorola barrage,delivery,7.024,7.103,37,0.789
+motorola droid razr m,delivery,7.356,7.492,37,0.8
+motorola droid turbo,delivery,7.225,7.319,45,0.818
+motorola g6,delivery,6.036,5.814,15,0.808
+motorola moto g,delivery,6.75,6.792,28,0.819
+motorola pre paid,delivery,7.29,7.547,18,0.792
+nokia 3310,delivery,5.561,5.243,20,0.788
+nokia 6,delivery,6.302,6.215,19,0.834
+nokia 7.1,delivery,4.939,4.334,17,0.811
+nokia lumia 530,delivery,6.689,6.729,20,0.838
+nokia lumia 635,delivery,6.518,6.51,34,0.803
+nokia lumia 900,delivery,6.269,6.229,46,0.82
+nokia lumia 920,delivery,5.977,5.771,18,0.741
+nokia lumia 928,delivery,6.541,6.536,26,0.794
+oneplus 6t mirror,delivery,6.781,6.841,23,0.781
+samsung convoy 3 rugged,delivery,7.583,7.878,22,0.789
+samsung convoy ruggedized ptt,delivery,7.002,7.148,19,0.812
+samsung galaxy a10,delivery,6.687,6.719,25,0.843
+samsung galaxy a10 duos,delivery,6.396,6.346,21,0.843
+samsung galaxy a20 us,delivery,6.18,6.075,23,0.811
+samsung galaxy a30,delivery,7.189,7.424,17,0.814
+samsung galaxy a50 duos,delivery,5.964,5.792,22,0.799
+samsung galaxy a70 6.7,delivery,6.278,6.222,32,0.78
+samsung galaxy j5,delivery,7.27,7.407,33,0.841
+samsung galaxy note 10,delivery,6.167,6.074,27,0.801
+samsung galaxy note 3,delivery,7.617,7.803,36,0.865
+samsung galaxy note 4,delivery,6.937,7.029,26,0.826
+samsung galaxy note 5,delivery,7.062,7.12,55,0.835
+samsung galaxy note 8,delivery,6.442,6.429,57,0.786
+samsung galaxy note 9,delivery,6.363,6.339,51,0.774
+samsung galaxy note8,delivery,6.043,5.96,40,0.801
+samsung galaxy prevail ii,delivery,7.055,7.25,16,0.753
+samsung galaxy s10,delivery,5.765,5.591,29,0.805
+samsung galaxy s10 plus,delivery,6.174,6.125,51,0.814
+samsung galaxy s10e,delivery,6.342,6.275,21,0.741
+samsung galaxy s10e plus,delivery,7.126,7.288,22,0.874
+samsung galaxy s4,delivery,6.814,6.849,47,0.814
+samsung galaxy s4 sgh,delivery,5.822,5.634,25,0.811
+samsung galaxy s5,delivery,6.371,6.35,58,0.823
+samsung galaxy s6,delivery,6.204,6.162,55,0.798
+samsung galaxy s6 active,delivery,6.649,6.663,42,0.857
+samsung galaxy s6 edge,delivery,7.309,7.41,47,0.808
+samsung galaxy s7,delivery,6.92,6.952,72,0.821
+samsung galaxy s7 active,delivery,6.771,6.829,23,0.833
+samsung galaxy s7 edge,delivery,6.349,6.327,63,0.796
+samsung galaxy s8,delivery,6.122,6.074,59,0.762
+samsung galaxy s8 active,delivery,7.319,7.445,38,0.806
+samsung galaxy s8 plus,delivery,6.302,6.27,51,0.796
+samsung galaxy s9,delivery,5.762,5.621,36,0.801
+samsung galaxy s9 plus,delivery,7.128,7.18,69,0.815
+samsung gophone,delivery,6.461,6.419,15,0.762
+samsung gusto 3,delivery,6.145,6.047,27,0.87
+sony xperia xz,delivery,4.746,4.223,22,0.818
+sony xperia xz forest,delivery,7.492,7.787,20,0.874
+xiaomi redmi note 7,delivery,6.916,7.006,25,0.822
+apple iphone 6s,design,7.976,8.287,15,0.883
+apple iphone 7 plus,design,7.076,7.081,27,0.805
+apple iphone x,design,5.529,5.124,19,0.861
+google pixel,design,7.674,7.839,19,0.863
+google pixel 2,design,6.992,6.985,43,0.784
+google pixel 2 xl,design,7.062,7.063,37,0.788
+google pixel 4,design,6.742,6.68,25,0.825
+google pixel xl,design,6.867,6.828,24,0.848
+google pixel xl g2pw210032gbbk,design,6.609,6.519,25,0.747
+huawei mate 10 pro,design,7.73,7.782,66,0.83
+huawei mate 20 lite,design,7.607,7.7,30,0.803
+huawei p20 lite,design,8.041,8.165,40,0.828
+motorola barrage,design,6.536,6.372,16,0.898
+motorola droid razr m,design,6.525,6.479,59,0.729
+motorola droid turbo,design,7.461,7.528,31,0.822
+motorola e plus,design,6.394,6.323,47,0.8
+motorola g6,design,6.691,6.647,42,0.77
+motorola moto g,design,7.751,7.851,35,0.854
+motorola moto g7,design,6.912,6.894,38,0.831
+motorola moto g7 power,design,6.118,5.943,27,0.809
+motorola pre paid,design,5.724,5.42,22,0.742
+motorola x4,design,6.295,6.129,23,0.716
+nokia 2,design,7.355,7.397,36,0.795
+nokia 3.1,design,8.275,8.569,21,0.869
+nokia 3310,design,6.577,6.536,58,0.819
+nokia 6,design,7.685,7.749,50,0.832
+nokia 7.1,design,6.864,6.847,57,0.801
+nokia lumia 530,design,6.113,5.834,17,0.753
+nokia lumia 635,design,6.967,6.95,25,0.774
+nokia lumia 900,design,7.805,7.908,37,0.843
+nokia lumia 920,design,6.733,6.719,109,0.784
+nokia lumia 928,design,7.174,7.185,58,0.787
+nokia lumia icon,design,7.278,7.337,19,0.828
+samsung galaxy a10,design,7.802,7.953,25,0.833
+samsung galaxy a20 us,design,7.611,7.678,42,0.867
+samsung galaxy a30,design,8.32,8.719,16,0.883
+samsung galaxy a50 duos,design,7.12,7.131,29,0.83
+samsung galaxy a50 us,design,6.614,6.491,18,0.736
+samsung galaxy a70 6.7,design,7.626,7.706,36,0.806
+samsung galaxy j5,design,7.796,7.983,20,0.866
+samsung galaxy j7,design,7.248,7.284,27,0.821
+samsung galaxy note 10,design,6.299,6.153,26,0.777
+samsung galaxy note 3,design,7.191,7.21,37,0.786
+samsung galaxy note 4,design,6.355,6.169,19,0.799
+samsung galaxy note 5,design,8.209,8.552,17,0.844
+samsung galaxy note 8,design,7.46,7.581,17,0.845
+samsung galaxy note 9,design,6.094,5.874,22,0.761
+samsung galaxy note8,design,6.475,6.406,42,0.805
+samsung galaxy s10,design,6.981,6.967,26,0.807
+samsung galaxy s10 plus,design,7.012,7.002,19,0.828
+samsung galaxy s10e plus,design,7.841,8.089,16,0.88
+samsung galaxy s4,design,6.974,6.96,30,0.832
+samsung galaxy s5,design,6.906,6.864,18,0.806
+samsung galaxy s6,design,6.913,6.871,17,0.83
+samsung galaxy s6 active,design,6.88,6.829,17,0.804
+samsung galaxy s6 edge,design,7.771,7.858,42,0.862
+samsung galaxy s7,design,7.75,7.897,24,0.84
+samsung galaxy s7 edge,design,7.565,7.717,17,0.882
+samsung galaxy s8,design,7.349,7.408,25,0.877
+samsung galaxy s8 plus,design,6.228,6.08,28,0.8
+samsung galaxy s9 plus,design,7.142,7.173,15,0.785
+samsung gophone,design,6.877,6.849,32,0.801
+samsung gusto 3,design,7.335,7.397,23,0.817
+samsung net 10 unlimited,design,6.816,6.764,23,0.733
+sony xperia l1,design,6.486,6.307,16,0.79
+sony xperia l2,design,7.289,7.335,26,0.843
+sony xperia x,design,7.114,7.122,40,0.816
+sony xperia x performance,design,6.883,6.848,24,0.797
+sony xperia xa ultra,design,6.524,6.483,66,0.807
+sony xperia xa1,design,4.908,4.271,17,0.768
+sony xperia xa1 ultra,design,7.285,7.32,34,0.83
+sony xperia xa2 ultra,design,5.597,5.387,35,0.766
+sony xperia xz,design,7.42,7.475,34,0.833
+sony xperia xz forest,design,7.053,7.053,30,0.77
+sony xperia xz premium,design,7.478,7.53,42,0.791
+sony xperia xz2 premium,design,6.241,6.025,19,0.72
+xiaomi mi 8 lite,design,7.393,7.5,16,0.794
+xiaomi mi a2,design,7.73,7.885,22,0.839
+xiaomi mi a3,design,7.74,7.885,24,0.873
+xiaomi mi a3 plus,design,7.74,7.885,24,0.873
+xiaomi redmi note 6,design,7.633,7.731,30,0.817
+xiaomi redmi note 7,design,7.547,7.614,37,0.811
+xiaomi redmi note 8,design,7.579,7.744,16,0.842
+apple iphone 6s,display,4.224,4.06,40,0.838
+apple iphone 6s plus,display,3.794,3.331,19,0.881
+apple iphone 7,display,3.23,2.921,38,0.852
+apple iphone 7 plus,display,4.989,4.939,52,0.872
+apple iphone 8,display,5.004,4.865,18,0.838
+apple iphone x,display,3.27,3.107,71,0.847
+apple iphone xs,display,3.403,2.833,19,0.857
+apple iphone xs max,display,4.678,4.415,16,0.789
+asus zenfone 5z,display,6.618,6.822,29,0.753
+asus zenfone max plus,display,5.761,5.821,24,0.843
+google pixel,display,4.282,4.18,61,0.87
+google pixel 2,display,4.172,4.06,61,0.823
+google pixel 2 google,display,4.771,4.61,23,0.827
+google pixel 2 xl,display,4.216,4.142,90,0.816
+google pixel 3,display,3.891,3.372,16,0.826
+google pixel 3 clearly,display,4.988,4.827,16,0.828
+google pixel 3 xl,display,4.912,4.827,35,0.827
+google pixel 4,display,6.106,6.156,64,0.782
+google pixel xl,display,4.857,4.798,55,0.839
+google pixel xl g2pw210032gbbk,display,5.071,5.034,58,0.819
+huawei ascend xt 2,display,6.231,6.49,15,0.819
+huawei mate 10 pro,display,6.584,6.661,75,0.802
+huawei mate 20 lite,display,6.752,6.874,54,0.818
+huawei mate 20 pro,display,5.692,5.731,28,0.804
+huawei p20 lite,display,7.395,7.567,58,0.86
+motorola barrage,display,4.021,3.69,23,0.811
+motorola droid razr m,display,5.737,5.749,107,0.761
+motorola droid turbo,display,4.711,4.655,72,0.827
+motorola e plus,display,6.703,6.794,70,0.811
+motorola e5 play xt1920,display,3.432,2.719,15,0.838
+motorola g6,display,5.989,6.03,65,0.824
+motorola g6 plus,display,5.88,5.97,23,0.856
+motorola g7,display,7.014,7.511,16,0.801
+motorola g7 plus plus,display,5.77,5.862,16,0.724
+motorola moto g,display,6.476,6.575,52,0.856
+motorola moto g7,display,6.062,6.098,82,0.835
+motorola moto g7 power,display,6.058,6.118,50,0.81
+motorola moto z4,display,4.851,4.701,22,0.821
+motorola one,display,5.679,5.742,16,0.817
+motorola x4,display,5.229,5.189,33,0.846
+motorola z play,display,5.055,4.976,28,0.83
+motorola z3 play moto,display,4.687,4.457,18,0.894
+nokia 2,display,4.864,4.794,46,0.836
+nokia 3.1,display,6.625,6.823,30,0.819
+nokia 3310,display,3.558,3.287,37,0.806
+nokia 6,display,5.331,5.321,75,0.842
+nokia 7.1,display,6.022,6.045,122,0.812
+nokia 9 pureview,display,5.914,6.007,24,0.768
+nokia lumia 530,display,3.931,3.772,51,0.836
+nokia lumia 635,display,4.839,4.731,31,0.808
+nokia lumia 822,display,6.182,6.327,25,0.701
+nokia lumia 900,display,5.303,5.282,45,0.805
+nokia lumia 920,display,7.248,7.311,147,0.8
+nokia lumia 925,display,4.657,4.369,15,0.792
+nokia lumia 928,display,5.907,5.927,112,0.818
+nokia lumia icon,display,6.907,7.064,47,0.82
+oneplus 6t mirror,display,5.398,5.375,20,0.863
+oneplus 6t storage plus,display,4.721,4.473,16,0.796
+rog gaming zs600kl s845,display,4.916,4.85,45,0.824
+samsung galaxy a10,display,5.554,5.565,35,0.877
+samsung galaxy a10 duos,display,6.781,7.103,21,0.85
+samsung galaxy a20 us,display,6.714,6.798,77,0.842
+samsung galaxy a30,display,6.681,6.836,40,0.813
+samsung galaxy a50 duos,display,6.164,6.216,68,0.817
+samsung galaxy a50 us,display,6.148,6.228,43,0.823
+samsung galaxy a70 6.7,display,7.069,7.159,92,0.809
+samsung galaxy j3 prime,display,4.494,4.27,23,0.85
+samsung galaxy j5,display,5.634,5.664,26,0.889
+samsung galaxy j7,display,4.427,4.333,59,0.867
+samsung galaxy note 10,display,5.683,5.699,66,0.808
+samsung galaxy note 3,display,6.923,7.013,83,0.79
+samsung galaxy note 4,display,5.14,5.098,42,0.821
+samsung galaxy note 5,display,4.183,4.081,66,0.873
+samsung galaxy note 8,display,4.164,4.024,49,0.864
+samsung galaxy note 9,display,6.309,6.382,59,0.851
+samsung galaxy note8,display,5.524,5.526,91,0.765
+samsung galaxy prevail ii,display,4.89,4.743,21,0.859
+samsung galaxy s10,display,5.337,5.324,58,0.788
+samsung galaxy s10 plus,display,6.27,6.363,44,0.835
+samsung galaxy s10e,display,4.548,4.223,15,0.86
+samsung galaxy s10e plus,display,5.814,5.899,20,0.843
+samsung galaxy s4,display,6.742,6.873,50,0.807
+samsung galaxy s5,display,3.077,2.89,67,0.838
+samsung galaxy s6,display,3.179,2.855,37,0.887
+samsung galaxy s6 active,display,3.482,3.339,73,0.835
+samsung galaxy s6 edge,display,5.512,5.514,74,0.799
+samsung galaxy s7,display,3.619,3.429,51,0.841
+samsung galaxy s7 active,display,3.938,3.776,50,0.823
+samsung galaxy s7 edge,display,4.147,4.031,60,0.833
+samsung galaxy s8,display,4.02,3.847,44,0.826
+samsung galaxy s8 active,display,4.362,4.195,35,0.793
+samsung galaxy s8 plus,display,4.779,4.725,68,0.839
+samsung galaxy s9 plus,display,5.077,5.029,44,0.852
+samsung gophone,display,4.206,3.916,23,0.83
+samsung replenish,display,5.084,4.985,21,0.798
+sony xperia 1 6.5,display,6.749,6.954,32,0.759
+sony xperia 1 and,display,6.749,6.954,32,0.759
+sony xperia 10 plus,display,5.566,5.578,35,0.723
+sony xperia l1,display,5.177,5.108,23,0.794
+sony xperia l2,display,6.469,6.585,44,0.761
+sony xperia x,display,6.568,6.691,46,0.816
+sony xperia x performance,display,5.458,5.452,23,0.788
+sony xperia xa ultra,display,5.977,5.996,131,0.805
+sony xperia xa1,display,2.876,2.733,95,0.887
+sony xperia xa1 ultra,display,5.575,5.583,65,0.81
+sony xperia xa2 ultra,display,6.341,6.379,117,0.834
+sony xperia xz,display,6.782,6.936,44,0.815
+sony xperia xz forest,display,5.346,5.331,46,0.804
+sony xperia xz premium,display,6.758,6.879,55,0.771
+sony xperia xz1,display,6.037,6.157,24,0.791
+sony xperia xz2 premium,display,6.234,6.359,31,0.742
+xiaomi mi 8 lite,display,6.992,7.254,30,0.877
+xiaomi mi 9t pro,display,5.911,6.027,19,0.823
+xiaomi mi a2,display,6.097,6.152,58,0.824
+xiaomi mi a2 lite,display,5.691,5.742,21,0.756
+xiaomi mi a3,display,5.433,5.428,54,0.767
+xiaomi mi a3 plus,display,5.433,5.428,54,0.767
+xiaomi pocophone f1,display,5.632,5.654,36,0.791
+xiaomi redmi 7 plus,display,7.167,7.532,24,0.874
+xiaomi redmi note 6,display,6.492,6.561,76,0.806
+xiaomi redmi note 7,display,6.749,6.846,68,0.814
+xiaomi redmi note 8,display,7.229,7.522,31,0.767
+apple iphone 6s,overall,6.675,6.663,323,0.798
+apple iphone 6s plus,overall,7.208,7.236,189,0.845
+apple iphone 7,overall,6.853,6.851,327,0.83
+apple iphone 7 plus,overall,6.823,6.819,330,0.811
+apple iphone 8,overall,6.903,6.903,135,0.802
+apple iphone 8 plus,overall,7.032,7.054,105,0.762
+apple iphone se,overall,6.431,6.261,49,0.775
+apple iphone x,overall,6.882,6.88,322,0.798
+apple iphone xs,overall,7.052,7.079,98,0.812
+apple iphone xs max,overall,6.901,6.901,128,0.802
+apple mglw2ll a ipad,overall,7.041,7.072,77,0.823
+asus zenfone 5z,overall,7.315,7.409,78,0.757
+asus zenfone max plus,overall,6.55,6.501,126,0.752
+google pixel,overall,5.947,5.897,336,0.763
+google pixel 1st gen,overall,6.117,5.425,20,0.672
+google pixel 2,overall,6.53,6.511,345,0.771
+google pixel 2 google,overall,6.841,6.832,123,0.786
+google pixel 2 xl,overall,7.191,7.207,333,0.781
+google pixel 3,overall,6.426,6.279,57,0.786
+google pixel 3 clearly,overall,6.998,7.02,74,0.761
+google pixel 3 xl,overall,6.819,6.81,151,0.762
+google pixel 4,overall,6.605,6.568,143,0.734
+google pixel xl,overall,7.078,7.088,342,0.782
+google pixel xl g2pw210032gbbk,overall,6.154,6.112,313,0.775
+huawei ascend xt 2,overall,7.321,7.448,58,0.824
+huawei e8372h 608 150,overall,6.546,6.285,24,0.894
+huawei glory,overall,5.938,5.37,30,0.677
+huawei mate 10 pro,overall,7.415,7.441,348,0.773
+huawei mate 20 lite,overall,7.891,7.952,287,0.816
+huawei mate 20 pro,overall,7.681,7.815,103,0.793
+huawei p smart,overall,7.754,8.333,26,0.844
+huawei p20 lite,overall,7.581,7.618,321,0.802
+huawei p30 plus,overall,8.05,8.34,70,0.844
+huawei p30 pro,overall,7.359,7.695,24,0.754
+huawei router hotspot,overall,6.788,6.715,28,0.809
+huawei y6 2018 atu,overall,7.315,7.771,16,0.843
+huawei y9 2019 jkm,overall,7.767,8.06,52,0.844
+microsoft lumia 950 nam,overall,7.12,7.195,52,0.795
+motorola barrage,overall,6.779,6.771,279,0.774
+motorola cingular gophone,overall,6.798,6.702,19,0.702
+motorola droid maxx 2,overall,5.9,5.435,38,0.781
+motorola droid maxx and,overall,6.862,6.828,21,0.775
+motorola droid razr m,overall,6.473,6.451,346,0.752
+motorola droid turbo,overall,6.85,6.847,346,0.789
+motorola droid turbo 2,overall,6.513,6.37,48,0.776
+motorola droid turbo ballistic,overall,6.479,6.352,59,0.835
+motorola droid ultra,overall,7.212,7.472,21,0.847
+motorola e,overall,6.674,6.594,50,0.76
+motorola e plus,overall,7.093,7.105,274,0.739
+motorola e4,overall,7.224,7.391,34,0.801
+motorola e4 plus locked,overall,6.89,6.88,21,0.739
+motorola e5,overall,7.442,7.84,24,0.791
+motorola e5 play xt1920,overall,6.245,6.063,64,0.745
+motorola g,overall,6.841,6.784,19,0.639
+motorola g4 play,overall,6.303,6.185,89,0.776
+motorola g5s plus,overall,6.156,5.818,39,0.806
+motorola g5s plus dual,overall,6.233,5.97,45,0.732
+motorola g6,overall,6.715,6.705,343,0.754
+motorola g6 play,overall,6.669,6.624,91,0.79
+motorola g6 plus,overall,7.151,7.183,134,0.789
+motorola g7,overall,7.71,7.878,85,0.771
+motorola g7 play plus,overall,7.235,7.366,45,0.803
+motorola g7 plus plus,overall,7.495,7.626,80,0.794
+motorola g7 power plus,overall,7.042,7.089,53,0.795
+motorola moto g,overall,7.672,7.711,346,0.812
+motorola moto g7,overall,6.876,6.874,307,0.754
+motorola moto g7 power,overall,6.916,6.916,309,0.768
+motorola moto x4 one,overall,6.986,7.031,33,0.747
+motorola moto z4,overall,5.925,5.55,46,0.768
+motorola one,overall,7.204,7.251,115,0.778
+motorola one vision,overall,7.174,7.345,28,0.771
+motorola pre paid,overall,7.327,7.381,140,0.777
+motorola x4,overall,7.087,7.11,143,0.769
+motorola z play,overall,7.091,7.118,122,0.774
+motorola z3 play moto,overall,6.855,6.842,61,0.77
+nokia 105,overall,5.226,4.873,84,0.822
+nokia 105 rm 1135,overall,5.053,4.64,79,0.831
+nokia 2,overall,5.825,5.75,253,0.783
+nokia 3.1,overall,6.711,6.678,105,0.758
+nokia 3310,overall,5.961,5.912,340,0.744
+nokia 3310 ta 1036,overall,6.253,5.649,19,0.758
+nokia 4.2,overall,6.522,6.128,17,0.707
+nokia 5,overall,6.569,6.466,57,0.792
+nokia 6,overall,6.77,6.763,331,0.761
+nokia 7.1,overall,5.982,5.934,340,0.711
+nokia 7.2,overall,6.469,6.257,36,0.746
+nokia 9 pureview,overall,6.67,6.586,49,0.75
+nokia lumia 530,overall,6.423,6.392,270,0.807
+nokia lumia 635,overall,6.629,6.613,318,0.81
+nokia lumia 822,overall,6.795,6.769,71,0.717
+nokia lumia 900,overall,6.265,6.233,348,0.773
+nokia lumia 920,overall,7.095,7.104,373,0.734
+nokia lumia 925,overall,6.537,6.477,109,0.786
+nokia lumia 928,overall,6.813,6.809,353,0.749
+nokia lumia icon,overall,7.067,7.088,136,0.756
+oneplus 6 mirror,overall,7.624,7.92,43,0.807
+oneplus 6t,overall,6.954,7.005,18,0.718
+oneplus 6t mirror,overall,7.332,7.411,96,0.792
+oneplus 6t storage plus,overall,7.104,7.158,66,0.762
+oneplus 7 pro 6.67,overall,7.516,8.058,20,0.794
+rog gaming zs600kl s845,overall,6.549,6.489,104,0.704
+samsung convoy 3 rugged,overall,6.672,6.651,192,0.805
+samsung convoy 4 rugged,overall,5.923,5.741,95,0.78
+samsung convoy ruggedized ptt,overall,7.212,7.284,77,0.779
+samsung dex wireless qi,overall,6.824,6.775,28,0.807
+samsung galaxy a10,overall,7.208,7.224,327,0.831
+samsung galaxy a10 6.2,overall,6.815,6.769,33,0.818
+samsung galaxy a10 duos,overall,7.432,7.48,193,0.824
+samsung galaxy a10s,overall,7.05,7.119,38,0.825
+samsung galaxy a20,overall,7.209,7.283,73,0.81
+samsung galaxy a20 us,overall,7.526,7.558,340,0.801
+samsung galaxy a20s,overall,8.013,8.798,25,0.817
+samsung galaxy a30,overall,7.498,7.55,199,0.812
+samsung galaxy a50,overall,6.767,6.726,58,0.777
+samsung galaxy a50 duos,overall,7.525,7.558,332,0.803
+samsung galaxy a50 us,overall,6.843,6.836,153,0.768
+samsung galaxy a70,overall,7.771,8.127,43,0.793
+samsung galaxy a70 6.7,overall,7.586,7.624,318,0.789
+samsung galaxy a70 dual,overall,6.47,6.088,20,0.743
+samsung galaxy j1 mini,overall,5.301,4.994,92,0.819
+samsung galaxy j2 2018,overall,7.206,7.252,118,0.851
+samsung galaxy j3,overall,6.871,6.866,114,0.804
+samsung galaxy j3 2018,overall,7.038,7.06,111,0.802
+samsung galaxy j3 prime,overall,6.317,6.255,166,0.809
+samsung galaxy j5,overall,7.54,7.574,333,0.84
+samsung galaxy j7,overall,6.349,6.316,297,0.804
+samsung galaxy j7 2018,overall,7.58,7.932,34,0.815
+samsung galaxy j7 branded,overall,6.077,5.268,18,0.793
+samsung galaxy j7 refine,overall,6.457,6.187,29,0.81
+samsung galaxy m20,overall,6.733,6.566,18,0.849
+samsung galaxy mega 6.3,overall,6.315,5.884,24,0.826
+samsung galaxy note 10,overall,6.748,6.736,224,0.749
+samsung galaxy note 3,overall,7.298,7.318,355,0.804
+samsung galaxy note 4,overall,6.629,6.611,268,0.802
+samsung galaxy note 5,overall,6.408,6.381,327,0.808
+samsung galaxy note 8,overall,7.256,7.275,329,0.812
+samsung galaxy note 9,overall,7.043,7.05,354,0.784
+samsung galaxy note8,overall,6.782,6.777,358,0.759
+samsung galaxy note9 duos,overall,7.151,7.319,26,0.865
+samsung galaxy on5,overall,5.87,5.567,60,0.827
+samsung galaxy prevail ii,overall,6.612,6.589,222,0.805
+samsung galaxy prime j3,overall,6.858,6.84,43,0.829
+samsung galaxy s10,overall,6.82,6.813,210,0.764
+samsung galaxy s10 plus,overall,7.504,7.537,320,0.806
+samsung galaxy s10e,overall,6.491,6.426,113,0.764
+samsung galaxy s10e plus,overall,7.7,7.803,137,0.804
+samsung galaxy s4,overall,7.447,7.475,351,0.809
+samsung galaxy s4 sgh,overall,5.567,5.362,115,0.851
+samsung galaxy s5,overall,6.23,6.196,352,0.785
+samsung galaxy s6,overall,6.284,6.252,341,0.818
+samsung galaxy s6 active,overall,6.474,6.442,234,0.801
+samsung galaxy s6 edge,overall,7.063,7.071,348,0.801
+samsung galaxy s6 wireless,overall,6.456,6.329,62,0.827
+samsung galaxy s7,overall,6.519,6.499,329,0.787
+samsung galaxy s7 active,overall,6.776,6.763,171,0.796
+samsung galaxy s7 edge,overall,6.84,6.837,334,0.812
+samsung galaxy s8,overall,6.834,6.83,318,0.804
+samsung galaxy s8 5.8,overall,6.921,6.931,34,0.802
+samsung galaxy s8 active,overall,6.891,6.89,188,0.789
+samsung galaxy s8 plus,overall,6.904,6.904,348,0.802
+samsung galaxy s8 pre,overall,7.307,7.466,45,0.793
+samsung galaxy s9,overall,7.035,7.048,175,0.806
+samsung galaxy s9 5.8,overall,7.004,7.034,61,0.832
+samsung galaxy s9 plus,overall,7.22,7.238,311,0.8
+samsung gophone,overall,6.692,6.678,266,0.751
+samsung gusto 3,overall,6.003,5.942,257,0.784
+samsung j3,overall,6.547,6.314,27,0.808
+samsung net 10 unlimited,overall,7.06,7.081,131,0.745
+samsung replenish,overall,6.418,6.292,68,0.759
+samsung rugby ii,overall,5.934,5.658,62,0.654
+samsung smooth great condition,overall,6.151,5.772,35,0.768
+samsung smooth wireless cell,overall,6.699,6.645,66,0.78
+sony experia z3 plus,overall,7.052,7.144,29,0.812
+sony xperia 1 6.5,overall,7.006,7.042,51,0.729
+sony xperia 1 and,overall,7.006,7.042,51,0.729
+sony xperia 10 plus,overall,6.577,6.492,68,0.708
+sony xperia l1,overall,6.888,6.885,90,0.771
+sony xperia l2,overall,7.056,7.098,65,0.646
+sony xperia x,overall,6.806,6.795,159,0.774
+sony xperia x performance,overall,7.031,7.057,91,0.771
+sony xperia xa ultra,overall,6.639,6.626,338,0.765
+sony xperia xa1,overall,5.428,5.281,177,0.77
+sony xperia xa1 plus,overall,7.079,7.183,30,0.798
+sony xperia xa1 ultra,overall,6.676,6.66,240,0.806
+sony xperia xa2 ultra,overall,6.857,6.854,245,0.759
+sony xperia xz,overall,6.528,6.495,200,0.793
+sony xperia xz forest,overall,7.324,7.364,190,0.803
+sony xperia xz premium,overall,7.072,7.093,144,0.77
+sony xperia xz1,overall,7.085,7.134,65,0.768
+sony xperia xz2 premium,overall,7.262,7.364,62,0.736
+sony xperia xz2 smarphone,overall,6.904,6.904,30,0.731
+xiaomi mi 8,overall,7.503,7.775,39,0.809
+xiaomi mi 8 lite,overall,7.788,7.893,150,0.782
+xiaomi mi 9 lite,overall,7.791,8.395,26,0.806
+xiaomi mi 9 plus,overall,7.694,7.877,76,0.791
+xiaomi mi 9 se,overall,7.757,8.072,48,0.843
+xiaomi mi 9t,overall,7.551,7.823,42,0.79
+xiaomi mi 9t pro,overall,7.589,7.729,87,0.793
+xiaomi mi a2,overall,7.505,7.539,314,0.786
+xiaomi mi a2 lite,overall,7.542,7.648,107,0.789
+xiaomi mi a3,overall,7.794,7.89,164,0.79
+xiaomi mi a3 plus,overall,7.794,7.89,164,0.79
+xiaomi pocophone f1,overall,7.452,7.512,163,0.765
+xiaomi redmi 6,overall,7.153,7.295,31,0.836
+xiaomi redmi 7 plus,overall,7.602,7.703,122,0.807
+xiaomi redmi note 6,overall,7.677,7.721,308,0.789
+xiaomi redmi note 7,overall,7.689,7.729,346,0.792
+xiaomi redmi note 8,overall,8.015,8.117,191,0.791
+apple iphone 6s,performance,5.849,5.866,106,0.861
+apple iphone 6s plus,performance,6.596,6.831,48,0.887
+apple iphone 7,performance,5.532,5.512,109,0.827
+apple iphone 7 plus,performance,5.735,5.739,103,0.851
+apple iphone 8,performance,4.733,4.418,39,0.833
+apple iphone 8 plus,performance,6.159,6.344,31,0.824
+apple iphone se,performance,5.374,5.207,25,0.788
+apple iphone x,performance,5.63,5.619,85,0.813
+apple iphone xs,performance,5.604,5.555,26,0.859
+apple iphone xs max,performance,5.727,5.737,29,0.749
+apple mglw2ll a ipad,performance,6.321,6.544,35,0.85
+asus zenfone 5z,performance,6.618,6.864,47,0.749
+asus zenfone max plus,performance,5.478,5.432,62,0.755
+google pixel,performance,4.746,4.667,153,0.828
+google pixel 2,performance,5.451,5.431,153,0.796
+google pixel 2 google,performance,5.29,5.2,58,0.819
+google pixel 2 xl,performance,5.863,5.879,127,0.822
+google pixel 3,performance,4.374,3.489,19,0.809
+google pixel 3 clearly,performance,5.225,5.053,35,0.829
+google pixel 3 xl,performance,5.635,5.617,48,0.812
+google pixel 4,performance,6.35,6.445,86,0.773
+google pixel xl,performance,6.133,6.171,142,0.823
+google pixel xl g2pw210032gbbk,performance,4.796,4.72,151,0.798
+huawei ascend xt 2,performance,5.14,4.894,29,0.794
+huawei glory,performance,4.779,4.194,20,0.728
+huawei mate 10 pro,performance,6.441,6.49,191,0.77
+huawei mate 20 lite,performance,6.654,6.755,119,0.772
+huawei mate 20 pro,performance,6.461,6.689,42,0.769
+huawei p20 lite,performance,5.879,5.896,130,0.838
+huawei p30 plus,performance,7.08,7.724,27,0.88
+huawei y9 2019 jkm,performance,6.696,7.391,18,0.74
+microsoft lumia 950 nam,performance,5.701,5.699,22,0.704
+motorola barrage,performance,5.82,5.835,99,0.817
+motorola droid maxx 2,performance,4.541,3.676,17,0.866
+motorola droid razr m,performance,5.316,5.292,205,0.785
+motorola droid turbo,performance,5.819,5.829,156,0.821
+motorola droid turbo 2,performance,5.255,5.008,23,0.833
+motorola droid turbo ballistic,performance,4.504,3.745,20,0.848
+motorola e,performance,5.878,5.962,26,0.753
+motorola e plus,performance,5.792,5.799,149,0.784
+motorola e4,performance,5.664,5.638,20,0.771
+motorola e5 play xt1920,performance,4.823,4.395,26,0.801
+motorola g,performance,5.515,5.389,19,0.579
+motorola g4 play,performance,5.175,4.979,34,0.816
+motorola g5s plus,performance,5.577,5.488,18,0.738
+motorola g5s plus dual,performance,5.011,4.709,29,0.765
+motorola g6,performance,5.695,5.694,163,0.785
+motorola g6 play,performance,5.674,5.665,41,0.853
+motorola g6 plus,performance,5.453,5.404,65,0.797
+motorola g7,performance,6.397,6.605,42,0.749
+motorola g7 play plus,performance,6.003,6.238,16,0.801
+motorola g7 plus plus,performance,6.708,6.977,47,0.794
+motorola g7 power plus,performance,6.166,6.39,26,0.816
+motorola moto g,performance,5.972,5.992,172,0.783
+motorola moto g7,performance,5.863,5.876,156,0.783
+motorola moto g7 power,performance,5.806,5.815,144,0.741
+motorola moto x4 one,performance,6.466,6.85,25,0.785
+motorola moto z4,performance,6.344,6.71,22,0.766
+motorola one,performance,5.578,5.546,51,0.794
+motorola pre paid,performance,5.102,4.947,49,0.782
+motorola x4,performance,5.957,6.001,71,0.773
+motorola z play,performance,5.813,5.839,53,0.815
+motorola z3 play moto,performance,6.404,6.757,25,0.787
+nokia 105,performance,5.221,5.075,42,0.837
+nokia 105 rm 1135,performance,4.902,4.628,37,0.895
+nokia 2,performance,4.09,3.973,174,0.767
+nokia 3.1,performance,5.631,5.618,69,0.771
+nokia 3310,performance,4.854,4.79,168,0.73
+nokia 5,performance,5.172,4.892,24,0.805
+nokia 6,performance,4.955,4.902,180,0.782
+nokia 7.1,performance,4.957,4.915,221,0.774
+nokia 7.2,performance,5.097,4.777,24,0.696
+nokia 9 pureview,performance,5.319,5.156,30,0.697
+nokia lumia 530,performance,5.175,5.103,93,0.775
+nokia lumia 635,performance,5.506,5.485,121,0.807
+nokia lumia 822,performance,5.722,5.727,43,0.751
+nokia lumia 900,performance,5.193,5.148,141,0.793
+nokia lumia 920,performance,6.125,6.149,219,0.746
+nokia lumia 925,performance,5.22,5.103,52,0.829
+nokia lumia 928,performance,5.459,5.442,190,0.763
+nokia lumia icon,performance,6.55,6.707,68,0.74
+oneplus 6 mirror,performance,6.931,7.747,19,0.832
+oneplus 6t mirror,performance,6.508,6.711,50,0.795
+oneplus 6t storage plus,performance,6.439,6.748,30,0.817
+rog gaming zs600kl s845,performance,5.483,5.441,66,0.744
+samsung convoy 3 rugged,performance,5.846,5.873,65,0.851
+samsung convoy 4 rugged,performance,5.143,4.914,31,0.783
+samsung convoy ruggedized ptt,performance,6.011,6.187,22,0.794
+samsung galaxy a10,performance,5.389,5.346,92,0.828
+samsung galaxy a10 duos,performance,6.51,6.672,63,0.804
+samsung galaxy a20,performance,5.877,5.964,25,0.726
+samsung galaxy a20 us,performance,6.369,6.431,134,0.812
+samsung galaxy a30,performance,5.954,5.99,88,0.819
+samsung galaxy a50,performance,5.913,5.99,34,0.805
+samsung galaxy a50 duos,performance,6.376,6.445,123,0.8
+samsung galaxy a50 us,performance,6.192,6.274,75,0.764
+samsung galaxy a70,performance,6.296,6.793,15,0.791
+samsung galaxy a70 6.7,performance,6.335,6.394,135,0.799
+samsung galaxy j1 mini,performance,4.47,3.997,33,0.791
+samsung galaxy j2 2018,performance,5.435,5.328,32,0.873
+samsung galaxy j3,performance,4.786,4.55,49,0.774
+samsung galaxy j3 2018,performance,5.42,5.323,37,0.733
+samsung galaxy j3 prime,performance,4.985,4.845,65,0.775
+samsung galaxy j5,performance,5.549,5.534,127,0.788
+samsung galaxy j7,performance,4.533,4.434,150,0.807
+samsung galaxy note 10,performance,5.893,5.919,91,0.756
+samsung galaxy note 3,performance,6.081,6.112,152,0.781
+samsung galaxy note 4,performance,4.932,4.84,107,0.815
+samsung galaxy note 5,performance,5.469,5.443,115,0.825
+samsung galaxy note 8,performance,5.961,5.99,110,0.816
+samsung galaxy note 9,performance,5.51,5.491,133,0.795
+samsung galaxy note8,performance,5.848,5.86,153,0.762
+samsung galaxy on5,performance,4.824,4.476,32,0.806
+samsung galaxy prevail ii,performance,5.05,4.939,74,0.796
+samsung galaxy prime j3,performance,5.267,4.942,17,0.721
+samsung galaxy s10,performance,5.814,5.829,93,0.778
+samsung galaxy s10 plus,performance,6.405,6.502,91,0.781
+samsung galaxy s10e,performance,6.052,6.151,44,0.813
+samsung galaxy s10e plus,performance,6.699,6.973,46,0.774
+samsung galaxy s4,performance,6.547,6.629,131,0.801
+samsung galaxy s4 sgh,performance,4.224,3.858,51,0.883
+samsung galaxy s5,performance,5.038,4.981,148,0.799
+samsung galaxy s6,performance,4.797,4.709,130,0.825
+samsung galaxy s6 active,performance,5.395,5.361,118,0.816
+samsung galaxy s6 edge,performance,5.646,5.641,139,0.79
+samsung galaxy s6 wireless,performance,4.618,3.964,21,0.831
+samsung galaxy s7,performance,5.129,5.07,124,0.825
+samsung galaxy s7 active,performance,4.518,4.321,76,0.815
+samsung galaxy s7 edge,performance,6.052,6.087,124,0.803
+samsung galaxy s8,performance,5.509,5.487,110,0.827
+samsung galaxy s8 active,performance,6.225,6.31,77,0.878
+samsung galaxy s8 plus,performance,6.22,6.269,133,0.829
+samsung galaxy s8 pre,performance,6.538,7.241,15,0.798
+samsung galaxy s9,performance,6.127,6.206,68,0.796
+samsung galaxy s9 plus,performance,6.088,6.134,105,0.795
+samsung gophone,performance,5.978,6.014,97,0.819
+samsung gusto 3,performance,5.401,5.349,73,0.807
+samsung net 10 unlimited,performance,6.052,6.118,67,0.778
+samsung replenish,performance,5.236,5.066,35,0.783
+samsung rugby ii,performance,5.237,5.078,37,0.747
+samsung smooth great condition,performance,6.109,6.429,16,0.88
+samsung smooth wireless cell,performance,5.85,5.927,24,0.826
+sony experia z3 plus,performance,5.955,6.152,16,0.861
+sony xperia 1 6.5,performance,6.897,7.552,23,0.72
+sony xperia 1 and,performance,6.897,7.552,23,0.72
+sony xperia 10 plus,performance,5.908,5.97,41,0.745
+sony xperia l1,performance,4.839,4.606,47,0.808
+sony xperia l2,performance,5.914,5.967,49,0.699
+sony xperia x,performance,5.56,5.539,86,0.769
+sony xperia x performance,performance,6.303,6.467,46,0.741
+sony xperia xa ultra,performance,5.115,5.075,185,0.763
+sony xperia xa1,performance,4.659,4.514,91,0.787
+sony xperia xa1 ultra,performance,5.295,5.251,119,0.814
+sony xperia xa2 ultra,performance,5.592,5.579,118,0.769
+sony xperia xz,performance,5.722,5.725,93,0.792
+sony xperia xz forest,performance,6.035,6.075,103,0.82
+sony xperia xz premium,performance,6.152,6.215,89,0.758
+sony xperia xz1,performance,5.563,5.518,39,0.712
+sony xperia xz2 premium,performance,6.104,6.234,39,0.747
+sony xperia xz2 smarphone,performance,5.352,5.055,15,0.684
+xiaomi mi 8,performance,7.015,7.767,22,0.772
+xiaomi mi 8 lite,performance,6.824,7.081,55,0.817
+xiaomi mi 9 plus,performance,6.794,7.176,36,0.817
+xiaomi mi 9 se,performance,6.46,7.095,15,0.883
+xiaomi mi 9t,performance,6.742,7.47,18,0.743
+xiaomi mi 9t pro,performance,7.149,7.555,45,0.77
+xiaomi mi a2,performance,6.381,6.442,141,0.783
+xiaomi mi a2 lite,performance,6.533,6.751,48,0.78
+xiaomi mi a3,performance,6.029,6.085,73,0.753
+xiaomi mi a3 plus,performance,6.029,6.085,73,0.753
+xiaomi pocophone f1,performance,6.648,6.79,84,0.774
+xiaomi redmi 7 plus,performance,6.703,7.01,41,0.801
+xiaomi redmi note 6,performance,6.346,6.406,135,0.787
+xiaomi redmi note 7,performance,6.461,6.532,135,0.783
+xiaomi redmi note 8,performance,7.213,7.525,61,0.798
+apple iphone 6s,software,6.019,6.064,69,0.82
+apple iphone 6s plus,software,6.397,6.706,33,0.818
+apple iphone 7,software,5.716,5.676,64,0.832
+apple iphone 7 plus,software,6.015,6.054,78,0.844
+apple iphone 8,software,5.701,5.617,34,0.859
+apple iphone 8 plus,software,6.072,6.315,17,0.83
+apple iphone x,software,5.076,4.876,73,0.879
+apple iphone xs,software,5.462,5.053,18,0.83
+apple iphone xs max,software,6.213,6.438,30,0.843
+asus zenfone 5z,software,6.423,6.705,38,0.743
+asus zenfone max plus,software,5.662,5.594,52,0.828
+google pixel,software,4.937,4.815,141,0.815
+google pixel 2,software,5.886,5.89,167,0.781
+google pixel 2 google,software,6.036,6.09,63,0.759
+google pixel 2 xl,software,6.443,6.529,130,0.804
+google pixel 3,software,5.11,4.673,32,0.809
+google pixel 3 clearly,software,6.002,6.084,34,0.798
+google pixel 3 xl,software,5.952,5.99,48,0.77
+google pixel 4,software,5.785,5.773,101,0.702
+google pixel xl,software,5.944,5.956,145,0.785
+google pixel xl g2pw210032gbbk,software,5.251,5.179,157,0.772
+huawei ascend xt 2,software,5.672,5.55,28,0.822
+huawei glory,software,5.903,5.959,17,0.706
+huawei mate 10 pro,software,6.037,6.058,168,0.76
+huawei mate 20 lite,software,6.544,6.675,99,0.803
+huawei mate 20 pro,software,6.115,6.245,38,0.783
+huawei p20 lite,software,6.324,6.412,100,0.781
+huawei p30 plus,software,6.267,6.526,30,0.787
+huawei y9 2019 jkm,software,6.622,7.524,16,0.81
+microsoft lumia 950 nam,software,6.029,6.135,31,0.708
+motorola barrage,software,6.211,6.293,82,0.796
+motorola droid razr m,software,5.231,5.166,178,0.756
+motorola droid turbo,software,6.12,6.16,126,0.811
+motorola droid turbo ballistic,software,5.682,5.481,16,0.886
+motorola e,software,6.01,6.105,31,0.791
+motorola e plus,software,5.966,5.98,153,0.771
+motorola e4,software,6.044,6.215,21,0.777
+motorola e5 play xt1920,software,4.848,4.122,26,0.757
+motorola g,software,5.892,5.935,17,0.613
+motorola g4 play,software,5.455,5.189,28,0.813
+motorola g5s plus,software,4.93,3.967,18,0.752
+motorola g5s plus dual,software,5.99,6.101,23,0.819
+motorola g6,software,5.561,5.531,181,0.79
+motorola g6 play,software,6.255,6.465,36,0.846
+motorola g6 plus,software,5.738,5.699,54,0.818
+motorola g7,software,6.242,6.47,32,0.775
+motorola g7 play plus,software,6.074,6.305,18,0.764
+motorola g7 plus plus,software,6.058,6.164,36,0.714
+motorola g7 power plus,software,6.053,6.24,20,0.746
+motorola moto g,software,6.569,6.654,159,0.802
+motorola moto g7,software,5.896,5.901,164,0.774
+motorola moto g7 power,software,6.042,6.07,127,0.796
+motorola moto x4 one,software,6.046,6.203,23,0.822
+motorola moto z4,software,5.57,5.329,22,0.743
+motorola one,software,6.451,6.691,47,0.814
+motorola pre paid,software,6.112,6.206,52,0.805
+motorola x4,software,5.875,5.88,83,0.762
+motorola z play,software,5.722,5.656,37,0.791
+motorola z3 play moto,software,6.199,6.409,31,0.841
+nokia 105,software,5.381,4.86,17,0.818
+nokia 105 rm 1135,software,5.618,5.325,15,0.812
+nokia 2,software,4.797,4.637,124,0.761
+nokia 3.1,software,5.531,5.448,73,0.706
+nokia 3310,software,5.655,5.631,154,0.785
+nokia 5,software,5.149,4.64,26,0.753
+nokia 6,software,5.461,5.416,163,0.759
+nokia 7.1,software,5.32,5.269,196,0.734
+nokia 7.2,software,5.488,5.202,24,0.755
+nokia 9 pureview,software,4.812,4.254,35,0.76
+nokia lumia 530,software,5.701,5.679,126,0.776
+nokia lumia 635,software,5.29,5.202,121,0.803
+nokia lumia 822,software,5.493,5.358,50,0.691
+nokia lumia 900,software,5.811,5.806,174,0.763
+nokia lumia 920,software,6.246,6.272,279,0.669
+nokia lumia 925,software,5.775,5.753,67,0.753
+nokia lumia 928,software,5.764,5.758,253,0.711
+nokia lumia icon,software,6.051,6.084,110,0.694
+oneplus 6 mirror,software,6.683,7.548,18,0.758
+oneplus 6t mirror,software,5.888,5.913,27,0.773
+oneplus 6t storage plus,software,5.269,4.915,31,0.744
+rog gaming zs600kl s845,software,5.978,6.021,55,0.763
+samsung convoy 3 rugged,software,6.638,6.958,46,0.852
+samsung convoy 4 rugged,software,5.627,5.512,37,0.795
+samsung convoy ruggedized ptt,software,6.298,6.661,23,0.792
+samsung galaxy a10,software,6.328,6.4,124,0.84
+samsung galaxy a10 duos,software,6.368,6.538,57,0.817
+samsung galaxy a20,software,5.987,6.096,23,0.819
+samsung galaxy a20 us,software,6.363,6.443,120,0.805
+samsung galaxy a30,software,6.693,6.912,72,0.785
+samsung galaxy a50,software,5.042,4.241,19,0.786
+samsung galaxy a50 duos,software,5.544,5.506,153,0.786
+samsung galaxy a50 us,software,5.411,5.32,91,0.79
+samsung galaxy a70,software,5.464,5.034,17,0.766
+samsung galaxy a70 6.7,software,5.428,5.371,141,0.768
+samsung galaxy j1 mini,software,5.268,4.745,21,0.829
+samsung galaxy j2 2018,software,6.34,6.609,34,0.865
+samsung galaxy j3,software,6.168,6.312,41,0.792
+samsung galaxy j3 2018,software,5.951,5.998,39,0.801
+samsung galaxy j3 prime,software,6.347,6.516,55,0.807
+samsung galaxy j5,software,6.346,6.44,99,0.82
+samsung galaxy j7,software,5.875,5.878,141,0.818
+samsung galaxy note 10,software,5.568,5.506,86,0.774
+samsung galaxy note 3,software,7.022,7.19,131,0.797
+samsung galaxy note 4,software,5.932,5.952,75,0.82
+samsung galaxy note 5,software,5.395,5.289,81,0.844
+samsung galaxy note 8,software,6.524,6.664,90,0.818
+samsung galaxy note 9,software,5.537,5.482,107,0.789
+samsung galaxy note8,software,5.087,4.988,146,0.762
+samsung galaxy on5,software,5.841,5.828,17,0.778
+samsung galaxy prevail ii,software,6.492,6.641,81,0.832
+samsung galaxy s10,software,5.286,5.181,102,0.767
+samsung galaxy s10 plus,software,6.104,6.15,101,0.782
+samsung galaxy s10e,software,5.536,5.384,39,0.781
+samsung galaxy s10e plus,software,6.438,6.654,51,0.84
+samsung galaxy s4,software,6.393,6.464,142,0.791
+samsung galaxy s4 sgh,software,4.981,4.562,39,0.884
+samsung galaxy s5,software,5.349,5.262,109,0.798
+samsung galaxy s6,software,5.608,5.547,75,0.848
+samsung galaxy s6 active,software,5.594,5.523,68,0.783
+samsung galaxy s6 edge,software,5.799,5.79,117,0.785
+samsung galaxy s6 wireless,software,5.704,5.564,20,0.842
+samsung galaxy s7,software,5.128,4.98,92,0.845
+samsung galaxy s7 active,software,5.516,5.365,42,0.832
+samsung galaxy s7 edge,software,6.019,6.049,106,0.811
+samsung galaxy s8,software,5.39,5.286,84,0.827
+samsung galaxy s8 active,software,6.008,6.073,45,0.819
+samsung galaxy s8 plus,software,6.019,6.046,117,0.806
+samsung galaxy s9,software,6.376,6.604,43,0.836
+samsung galaxy s9 plus,software,5.978,6.004,94,0.789
+samsung gophone,software,6.682,6.818,115,0.816
+samsung gusto 3,software,6.425,6.543,91,0.819
+samsung net 10 unlimited,software,6.074,6.136,67,0.775
+samsung replenish,software,6.163,6.313,39,0.779
+samsung rugby ii,software,5.461,5.216,30,0.768
+samsung smooth wireless cell,software,6.409,6.844,24,0.813
+sony xperia 1 6.5,software,5.981,6.078,25,0.691
+sony xperia 1 and,software,5.981,6.078,25,0.691
+sony xperia 10 plus,software,5.61,5.483,36,0.671
+sony xperia l1,software,5.547,5.41,42,0.785
+sony xperia l2,software,6.122,6.229,47,0.684
+sony xperia x,software,5.426,5.338,91,0.761
+sony xperia x performance,software,5.565,5.44,43,0.739
+sony xperia xa ultra,software,5.256,5.184,156,0.777
+sony xperia xa1,software,5.034,4.808,68,0.798
+sony xperia xa1 ultra,software,5.579,5.528,100,0.786
+sony xperia xa2 ultra,software,5.715,5.693,119,0.767
+sony xperia xz,software,5.84,5.838,97,0.746
+sony xperia xz forest,software,6.133,6.195,84,0.79
+sony xperia xz premium,software,5.771,5.751,78,0.732
+sony xperia xz1,software,5.778,5.744,41,0.756
+sony xperia xz2 premium,software,6.27,6.583,25,0.706
+sony xperia xz2 smarphone,software,6.209,6.603,17,0.724
+xiaomi mi 8,software,5.65,5.411,16,0.707
+xiaomi mi 8 lite,software,6.216,6.345,53,0.812
+xiaomi mi 9 plus,software,5.359,5.049,30,0.819
+xiaomi mi 9 se,software,5.49,5.035,15,0.811
+xiaomi mi 9t,software,5.762,5.656,16,0.802
+xiaomi mi 9t pro,software,5.899,5.931,28,0.739
+xiaomi mi a2,software,6.231,6.285,131,0.743
+xiaomi mi a2 lite,software,6.42,6.641,48,0.768
+xiaomi mi a3,software,6.056,6.11,71,0.778
+xiaomi mi a3 plus,software,6.056,6.11,71,0.778
+xiaomi pocophone f1,software,5.847,5.845,67,0.756
+xiaomi redmi 7 plus,software,6.157,6.32,35,0.758
+xiaomi redmi note 6,software,6.406,6.502,109,0.813
+xiaomi redmi note 7,software,6.021,6.046,128,0.755
+xiaomi redmi note 8,software,5.816,5.802,51,0.787
+samsung galaxy s7 edge,price,5.145,5.145,2153,
+samsung galaxy s7,price,4.792,4.792,1926,
+samsung galaxy s4,price,6.137,6.137,1577,
+samsung galaxy note 5,price,4.389,4.389,1519,
+samsung galaxy s6,price,6.988,6.988,1484,
+samsung galaxy s8 plus,price,2.313,2.313,1433,
+samsung galaxy note 3,price,4.642,4.642,1336,
+samsung galaxy note 8,price,2.616,2.616,1228,
+xiaomi redmi note 7,price,5.974,5.974,1199,
+apple iphone 6s,price,6.56,6.56,1104,
+samsung galaxy note 9,price,1.674,1.674,1063,
+motorola g6,price,7.57,7.57,944,
+nokia lumia 900,price,7.886,7.886,795,
+apple iphone x,price,1.972,1.972,745,
+motorola moto g,price,10.0,10.0,720,
+apple iphone 7,price,5.191,5.191,717,
+google pixel 2 xl,price,5.099,5.099,716,
+motorola droid turbo,price,9.425,9.425,702,
+google pixel,price,7.373,7.373,658,
+samsung galaxy s6 edge,price,6.268,6.268,607,
+samsung galaxy s5,price,4.741,4.741,598,
+nokia lumia 635,price,8.111,8.111,574,
+nokia lumia 920,price,5.813,5.813,562,
+huawei mate 10 pro,price,2.798,2.798,553,
+samsung galaxy a10,price,6.404,6.404,546,
+samsung galaxy a50 duos,price,3.859,3.859,524,
+google pixel xl,price,4.791,4.791,517,
+samsung galaxy a20 us,price,4.585,4.585,514,
+nokia 6,price,7.922,7.922,499,
+samsung galaxy note8,price,1.0,1.0,479,
+samsung galaxy j5,price,6.666,6.666,473,
+google pixel 2,price,6.455,6.455,471,
+huawei p20 lite,price,4.92,4.92,469,
+nokia lumia 928,price,6.379,6.379,452,
+motorola droid razr m,price,3.233,3.233,446,
+nokia 7.1,price,5.305,5.305,437,
+samsung galaxy s10 plus,price,1.1,1.1,420,
+nokia 3310,price,10.0,10.0,419,
+apple iphone 7 plus,price,3.852,3.852,415,
+sony xperia xa ultra,price,7.535,7.535,395,
+samsung galaxy s8,price,3.156,3.156,387,
+google pixel xl g2pw210032gbbk,price,5.452,5.452,385,
+samsung galaxy a70 6.7,price,3.439,3.439,381,
+xiaomi mi a2,price,6.392,6.392,380,
+motorola moto g7 power,price,6.255,6.255,376,
+xiaomi redmi note 6,price,5.917,5.917,367,
+samsung galaxy s9 plus,price,2.956,2.956,355,
+motorola moto g7,price,5.906,5.906,344,
+samsung galaxy j7,price,5.906,5.906,343,
+huawei mate 20 lite,price,4.921,4.921,336,
+nokia lumia 530,price,7.113,7.113,330,
+motorola barrage,price,6.916,6.916,315,
+samsung galaxy note 4,price,5.383,5.383,315,
+motorola e plus,price,4.675,4.675,314,
+samsung gusto 3,price,8.475,8.475,313,
+nokia 2,price,5.584,5.584,308,
+samsung gophone,price,8.362,8.362,305,
+samsung galaxy s6 active,price,1.166,1.166,285,
+sony xperia xa2 ultra,price,2.696,2.696,281,
+sony xperia xa1 ultra,price,3.866,3.866,280,
+samsung galaxy note 10,price,1.0,1.0,256,
+samsung galaxy prevail ii,price,8.736,8.736,256,
+samsung galaxy s10,price,1.0,1.0,240,
+samsung galaxy a30,price,5.054,5.054,238,
+xiaomi redmi note 8,price,5.928,5.928,234,
+samsung galaxy s8 active,price,4.144,4.144,233,
+sony xperia xz,price,4.428,4.428,232,
+samsung galaxy a10 duos,price,6.195,6.195,229,
+samsung convoy 3 rugged,price,6.136,6.136,229,
+samsung galaxy s9,price,2.232,2.232,219,
+apple iphone 6s plus,price,4.667,4.667,217,
+sony xperia xa1,price,4.585,4.585,215,
+sony xperia xz forest,price,4.276,4.276,213,
+xiaomi mi a3,price,6.007,6.007,206,
+xiaomi mi a3 plus,price,5.928,5.928,206,
+samsung galaxy s7 active,price,4.49,4.49,206,
+xiaomi pocophone f1,price,3.663,3.663,201,
+samsung galaxy j3 prime,price,7.251,7.251,193,
+sony xperia x,price,5.482,5.482,181,
+samsung galaxy a50 us,price,4.202,4.202,181,
+xiaomi mi 8 lite,price,5.584,5.584,177,
+motorola pre paid,price,8.268,8.268,173,
+google pixel 3 xl,price,3.593,3.593,169,
+google pixel 4,price,1.0,1.0,166,
+motorola x4,price,4.399,4.399,165,
+samsung galaxy s10e plus,price,2.001,2.001,164,
+apple iphone 8,price,3.695,3.695,163,
+motorola g6 plus,price,6.02,6.02,162,
+sony xperia xz premium,price,1.84,1.84,160,
+apple iphone xs max,price,1.0,1.0,157,
+samsung galaxy j2 2018,price,8.59,8.59,156,
+nokia lumia icon,price,4.856,4.856,152,
+motorola one,price,6.103,6.103,147,
+samsung galaxy s4 sgh,price,6.507,6.507,147,
+asus zenfone max plus,price,4.938,4.938,145,
+xiaomi redmi 7 plus,price,6.572,6.572,145,
+samsung net 10 unlimited,price,9.165,9.165,140,
+google pixel 2 google,price,3.361,3.361,139,
+motorola z play,price,6.159,6.159,133,
+samsung galaxy j3 2018,price,7.996,7.996,130,
+samsung galaxy j3,price,6.916,6.916,129,
+apple iphone 8 plus,price,2.963,2.963,128,
+nokia lumia 925,price,10.0,10.0,126,
+samsung galaxy s10e,price,2.405,2.405,125,
+nokia 3.1,price,7.214,7.214,124,
+xiaomi mi a2 lite,price,6.52,6.52,123,
+apple iphone xs,price,1.242,1.242,122,
+huawei mate 20 pro,price,1.88,1.88,119,
+samsung galaxy j1 mini,price,8.076,8.076,118,
+rog gaming zs600kl s845,price,1.423,1.423,117,
+motorola g6 play,price,6.507,6.507,112,
+oneplus 6t mirror,price,3.452,3.452,109,
+nokia 105,price,10.0,10.0,109,
+motorola g4 play,price,7.244,7.244,109,
+samsung convoy 4 rugged,price,10.0,10.0,106,
+nokia 105 rm 1135,price,10.0,10.0,106,
+sony xperia x performance,price,6.159,6.159,105,
+motorola g7,price,6.546,6.546,104,
+sony xperia l1,price,7.244,7.244,104,
+motorola g7 plus plus,price,5.422,5.422,102,
+xiaomi mi 9t pro,price,2.913,2.913,100,
+apple mglw2ll a ipad,price,5.259,5.259,94,
+xiaomi mi 9 plus,price,3.109,3.109,94,
+samsung galaxy a20,price,5.584,5.584,94,
+samsung convoy ruggedized ptt,price,5.482,5.482,92,
+asus zenfone 5z,price,1.807,1.807,90,
+huawei p30 plus,price,1.688,1.688,90,
+google pixel 3 clearly,price,3.8,3.8,85,
+motorola e5 play xt1920,price,8.692,8.692,84,
+sony xperia 10 plus,price,3.494,3.494,83,
+nokia lumia 822,price,5.399,5.399,82,
+samsung replenish,price,10.0,10.0,82,
+samsung galaxy s6 wireless,price,7.487,7.487,78,
+samsung galaxy a50,price,4.045,4.045,76,
+samsung galaxy on5,price,7.996,7.996,76,
+sony xperia xz1,price,4.276,4.276,75,
+oneplus 6t storage plus,price,1.066,1.066,74,
+samsung smooth wireless cell,price,8.268,8.268,72,
+huawei ascend xt 2,price,8.268,8.268,72,
+motorola droid turbo ballistic,price,10.0,10.0,71,
+samsung galaxy s9 5.8,price,1.747,1.747,71,
+sony xperia xz2 premium,price,1.0,1.0,71,
+motorola g7 power plus,price,6.019,6.019,70,
+motorola z3 play moto,price,4.92,4.92,70,
+nokia 5,price,8.736,8.736,69,
+sony xperia l2,price,4.585,4.585,68,
+motorola e,price,8.692,8.692,67,
+samsung rugby ii,price,5.928,5.928,66,
+google pixel 3,price,3.009,3.009,64,
+huawei y9 2019 jkm,price,5.754,5.754,62,
+apple iphone se,price,6.84,6.84,58,
+sony xperia 1 and,price,1.0,1.0,58,
+sony xperia 1 6.5,price,1.0,1.0,58,
+motorola droid turbo 2,price,4.749,4.749,57,
+microsoft lumia 950 nam,price,4.699,4.699,57,
+nokia 9 pureview,price,1.799,1.799,56,
+xiaomi mi 9 se,price,4.351,4.351,55,
+motorola g7 play plus,price,7.169,7.169,55,
+samsung galaxy prime j3,price,8.517,8.517,53,
+motorola g5s plus dual,price,6.019,6.019,53,
+motorola moto z4,price,2.696,2.696,52,
+samsung galaxy s8 pre,price,3.427,3.427,52,
+oneplus 6 mirror,price,1.972,1.972,50,
+xiaomi mi 9t,price,3.866,3.866,48,
+motorola droid maxx 2,price,7.214,7.214,47,
+xiaomi redmi 6,price,6.931,6.931,46,
+motorola g5s plus,price,7.214,7.214,46,
+samsung smooth great condition,price,10.0,10.0,46,
+samsung galaxy a70,price,3.122,3.122,45,
+xiaomi mi 8,price,4.291,4.291,45,
+samsung galaxy a10s,price,7.032,7.032,43,
+samsung galaxy a10 6.2,price,6.639,6.639,42,
+samsung galaxy s8 5.8,price,2.548,2.548,42,
+sony xperia xz2 smarphone,price,1.799,1.799,41,
+motorola moto x4 one,price,4.144,4.144,40,
+samsung galaxy j7 2018,price,5.286,5.286,39,
+nokia 7.2,price,3.481,3.481,38,
+motorola one vision,price,4.749,4.749,37,
+motorola e4,price,9.706,9.706,37,
+sony experia z3 plus,price,6.777,6.777,37,
+samsung j3,price,8.072,8.072,36,
+samsung galaxy j7 refine,price,5.099,5.099,36,
+huawei router hotspot,price,9.22,9.22,36,
+huawei glory,price,10.0,10.0,35,
+sony xperia xa1 plus,price,5.145,5.145,35,
+huawei e8372h 608 150,price,9.564,9.564,34,
+samsung galaxy note9 duos,price,1.0,1.0,33,
+samsung dex wireless qi,price,10.0,10.0,32,
+samsung galaxy a20s,price,6.02,6.02,31,
+huawei p smart,price,5.906,5.906,30,
+huawei p30 pro,price,1.0,1.0,29,
+xiaomi mi 9 lite,price,4.288,4.288,29,
+samsung galaxy mega 6.3,price,3.989,3.989,29,
+motorola droid maxx and,price,7.062,7.062,28,
+motorola e4 plus locked,price,7.214,7.214,26,
+motorola droid ultra,price,4.585,4.585,26,
+motorola e5,price,8.692,8.692,26,
+google pixel 1st gen,price,6.135,6.135,25,
+samsung galaxy a70 dual,price,3.211,3.211,25,
+huawei y9 prime 2019,price,4.938,4.938,24,
+huawei y5 2018 dra,price,8.693,8.693,23,
+oneplus 6t,price,3.35,3.35,23,
+motorola cingular gophone,price,8.268,8.268,22,
+samsung galaxy j7 branded,price,7.885,7.885,22,
+oneplus 7 pro 6.67,price,1.0,1.0,21,
+nokia 3310 ta 1036,price,10.0,10.0,21,
+samsung galaxy m20,price,5.584,5.584,21,
+motorola moto z3 play,price,5.856,5.856,20,
+motorola g,price,6.523,6.523,20,
+huawei y6 2018 atu,price,6.135,6.135,20,
+nokia 4.2,price,6.404,6.404,20,

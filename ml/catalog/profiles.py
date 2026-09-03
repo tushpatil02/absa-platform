@@ -40,10 +40,26 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-# Fewer mentions than this and no score is published for that aspect: the
-# estimate would be almost entirely prior, and showing it as a measurement
-# would misrepresent where the number came from.
-MIN_MENTIONS = 5
+# Fewer mentions than this and no score is published for that aspect.
+#
+# Chosen by measurement, not taste: 15 is the smallest floor at which split-half
+# reliability reaches "usable" on *every* axis. Sweeping it over the full
+# catalogue (Spearman-Brown corrected, phones retained in brackets):
+#
+#   floor   battery        camera         display        performance
+#       5   0.733 [193]    0.528 [168]    0.716 [176]    0.670 [209]
+#      10   0.772 [160]    0.569 [133]    0.780 [146]    0.688 [194]
+#      15   0.821 [140]    0.653 [103]    0.814 [122]    0.757 [175]
+#      30   0.867 [ 90]    0.710 [ 63]    0.882 [ 83]    0.749 [134]
+#
+# Camera is the binding constraint -- below 15 it is "weak", meaning the score
+# reflects which reviews were sampled more than it reflects the phone. Going
+# higher buys little and costs phones: 15 leaves 97 rankable on all five axes,
+# 30 leaves 54.
+#
+# This changes only which scores are *published*. It does not change the model,
+# the scores themselves, or how they are computed.
+MIN_MENTIONS = 15
 
 
 @dataclass(frozen=True)
