@@ -11,8 +11,11 @@ questions that can both fail, and prints a verdict rather than a dashboard.
    aspect scores track it almost perfectly, the pipeline is an expensive
    re-derivation of a column that was already in the CSV.
 
-A null simulation is printed alongside, showing how much apparent spread
-identical phones produce for free. A real result has to clear it.
+3. **Is the spread bigger than noise?** For each aspect, a null is simulated
+   using *that aspect's* within-phone variance and review counts, showing how
+   much apparent spread identical phones produce for free. A null drawn with
+   some fixed variance would answer a question about a different corpus while
+   looking like a check.
 
     python scripts/evaluate_recommender.py
 """
@@ -29,10 +32,11 @@ import pandas as pd
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from ml.evaluation.reliability import null_spread, split_half_reliability, star_baseline
+from ml.evaluation.reliability import compare_to_null, split_half_reliability, star_baseline
 from ml.recommender.similarity import AXES
 
 PROCESSED = REPO_ROOT / "data" / "processed"
+CATALOG = REPO_ROOT / "data" / "catalog"
 
 # Price is excluded: it comes from the listed price, which is a recorded fact
 # rather than an estimate, so split-half reliability is not meaningful for it.
@@ -45,7 +49,8 @@ def main() -> int:
     parser.add_argument("--repeats", type=int, default=25)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--scores", type=Path, default=PROCESSED / "review_aspects.csv")
-    parser.add_argument("--out", type=Path, default=PROCESSED / "reliability.json")
+    parser.add_argument("--phones", type=Path, default=CATALOG / "phones.csv")
+    parser.add_argument("--out", type=Path, default=CATALOG / "reliability.json")
     args = parser.parse_args()
 
     if not args.scores.exists():
@@ -53,7 +58,10 @@ def main() -> int:
         return 1
 
     scored = pd.read_csv(args.scores)
-    phones = pd.read_csv(PROCESSED / "phones.csv")
+    if not args.phones.exists():
+        print(f"MISSING {args.phones} -- run scripts/build_catalog.py first")
+        return 1
+    phones = pd.read_csv(args.phones)
 
     print("=" * 74)
     print("1. SPLIT-HALF RELIABILITY  (Spearman-Brown corrected)")
@@ -83,26 +91,28 @@ def main() -> int:
 
     print()
     print("=" * 74)
-    print("3. NULL BASELINE  (what identical phones produce for free)")
+    print("3. OBSERVED SPREAD vs A MATCHED NULL")
     print("=" * 74)
-    typical = scored.groupby(["model_key", "aspect"]).size().median()
-    null = null_spread(
-        n_phones=int(scored.model_key.nunique()),
-        reviews_per_phone=int(typical),
-        seed=args.seed,
-    )
-    print(
-        f"   {scored.model_key.nunique()} identical phones, {int(typical)} reviews each:\n"
-        f"     range {null['range']:.2f}   sd {null['std']:.2f}   "
-        f"p90-p10 {null['p90_minus_p10']:.2f}"
-    )
-    print("   Any observed spread smaller than this is not evidence of anything.")
+    print("   Each null uses THIS aspect's within-phone noise and review counts.")
+    print("   A null drawn with some fixed variance would answer a question about")
+    print("   a different corpus while looking like a check.\n")
+
+    nulls = []
+    for axis in SENTIMENT_AXES:
+        result = compare_to_null(scored, axis, min_mentions=args.min_mentions, seed=args.seed)
+        nulls.append(result)
+        print(result.summary())
 
     # --- verdict ---------------------------------------------------------
     print()
     print("=" * 74)
     usable = [r for r in reliabilities if r.verdict in ("strong", "usable")]
     redundant = [b for b in baselines if b.r_squared >= 0.90]
+    indistinct = [n for n in nulls if n.verdict == "NOT ABOVE NULL"]
+
+    if indistinct:
+        names = ", ".join(n.aspect for n in indistinct)
+        print(f"NOTE: spread indistinguishable from noise on: {names}")
 
     if not usable:
         print("VERDICT: FAIL -- no aspect is reliable enough to rank on.")
@@ -126,7 +136,9 @@ def main() -> int:
                 "seed": args.seed,
                 "reliability": [r.__dict__ | {"verdict": r.verdict} for r in reliabilities],
                 "star_baseline": [b.__dict__ | {"verdict": b.verdict} for b in baselines],
-                "null_spread": null,
+                "null_comparison": [
+                    n.__dict__ | {"ratio": n.ratio, "verdict": n.verdict} for n in nulls
+                ],
             },
             indent=2,
             default=float,

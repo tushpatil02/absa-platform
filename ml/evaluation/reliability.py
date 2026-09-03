@@ -202,6 +202,82 @@ def star_baseline(
     return StarBaseline(aspect, len(joined), float(rho), float(r**2))
 
 
+@dataclass(frozen=True)
+class NullComparison:
+    """An aspect's observed spread against a null matched to its own noise."""
+
+    aspect: str
+    n_phones: int
+    reviews_per_phone: int
+    observed_std: float
+    observed_range: float
+    null_std: float
+    null_range: float
+
+    @property
+    def ratio(self) -> float:
+        """How many times the null's spread the observed spread is."""
+        return self.observed_std / self.null_std if self.null_std else float("inf")
+
+    @property
+    def verdict(self) -> str:
+        if self.ratio >= 3.0:
+            return "well above null"
+        if self.ratio >= 1.5:
+            return "above null"
+        return "NOT ABOVE NULL"
+
+    def summary(self) -> str:
+        return (
+            f"  {self.aspect:<14}n={self.n_phones:>4}  "
+            f"observed sd={self.observed_std:.2f} range={self.observed_range:.2f}  "
+            f"null sd={self.null_std:.2f} range={self.null_range:.2f}  "
+            f"{self.ratio:.1f}x  {self.verdict}"
+        )
+
+
+def compare_to_null(
+    review_aspects: pd.DataFrame,
+    aspect: str,
+    *,
+    min_mentions: int = 10,
+    seed: int = 0,
+) -> NullComparison:
+    """Compare an aspect's observed spread to a null matched to that aspect.
+
+    The null must use *this* aspect's within-phone variance and *this* aspect's
+    review counts. A null drawn with some fixed standard deviation is not a
+    baseline for anything -- it answers a question about a different corpus, and
+    comparing an observed spread to it is worse than not comparing at all,
+    because it looks like a check.
+    """
+    subset = _phone_aspect_means(review_aspects, aspect, min_mentions)
+    if subset.empty:
+        return NullComparison(aspect, 0, 0, *(float("nan"),) * 4)
+
+    grouped = subset.groupby("model_key")["score"]
+    means, counts = grouped.mean(), grouped.size()
+    # The noise a single review carries about one phone.
+    within_std = float(np.sqrt(subset.groupby("model_key")["score"].var(ddof=1).mean()))
+    per_phone = int(counts.median())
+
+    null = null_spread(
+        n_phones=len(means),
+        reviews_per_phone=max(per_phone, 1),
+        score_std=within_std,
+        seed=seed,
+    )
+    return NullComparison(
+        aspect=aspect,
+        n_phones=len(means),
+        reviews_per_phone=per_phone,
+        observed_std=float(means.std()),
+        observed_range=float(means.max() - means.min()),
+        null_std=null["std"],
+        null_range=null["range"],
+    )
+
+
 def null_spread(
     n_phones: int = 200,
     reviews_per_phone: int = 100,

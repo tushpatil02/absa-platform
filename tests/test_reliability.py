@@ -19,6 +19,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
 from ml.evaluation.reliability import (
+    compare_to_null,
     null_spread,
     split_half_reliability,
     star_baseline,
@@ -192,3 +193,56 @@ def test_null_spread_shrinks_with_more_reviews():
 
 def test_null_spread_is_deterministic():
     assert null_spread(seed=3) == null_spread(seed=3)
+
+
+# ---------------------------------------------------------------------------
+# The matched null
+# ---------------------------------------------------------------------------
+
+
+def test_real_differences_clear_the_matched_null():
+    means = {f"p{i}": 1.0 + 9.0 * i / 19 for i in range(20)}
+    result = compare_to_null(make_reviews(means, noise=1.0, n_per_phone=40), "battery")
+    assert result.ratio > 1.5
+    assert result.verdict in ("above null", "well above null")
+
+
+def test_identical_phones_do_not_clear_the_matched_null():
+    """The test that gives the comparison its point.
+
+    Every phone is the same, so the observed spread is sampling noise and the
+    matched null reproduces it. Anything else would mean the null was drawn
+    from the wrong distribution.
+    """
+    means = {f"p{i}": 5.5 for i in range(30)}
+    result = compare_to_null(make_reviews(means, noise=3.0, n_per_phone=40), "battery")
+    assert result.ratio < 1.5
+    assert result.verdict == "NOT ABOVE NULL"
+
+
+def test_the_null_is_matched_to_the_aspect_not_a_fixed_variance():
+    """A quiet aspect must get a quiet null.
+
+    Using one fixed standard deviation for every aspect answers a question
+    about a different corpus while looking like a check.
+    """
+    quiet = compare_to_null(
+        make_reviews({f"p{i}": 5.5 for i in range(20)}, noise=0.5, n_per_phone=40), "battery"
+    )
+    loud = compare_to_null(
+        make_reviews({f"p{i}": 5.5 for i in range(20)}, noise=5.0, n_per_phone=40), "battery"
+    )
+    assert quiet.null_std < loud.null_std
+
+
+def test_matched_null_reports_the_counts_it_used():
+    result = compare_to_null(
+        make_reviews({f"p{i}": float(i + 1) for i in range(10)}, n_per_phone=44), "battery"
+    )
+    assert result.n_phones == 10
+    assert result.reviews_per_phone == 44
+
+
+def test_matched_null_handles_a_missing_aspect():
+    result = compare_to_null(make_reviews({"a": 5.0}), "camera")
+    assert result.n_phones == 0
