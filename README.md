@@ -437,10 +437,11 @@ baselines         DeBERTa/DistilBERT
 .venv/Scripts/python.exe -m pytest tests/ -q
 ```
 
-**120 Python tests** covering parsing, cleaning, the taxonomy mapping, leakage
-assertions, the score's mathematical properties, inference, and the API
-(including degraded-mode behaviour when no model is loaded), plus **20 frontend
-tests** for submission, rendering and every error state:
+**382 Python tests** covering parsing, cleaning, the taxonomy mapping, leakage
+assertions, sentence splitting, the score's mathematical properties, per-sentence
+inference, listing normalisation, shrinkage, the reliability gate, the slider
+ranking, and the API (including degraded-mode behaviour when no model or no
+catalogue is loaded), plus **51 frontend tests**:
 
 ```bash
 cd frontend && npm test
