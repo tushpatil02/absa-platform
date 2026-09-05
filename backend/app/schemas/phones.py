@@ -46,6 +46,15 @@ class PhoneSummary(BaseModel):
         description="Whether all five slider axes have scores. Phones missing "
         "an axis are excluded from recommendations rather than imputed."
     )
+    simulated: bool = Field(
+        default=False,
+        description="True for the 2025-2026 entries whose reviews were "
+        "GENERATED, not collected. No permissively-licensed corpus of 2025+ "
+        "phone reviews exists, so these exist to keep the catalogue current. "
+        "The product name is real and the price is a nominal band; the scores "
+        "come from synthetic text and are excluded from the reliability gate. "
+        "A client showing these scores must say so.",
+    )
 
 
 class PhoneListResponse(BaseModel):
@@ -96,6 +105,10 @@ class RecommendRequest(BaseModel):
         default=5.0, ge=SLIDER_MIN, le=SLIDER_MAX, description="Shown as 'Processor'."
     )
     limit: int = Field(default=10, ge=1, le=50)
+    include_simulated: bool = Field(
+        default=True,
+        description="Set false to rank only phones with real, collected reviews.",
+    )
 
     def preferences(self) -> dict[str, float]:
         return {axis: float(getattr(self, axis)) for axis in AXES}
@@ -125,6 +138,9 @@ class RecommendResponse(BaseModel):
     matches: list[MatchOut]
     preferences: dict[str, float]
     considered: int = Field(description="Phones that had all five axes and were ranked.")
+    simulated_considered: int = Field(
+        default=0, description="How many of those were simulated."
+    )
     price_target: float | None = Field(
         default=None,
         description="Listed price the Price slider position corresponds to, so "

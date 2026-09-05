@@ -38,6 +38,7 @@ from ml.recommender.similarity import AXES
 
 PROCESSED = REPO_ROOT / "data" / "processed"
 CATALOG = REPO_ROOT / "data" / "catalog"
+SYNTHETIC = REPO_ROOT / "data" / "synthetic"
 
 
 def main() -> int:
@@ -46,6 +47,13 @@ def main() -> int:
     parser.add_argument("--evidence-per-phone", type=int, default=DEFAULT_PER_PHONE)
     parser.add_argument("--scores", type=Path, default=PROCESSED / "review_aspects.csv")
     parser.add_argument("--catalog-dir", type=Path, default=CATALOG)
+    parser.add_argument(
+        "--include-synthetic",
+        action="store_true",
+        help="Merge the simulated 2025-2026 phones from data/synthetic/ into the "
+        "catalogue, flagged simulated=1. Their scores come from generated text, "
+        "so they are excluded from the reliability gate and badged in the UI.",
+    )
     args = parser.parse_args()
 
     if not args.scores.exists():
@@ -59,6 +67,16 @@ def main() -> int:
 
     scored = pd.read_csv(args.scores)
     phones = pd.read_csv(phones_path)
+
+    # This script WRITES phones.csv, so a second --include-synthetic run would
+    # otherwise read back its own output and append the same simulated phones
+    # again: 236 rows became 261 with 25 duplicate keys, and every downstream
+    # pivot then failed on "Index contains duplicate entries". Strip them here,
+    # before anything -- including the price rows below -- consumes `phones`.
+    if "simulated" in phones.columns:
+        phones = phones[phones["simulated"].fillna(0) == 0].copy()
+    phones = phones[~phones["model_key"].astype(str).str.startswith("sim:")].copy()
+    phones["simulated"] = 0
     print(f"Loaded {len(scored):,} aspect rows for {scored.model_key.nunique()} phones")
 
     profiles, params = build_profiles(scored, min_mentions=args.min_mentions)
@@ -116,6 +134,69 @@ def main() -> int:
             f"{column.max():>7.2f}{column.std():>7.2f}{column.max() - column.min():>7.2f}"
         )
 
+    # --- simulated phones, kept separable at every step -------------------
+    #
+    # Merged here rather than in build_catalog.py so that `data/processed/
+    # review_aspects.csv` -- the file the reliability gate reads -- never
+    # contains a generated row. The gate measures whether real per-phone scores
+    # are stable; including simulated ones would be measuring the generator.
+    if args.include_synthetic:
+        syn_phones_path = SYNTHETIC / "phones_synthetic.csv"
+        syn_scores_path = SYNTHETIC / "review_aspects_synthetic.csv"
+        if not syn_phones_path.exists() or not syn_scores_path.exists():
+            print(
+                f"\nMISSING synthetic inputs. Run:\n"
+                f"  python scripts/generate_synthetic.py\n"
+                f"  python scripts/score_catalog.py --phones {syn_phones_path} "
+                f"--reviews {SYNTHETIC / 'phone_reviews_synthetic.csv'} "
+                f"--out {syn_scores_path} --restart"
+            )
+            return 1
+
+        syn_phones = pd.read_csv(syn_phones_path)
+        syn_scored = pd.read_csv(syn_scores_path)
+        syn_profiles, _ = build_profiles(syn_scored, min_mentions=args.min_mentions)
+
+        # Price bounds stay derived from the REAL catalogue. Recomputing them
+        # over the union would silently move every real phone's price score
+        # because 2025 flagships cost more than 2019 stock -- the simulated
+        # rows would be editing the real ones. Anything outside the real range
+        # clips, which is what price_to_score already does.
+        syn_price = pd.DataFrame(
+            {
+                "model_key": syn_phones["model_key"],
+                "aspect": "price",
+                "score": np.round(
+                    price_to_score(syn_phones["price"].to_numpy(), cheapest, dearest), 3
+                ),
+                "raw_score": np.round(
+                    price_to_score(syn_phones["price"].to_numpy(), cheapest, dearest), 3
+                ),
+                "mentions": syn_phones["reviews_total"].values,
+                "mean_confidence": None,
+            }
+        )
+        syn_profiles = pd.concat(
+            [syn_profiles[syn_profiles["aspect"] != "price"], syn_price], ignore_index=True
+        )
+
+        profiles = pd.concat([profiles, syn_profiles], ignore_index=True)
+        phones = pd.concat([phones, syn_phones], ignore_index=True)
+        phones["simulated"] = phones["simulated"].fillna(0).astype(int)
+
+        syn_complete = (
+            syn_profiles[syn_profiles["aspect"].isin(AXES)]
+            .pivot(index="model_key", columns="aspect", values="score")
+            .dropna()
+        )
+        print(
+            f"\n+ {len(syn_phones)} SIMULATED phones merged "
+            f"({len(syn_complete)} rankable on all five axes)"
+        )
+        print("  Scores derived from generated text. Excluded from the reliability")
+        print("  gate, flagged simulated=1 in phones.csv, badged in the UI.")
+        scored = pd.concat([scored, syn_scored], ignore_index=True)
+
     # --- evidence ---------------------------------------------------------
     evidence = select_evidence(scored, per_phone=args.evidence_per_phone)
     sentences = sum(len(items) for items in evidence.values())
@@ -125,6 +206,7 @@ def main() -> int:
     profiles_path = args.catalog_dir / "phone_profiles.csv"
     evidence_path = args.catalog_dir / "phone_evidence.json"
     profiles.to_csv(profiles_path, index=False)
+    phones.to_csv(args.catalog_dir / "phones.csv", index=False)
     evidence_path.write_text(json.dumps(evidence, indent=1), encoding="utf-8")
 
     (args.catalog_dir / "shrinkage.json").write_text(

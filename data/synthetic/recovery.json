@@ -1,0 +1,38 @@
+{
+  "protocol": "Latent per-aspect quality -> generated reviews -> full scoring pipeline. The pipeline never sees the latent values.",
+  "min_mentions": 15,
+  "results": [
+    {
+      "aspect": "battery",
+      "n_phones": 25,
+      "spearman": 0.8344,
+      "pearson": 0.859,
+      "mean_abs_error": 2.83,
+      "verdict": "recovered"
+    },
+    {
+      "aspect": "camera",
+      "n_phones": 24,
+      "spearman": 0.7739,
+      "pearson": 0.7588,
+      "mean_abs_error": 2.014,
+      "verdict": "recovered"
+    },
+    {
+      "aspect": "display",
+      "n_phones": 25,
+      "spearman": 0.8985,
+      "pearson": 0.8812,
+      "mean_abs_error": 1.744,
+      "verdict": "recovered"
+    },
+    {
+      "aspect": "performance",
+      "n_phones": 25,
+      "spearman": 0.6862,
+      "pearson": 0.6811,
+      "mean_abs_error": 1.33,
+      "verdict": "weak"
+    }
+  ]
+}

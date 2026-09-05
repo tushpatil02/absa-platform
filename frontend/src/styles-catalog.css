@@ -612,3 +612,53 @@
   margin-top: 10px;
   font-size: 11px;
 }
+
+/* --- simulated entries --------------------------------------------------- */
+
+/* These scores come from generated text. The badge is the condition on which
+   showing them at all is defensible, so it is deliberately high-contrast
+   rather than a subtle grey chip. */
+.sim-badge {
+  display: inline-block;
+  margin-left: 7px;
+  padding: 1px 7px;
+  border: 1px solid var(--status-critical);
+  border-radius: 999px;
+  background: transparent;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--status-critical);
+  text-transform: uppercase;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.match-card__title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sim-notice {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-hairline);
+  border-left: 3px solid var(--status-critical);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ink-secondary);
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--accent);
+  text-decoration: underline;
+  cursor: pointer;
+}

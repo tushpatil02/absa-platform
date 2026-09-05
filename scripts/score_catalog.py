@@ -74,6 +74,8 @@ def completed_phones(path: Path) -> set[str]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, default=PROCESSED / "review_aspects.csv")
+    parser.add_argument("--phones", type=Path, default=CATALOG / "phones.csv")
+    parser.add_argument("--reviews", type=Path, default=PROCESSED / "phone_reviews.csv")
     parser.add_argument("--limit-phones", type=int, default=None, help="Smoke test.")
     parser.add_argument("--restart", action="store_true", help="Ignore existing output.")
     parser.add_argument(
@@ -84,8 +86,8 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    phones_path = CATALOG / "phones.csv"
-    reviews_path = PROCESSED / "phone_reviews.csv"
+    phones_path = args.phones
+    reviews_path = args.reviews
     for path in (phones_path, reviews_path):
         if not path.exists():
             print(f"MISSING {path} -- run scripts/build_catalog.py first")

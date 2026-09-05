@@ -73,6 +73,7 @@ def _summary(phone) -> PhoneSummary:
         reviews_total=phone.reviews_total,
         avg_rating=phone.avg_rating,
         rankable=phone.rankable,
+        simulated=phone.simulated,
         aspects=[
             AspectScoreOut(
                 aspect=score.aspect,
@@ -95,10 +96,19 @@ def list_phones(
     brand: str | None = Query(default=None),
     limit: int = Query(default=50, ge=1, le=200),
     offset: int = Query(default=0, ge=0),
+    include_simulated: bool = Query(
+        default=True, description="Set false to list only phones with real reviews."
+    ),
 ) -> PhoneListResponse:
     """The catalogue, most-reviewed first."""
     catalog = _catalog(request)
-    page, total = catalog.search(query=q, brand=brand, limit=limit, offset=offset)
+    page, total = catalog.search(
+        query=q,
+        brand=brand,
+        include_simulated=include_simulated,
+        limit=limit,
+        offset=offset,
+    )
     return PhoneListResponse(
         phones=[_summary(phone) for phone in page],
         total=total,
@@ -146,7 +156,11 @@ def recommend(request: Request, payload: RecommendRequest) -> RecommendResponse:
             "and scripts/build_profiles.py.",
         )
 
-    matches = catalog.recommend(preferences, limit=payload.limit)
+    if not payload.include_simulated:
+        rankable = [phone for phone in rankable if not phone.simulated]
+    matches = catalog.recommend(
+        preferences, limit=payload.limit, include_simulated=payload.include_simulated
+    )
     return RecommendResponse(
         matches=[
             MatchOut(
@@ -159,6 +173,7 @@ def recommend(request: Request, payload: RecommendRequest) -> RecommendResponse:
         ],
         preferences=preferences,
         considered=len(rankable),
+        simulated_considered=sum(1 for phone in rankable if phone.simulated),
         price_target=catalog.price_for_score(preferences["price"]),
     )
 

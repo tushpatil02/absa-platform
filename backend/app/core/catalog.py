@@ -27,7 +27,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from ml.recommender.price import score_to_price
+from ml.recommender.price import bounds_from, score_to_price
 from ml.recommender.similarity import AXES, AXIS_LABELS, Match, rank
 
 logger = logging.getLogger(__name__)
@@ -58,6 +58,11 @@ class Phone:
     reviews_scored: int
     avg_rating: float | None
     aspects: dict[str, AspectScore]
+    # True for the 2025-2026 entries whose reviews were generated rather than
+    # collected. Real product name, real listed price band, INVENTED reviews --
+    # so every surface that shows a score has to be able to say so. See
+    # ml/synthetic/reviews.py.
+    simulated: bool = False
 
     @property
     def rankable(self) -> bool:
@@ -140,10 +145,19 @@ class Catalog:
                 reviews_scored=int(getattr(row, "reviews_sampled", row.reviews_total)),
                 avg_rating=float(row.avg_rating) if pd.notna(row.avg_rating) else None,
                 aspects=by_phone.get(row.model_key, {}),
+                simulated=bool(getattr(row, "simulated", 0)),
             )
 
-        priced = phones_frame[phones_frame["price"] > 0]["price"]
-        bounds = (float(priced.min()), float(priced.max())) if len(priced) else None
+        # Real phones only, and the same percentile anchors build_profiles.py
+        # used. Deriving these from the extremes -- or including the simulated
+        # 2025 flagships -- gives a mapping the published scores were never
+        # built with, and the "around $X" hint beside the Price slider is then
+        # wrong for every phone.
+        real = phones_frame
+        if "simulated" in phones_frame.columns:
+            real = phones_frame[phones_frame["simulated"].fillna(0) == 0]
+        priced = real[real["price"] > 0]["price"]
+        bounds = bounds_from(priced) if len(priced) else None
 
         # Evidence is optional: the catalogue is still usable without it, and a
         # phone page simply shows no example sentences.
@@ -155,9 +169,11 @@ class Catalog:
                 logger.warning("Could not read %s: %s", evidence_path.name, exc)
 
         catalog = cls(phones=phones, evidence=evidence, price_bounds=bounds)
+        simulated = sum(1 for phone in phones.values() if phone.simulated)
         logger.info(
-            "Catalogue loaded: %d phones, %d rankable on all five axes",
+            "Catalogue loaded: %d phones (%d simulated), %d rankable on all five axes",
             len(catalog.phones),
+            simulated,
             len(catalog.rankable),
         )
         return catalog
@@ -169,11 +185,14 @@ class Catalog:
         *,
         query: str | None = None,
         brand: str | None = None,
+        include_simulated: bool = True,
         limit: int = 50,
         offset: int = 0,
     ) -> tuple[list[Phone], int]:
         """Filter the catalogue. Returns ``(page, total_matched)``."""
         results = list(self.phones.values())
+        if not include_simulated:
+            results = [p for p in results if not p.simulated]
         if brand:
             results = [p for p in results if p.brand.lower() == brand.lower()]
         if query:
@@ -186,9 +205,23 @@ class Catalog:
     def brands(self) -> list[str]:
         return sorted({phone.brand for phone in self.phones.values() if phone.brand})
 
-    def recommend(self, preferences: dict[str, float], limit: int = 10) -> list[Match]:
-        """Rank the phones that have all five axes."""
-        profiles = {phone.model_key: phone.profile_vector() for phone in self.rankable}
+    def recommend(
+        self,
+        preferences: dict[str, float],
+        limit: int = 10,
+        *,
+        include_simulated: bool = True,
+    ) -> list[Match]:
+        """Rank the phones that have all five axes.
+
+        Simulated phones are rankable by default because they are what makes
+        the catalogue current, but they are always flagged in the response and
+        can be excluded outright.
+        """
+        candidates = self.rankable
+        if not include_simulated:
+            candidates = [phone for phone in candidates if not phone.simulated]
+        profiles = {phone.model_key: phone.profile_vector() for phone in candidates}
         return rank(preferences, profiles, limit=limit)
 
     def price_for_score(self, score: float) -> float | None:

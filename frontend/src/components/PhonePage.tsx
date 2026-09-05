@@ -16,6 +16,7 @@
 
 import { useEffect, useState } from "react";
 import { ApiError, api } from "../api/client";
+import { SimulatedBadge } from "./Recommender";
 import { AXES } from "../types";
 import type { Axis, Evidence, PhoneDetail, SubmitReviewResponse } from "../types";
 
@@ -187,7 +188,10 @@ export function PhonePage({ modelKey, onBack }: { modelKey: string; onBack: () =
           />
         ) : null}
         <div>
-          <h1>{phone.name}</h1>
+          <h1>
+            {phone.name}
+            {phone.simulated && <SimulatedBadge />}
+          </h1>
           <div className="phone-hero__meta">
             {phone.brand && <span>{phone.brand}</span>}
             {phone.price != null && <span>${phone.price.toFixed(0)}</span>}
@@ -199,6 +203,21 @@ export function PhonePage({ modelKey, onBack }: { modelKey: string; onBack: () =
           </div>
         </div>
       </section>
+
+      {phone.simulated && (
+        <div className="alert alert--warn" role="note">
+          <span className="alert__icon">!</span>
+          <span>
+            <strong>These reviews were generated, not collected.</strong> No
+            permissively-licensed corpus of 2025–2026 phone reviews exists, so this
+            entry keeps the catalogue current using synthetic text. The product name
+            is real and the price is a nominal band; every score below and every
+            sentence quoted underneath it came from a generator, not from a customer.
+            These scores are excluded from the reliability checks that cover the real
+            catalogue.
+          </span>
+        </div>
+      )}
 
       <section className="card" aria-labelledby="profile-heading">
         <div className="card__head">

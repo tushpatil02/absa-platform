@@ -246,6 +246,13 @@ empirical-Bayes k confirms: 12.6, against 5.2–5.8 for the other three.
 
 ## 7. Why phones are excluded
 
+The catalogue also contains **25 simulated 2025-2026 phones**, 24 of them
+rankable. Their reviews were generated, because no permissively-licensed 2025+
+corpus exists — see [dataset.md](dataset.md#1c-a-third-source-simulated-2025-2026-phones).
+They are badged in every list, banner-warned on their own pages, excluded from
+the reliability gate, and can be filtered out entirely with
+`include_simulated=false`. Their scores are never mixed into a reported metric.
+
 A phone is left out of the recommendations when:
 
 | Reason | Where |

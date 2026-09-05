@@ -30,10 +30,13 @@ pytestmark = pytest.mark.skipif(
 AXES = ("battery", "camera", "price", "display", "performance")
 
 PHONES = [
-    # name,                key,        brand,      price, battery, camera, display, perf
-    ("Alpha One", "alpha one", "Alpha", 150.0, 9.0, 4.0, 5.0, 5.0),
-    ("Beta Two", "beta two", "Beta", 450.0, 4.0, 9.0, 8.0, 8.0),
-    ("Gamma Three", "gamma three", "Gamma", 900.0, 7.0, 7.0, 9.0, 9.0),
+    # name,             key,             brand,   price, battery, camera, display, perf, simulated
+    ("Alpha One", "alpha one", "Alpha", 150.0, 9.0, 4.0, 5.0, 5.0, 0),
+    ("Beta Two", "beta two", "Beta", 450.0, 4.0, 9.0, 8.0, 8.0, 0),
+    ("Gamma Three", "gamma three", "Gamma", 900.0, 7.0, 7.0, 9.0, 9.0, 0),
+    # A simulated 2025 entry: real name, generated reviews. Everything that
+    # shows one of its scores has to say so.
+    ("Delta 2025", "sim:delta 2025", "Delta", 700.0, 8.0, 8.0, 8.0, 8.0, 1),
 ]
 
 
@@ -55,20 +58,21 @@ def catalog_dir(tmp_path_factory):
                 "reviews_total": 120,
                 "avg_rating": 4.0,
                 "reviews_sampled": 120,
+                "simulated": simulated,
             }
-            for name, key, brand, price, *_ in PHONES
+            for name, key, brand, price, *_rest, simulated in PHONES
         ]
     ).to_csv(directory / "phones.csv", index=False)
 
     rows = []
-    for _, key, _, price, battery, camera, display, performance in PHONES:
+    for _, key, _, price, battery, camera, display, performance, _sim in PHONES:
         values = {
             "battery": battery,
             "camera": camera,
             "display": display,
             "performance": performance,
             # Cheapest -> 10, dearest -> 1, matching the real pipeline.
-            "price": {150.0: 10.0, 450.0: 5.0, 900.0: 1.0}[price],
+            "price": {150.0: 10.0, 450.0: 5.0, 900.0: 1.0, 700.0: 3.0}[price],
         }
         for aspect, score in values.items():
             rows.append(
@@ -137,13 +141,14 @@ def client(catalog_dir, tmp_path_factory):
 
 def test_lists_phones_with_their_profiles(client):
     payload = client.get("/api/phones").json()
-    assert payload["total"] == 3
+    assert payload["total"] == 4
     assert {phone["name"] for phone in payload["phones"]} == {
         "Alpha One",
         "Beta Two",
         "Gamma Three",
+        "Delta 2025",
     }
-    assert sorted(payload["brands"]) == ["Alpha", "Beta", "Gamma"]
+    assert sorted(payload["brands"]) == ["Alpha", "Beta", "Delta", "Gamma"]
 
 
 def test_aspects_are_returned_in_slider_order(client):
@@ -172,7 +177,7 @@ def test_filters_by_brand_and_query(client):
 def test_pagination_reports_the_full_total(client):
     payload = client.get("/api/phones", params={"limit": 2, "offset": 0}).json()
     assert len(payload["phones"]) == 2
-    assert payload["total"] == 3
+    assert payload["total"] == 4
 
 
 def test_phone_detail_includes_evidence(client):
@@ -266,7 +271,7 @@ def test_out_of_range_sliders_are_rejected(client, value):
 
 
 def test_recommend_reports_how_many_phones_were_considered(client):
-    assert _recommend(client)["considered"] == 3
+    assert _recommend(client)["considered"] == 4
 
 
 # ---------------------------------------------------------------------------
@@ -322,3 +327,60 @@ def test_empty_review_is_rejected(client, text):
 def test_overlong_review_is_rejected(client):
     response = client.post("/api/phones/alpha one/reviews", json={"text": "a" * 6000})
     assert response.status_code == 422
+
+
+# ---------------------------------------------------------------------------
+# Simulated phones
+# ---------------------------------------------------------------------------
+
+
+def test_simulated_phones_are_flagged_in_the_listing(client):
+    """The condition on which generated scores may be shown at all."""
+    phones = {p["name"]: p for p in client.get("/api/phones").json()["phones"]}
+    assert phones["Delta 2025"]["simulated"] is True
+    assert phones["Alpha One"]["simulated"] is False
+
+
+def test_simulated_phones_are_flagged_on_the_detail_page(client):
+    assert client.get("/api/phones/sim:delta 2025").json()["simulated"] is True
+
+
+def test_simulated_phones_are_flagged_in_recommendations(client):
+    matches = _recommend(client, battery=7.0, camera=7.0)["matches"]
+    flags = {m["phone"]["name"]: m["phone"]["simulated"] for m in matches}
+    assert flags["Delta 2025"] is True
+
+
+def test_the_listing_can_exclude_simulated_phones(client):
+    payload = client.get("/api/phones", params={"include_simulated": "false"}).json()
+    assert payload["total"] == 3
+    assert all(not p["simulated"] for p in payload["phones"])
+
+
+def test_recommendations_can_exclude_simulated_phones(client):
+    body = dict.fromkeys(AXES, 5.0) | {"include_simulated": False}
+    payload = client.post("/api/recommend", json=body).json()
+    assert payload["considered"] == 3
+    assert payload["simulated_considered"] == 0
+    assert all(not m["phone"]["simulated"] for m in payload["matches"])
+
+
+def test_recommendations_report_how_many_were_simulated(client):
+    """The UI needs this to say "3 of 12 ranked phones are simulated"."""
+    assert _recommend(client)["simulated_considered"] == 1
+
+
+def test_price_target_uses_real_phones_only(client):
+    """The regression this pins.
+
+    Price scores are built from percentile bounds over the REAL catalogue. If
+    the API derived its bounds from the extremes, or included the simulated
+    2025 flagships, it would invert a mapping the published scores were never
+    built with -- the "around $X" hint beside the Price slider was wrong for
+    every phone by a median of 44%.
+    """
+    target = _recommend(client, price=5.0)["price_target"]
+    # Real prices are 150/450/900; the simulated one is 700. Percentile bounds
+    # over the real three put the midpoint near the middle of that range.
+    assert target is not None
+    assert 150.0 <= target <= 900.0

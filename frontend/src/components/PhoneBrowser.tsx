@@ -8,6 +8,7 @@
 
 import { useEffect, useState } from "react";
 import { ApiError, api } from "../api/client";
+import { SimulatedBadge } from "./Recommender";
 import { AXES } from "../types";
 import type { Axis, PhoneListResponse } from "../types";
 
@@ -125,7 +126,10 @@ export function PhoneBrowser({ onOpen }: { onOpen: (modelKey: string) => void })
                     }}
                   />
                 ) : null}
-                <span className="phone-tile__name">{phone.name}</span>
+                <span className="phone-tile__name">
+                  {phone.name}
+                  {phone.simulated && <SimulatedBadge />}
+                </span>
                 <span className="phone-tile__meta">
                   {phone.price != null && <span>${phone.price.toFixed(0)}</span>}
                   <span>{phone.reviews_total.toLocaleString()} reviews</span>

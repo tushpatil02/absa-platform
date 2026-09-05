@@ -128,6 +128,108 @@ too aggressive: "Great phone" occurs 222 times from 186 different reviewers.
 
 ---
 
+## 1c. A third source: simulated 2025-2026 phones
+
+The Amazon corpus was scraped 2019-12-26, so every real phone in the catalogue
+is at least six years old. There is no permissively-licensed replacement:
+
+| Candidate | Verdict |
+|---|---|
+| McAuley-Lab/Amazon-Reviews-2023 | Real, but ends **2023**, and research-use rather than CC0 |
+| Global Mobile Reviews "2025 Edition" (Kaggle) | 50,000 rows, **110 distinct texts** — one repeats 724 times |
+| Product Reviews Sentiment (Kaggle) | 1,000 rows, **15 distinct texts** |
+| Amazon Mobile Phones 2026 (Kaggle) | 403, credentials required |
+
+The "2025 Edition" also ships `customer_name`, `age` and `exchange_rate_to_usd`
+columns. Neither of the downloadable ones is review data.
+
+So [`ml/synthetic/reviews.py`](../ml/synthetic/reviews.py) generates 5,000
+reviews for 25 phones released 2024-2026. **The names are real, the prices are
+nominal bands, and the reviews are invented.** That combination is only
+defensible because it is flagged at every surface — `simulated=1` in
+`phones.csv`, `simulated: true` in the API, a red badge on every card and a
+banner on every phone page.
+
+### It has to clear the bar the rejected datasets fail
+
+`generate_synthetic.py` measures distinct-text share and **refuses to write
+below 0.90**. It scores **0.9772**, against 0.0022 for the dataset it replaces.
+A generator that repeats itself is worse than none, because it looks like data.
+
+### Labels are exact, and so is the ground truth
+
+The generator picks an aspect and a polarity, then renders a clause for it, so
+annotation is the *input* to generation rather than a judgement about the
+output. Each clause is retained per aspect: a keyword audit would report false
+failures, because roughly 7% of battery clauses contain no battery word at all
+("it drains overnight doing nothing") — realistic, and exactly what a lexical
+detector finds hard.
+
+Each phone also gets a **latent per-aspect quality** drawn once from its name,
+and polarity is drawn from that. Without it every phone drew from the same
+distribution and all 23 converged to the same profile — camera 4.76 to 4.79 for
+every one, separable only by sampling noise. Ranking those would have been
+ordering noise.
+
+The latent range is **calibrated, not chosen**. An initial `uniform(2.5, 9.5)`
+gave 52% positive reviews against the real corpus's 67.4%, so every simulated
+phone scored below every real one and none ever appeared in a recommendation —
+an artefact that would have told a reader 2025 phones are worse than 2019 ones.
+The range is now centred to reproduce the real polarity mix.
+
+### What this buys that real data cannot
+
+A known answer. [`scripts/verify_recovery.py`](../scripts/verify_recovery.py)
+checks whether the pipeline recovers the latent quality it was never shown:
+
+```
+latent quality -> generated reviews -> detector -> sentiment -> shrinkage -> score
+```
+
+| Aspect | Spearman | Verdict |
+|---|---:|---|
+| display | 0.898 | recovered |
+| battery | 0.834 | recovered |
+| camera | 0.774 | recovered |
+| **performance** | **0.686** | **weak** |
+
+`performance` is also the weakest axis on real data — the largest
+empirical-Bayes `k` (12.6 against 5.2-5.8) and the tightest score spread. On
+real data that was ambiguous: thin corpus signal, or a pipeline weakness? The
+simulation has ground truth, so it separates the two. **The pipeline itself
+loses performance signal**, and it does so at both latent ranges tested.
+
+This is a floor, not an accuracy claim. The text is compositional and its
+polarity unambiguous by construction, so a pipeline that fails here is
+definitely broken while one that passes may still do poorly on human writing.
+
+### These rows never touch a reported metric
+
+* Training: allowed, and measured. See below — the answer is that it does not help.
+* The reliability gate: **excluded**. `data/processed/review_aspects.csv` is
+  verified to contain zero `sim:` rows, and the gate's numbers are byte-identical
+  with and without the simulated catalogue merged.
+* Every figure in [model.md](model.md) is on the real held-out M-ABSA split.
+
+### Does it help as training data? No, measurably
+
+Both arms scored on the real held-out test split
+([`scripts/compare_synthetic.py`](../scripts/compare_synthetic.py)):
+
+| synthetic added | macro F1 |
+|---:|---:|
+| 0 | 0.5993 |
+| 1,000 | 0.6057 |
+| **2,500** | **0.6078** |
+| 5,000 | 0.6005 |
+| 9,977 | 0.5983 |
+
+A clean augmentation curve, and not significant: paired bootstrap at the peak
+gives **+0.0096, 95% CI [-0.0067, +0.0273]**, which includes zero. It is not
+shipped as an improvement.
+
+---
+
 ## 2. Raw format
 
 One review per line:

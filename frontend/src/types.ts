@@ -107,6 +107,14 @@ export interface PhoneSummary {
   aspects: AspectScore[];
   /** False when an axis is missing; such phones are not recommended. */
   rankable: boolean;
+  /**
+   * True for the 2025–2026 entries whose reviews were GENERATED, not collected.
+   * No permissively-licensed corpus of 2025+ phone reviews exists. The product
+   * name is real and the price is a nominal band; the scores come from
+   * synthetic text. Anywhere a score from one of these is shown, the UI must
+   * say so — that is the whole condition on which they were added.
+   */
+  simulated: boolean;
 }
 
 export interface PhoneListResponse {
@@ -142,6 +150,8 @@ export interface RecommendResponse {
   matches: Match[];
   preferences: Record<string, number>;
   considered: number;
+  /** How many of `considered` were simulated. */
+  simulated_considered: number;
   /** Listed price the Price slider position corresponds to. */
   price_target: number | null;
 }

@@ -31,6 +31,7 @@ const PHONE: PhoneDetail = {
   reviews_scored: 400,
   avg_rating: 4.1,
   rankable: true,
+  simulated: false,
   aspects: [
     { aspect: "battery", display_name: "Battery", score: 8.2, mentions: 96, source: "reviews" },
     { aspect: "camera", display_name: "Camera", score: 3.4, mentions: 61, source: "reviews" },
@@ -222,5 +223,19 @@ describe("PhonePage", () => {
     render(<PhonePage modelKey="acme nova" onBack={onBack} />);
     await user.click(await screen.findByRole("button", { name: /back to results/i }));
     await waitFor(() => expect(onBack).toHaveBeenCalled());
+  });
+
+  it("warns prominently when the reviews were generated", async () => {
+    getPhone.mockResolvedValue({ ...PHONE, simulated: true });
+    render(<PhonePage modelKey="acme nova" onBack={() => {}} />);
+    const note = await screen.findByRole("note");
+    expect(note).toHaveTextContent(/generated, not collected/i);
+    expect(note).toHaveTextContent(/excluded from the reliability checks/i);
+  });
+
+  it("shows no such warning for a real phone", async () => {
+    render(<PhonePage modelKey="acme nova" onBack={() => {}} />);
+    await screen.findByRole("heading", { name: "Acme Nova" });
+    expect(screen.queryByRole("note")).not.toBeInTheDocument();
   });
 });

@@ -52,6 +52,22 @@ function requirementLabel(value: number): string {
   return "the best";
 }
 
+/**
+ * Shown wherever a simulated phone's score is. Not decoration: these scores come
+ * from generated text, and the only condition under which showing them is
+ * defensible is that the interface says so every time.
+ */
+export function SimulatedBadge() {
+  return (
+    <span
+      className="sim-badge"
+      title="Reviews for this phone were generated, not collected. No 2025+ phone review corpus is publicly licensed, so these scores are illustrative."
+    >
+      simulated
+    </span>
+  );
+}
+
 function matchTone(percent: number): string {
   if (percent >= 95) return "match--strong";
   if (percent >= 80) return "match--good";
@@ -89,9 +105,12 @@ function MatchCard({
       ) : null}
 
       <div className="match-card__body">
-        <button className="match-card__name" onClick={() => onOpen(phone.model_key)}>
-          {phone.name}
-        </button>
+        <span className="match-card__title">
+          <button className="match-card__name" onClick={() => onOpen(phone.model_key)}>
+            {phone.name}
+          </button>
+          {phone.simulated && <SimulatedBadge />}
+        </span>
         <div className="match-card__meta">
           {phone.price != null && <span>${phone.price.toFixed(0)}</span>}
           <span>{phone.reviews_total.toLocaleString()} reviews</span>
@@ -136,6 +155,7 @@ function MatchCard({
 
 export function Recommender({ onOpen }: { onOpen: (modelKey: string) => void }) {
   const [preferences, setPreferences] = useState<Preferences>(DEFAULTS);
+  const [includeSimulated, setIncludeSimulated] = useState(true);
   const [result, setResult] = useState<RecommendResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -144,10 +164,10 @@ export function Recommender({ onOpen }: { onOpen: (modelKey: string) => void }) 
   // travel would become a request.
   const timer = useRef<number | undefined>(undefined);
 
-  const fetchMatches = useCallback((next: Preferences) => {
+  const fetchMatches = useCallback((next: Preferences, withSimulated: boolean) => {
     setLoading(true);
     api
-      .recommend(next, 12)
+      .recommend(next, 12, withSimulated)
       .then((response) => {
         setResult(response);
         setError(null);
@@ -161,9 +181,12 @@ export function Recommender({ onOpen }: { onOpen: (modelKey: string) => void }) 
 
   useEffect(() => {
     window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(() => fetchMatches(preferences), 250);
+    timer.current = window.setTimeout(
+      () => fetchMatches(preferences, includeSimulated),
+      250,
+    );
     return () => window.clearTimeout(timer.current);
-  }, [preferences, fetchMatches]);
+  }, [preferences, includeSimulated, fetchMatches]);
 
   const update = (axis: Axis, value: number) =>
     setPreferences((current) => ({ ...current, [axis]: value }));
@@ -188,6 +211,7 @@ export function Recommender({ onOpen }: { onOpen: (modelKey: string) => void }) 
 
         {AXES.map((axis) => (
           <div className="slider" key={axis}>
+
             <label className="slider__label" htmlFor={`slider-${axis}`}>
               <span className="slider__name">
                 {LABELS[axis]}
@@ -224,6 +248,26 @@ export function Recommender({ onOpen }: { onOpen: (modelKey: string) => void }) 
       </section>
 
       <section className="results" aria-live="polite">
+        {result && result.simulated_considered > 0 && includeSimulated && (
+          <div className="sim-notice">
+            <strong>{result.simulated_considered}</strong> of the{" "}
+            {result.considered} ranked phones are <SimulatedBadge /> — 2025–2026
+            models whose reviews were generated, because no 2025+ review corpus
+            is publicly licensed. Their scores are illustrative and are excluded
+            from the reliability checks.{" "}
+            <button className="link-button" onClick={() => setIncludeSimulated(false)}>
+              Show only real phones
+            </button>
+          </div>
+        )}
+        {!includeSimulated && (
+          <div className="sim-notice">
+            Showing only phones with real, collected reviews.{" "}
+            <button className="link-button" onClick={() => setIncludeSimulated(true)}>
+              Include simulated 2025–2026 phones
+            </button>
+          </div>
+        )}
         {error && (
           <div className="alert alert--error" role="alert">
             <span className="alert__icon">!</span>

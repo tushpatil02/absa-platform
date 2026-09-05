@@ -14315,5 +14315,1805 @@
    "score": 8.76,
    "sentence": "It does have some quirks but exploring it a little further it has all the capabilities of a pricier phone."
   }
+ ],
+ "sim:samsung galaxy s25": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "The downside is that battery drain during screen time is not good enough."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.69,
+   "sentence": "So far, battery life is fantastic."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.28,
+   "sentence": "Overall, it stutters constantly with the camera app!"
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "So far, the chip is excellent and it shows in the camera app."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.43,
+   "sentence": "Overall, the processor is frustrating for the price."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "Overall, it is absolutely good value for this price bracket!"
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.24,
+   "sentence": "THAT SAID, THE SCREEN SCRATCHED WITHIN A FORTNIGHT."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "The display is fine, bright enough indoors at least."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "Also, performance is frustrating."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "Brightness is brilliant, no trouble outdoors, and the processor is fantastic, everything opens instantly."
+  }
+ ],
+ "sim:samsung galaxy s25 plus": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "Battery life is frustrating."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.68,
+   "sentence": "Overall, battery life is fantastic."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.26,
+   "sentence": "Two weeks in, the camera struggles badly in night shots."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.71,
+   "sentence": "photo quality is fantastic for the price."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.55,
+   "sentence": "So far, the price is genuinely unacceptable given the specification, but the battery outlasts anything I have owned."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "photo quality is fantastic for the price."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "However, the screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.66,
+   "sentence": "the screen is fantastic."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.27,
+   "sentence": "Two weeks in, it drains overnight doing nothing, and the phone lags when I open heavy apps."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "the processor is superb, everything opens instantly."
+  }
+ ],
+ "sim:samsung galaxy s25 ultra": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "Honestly, the battery degraded noticeably within months."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.7,
+   "sentence": "Battery life is absolutely fantastic."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.26,
+   "sentence": "After a month, it overheats within minutes of the camera app."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.68,
+   "sentence": "The camera is absolutely genuinely impressive!"
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.44,
+   "sentence": "The processor is poor for the price."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "It is good value for the price!"
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "That said, touch response on the display is disappointing."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.66,
+   "sentence": "Also, the display stays readable outdoors, and the camera is genuinely impressive."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "Overall, apps reload in the background because memory is unacceptable."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "the processor is excellent, everything opens instantly."
+  }
+ ],
+ "sim:samsung galaxy s25 fe": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "Battery life is disappointing, and apps reload in the background because memory is a real letdown."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.71,
+   "sentence": "Overall, battery life is excellent!"
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.24,
+   "sentence": "That said, it overheats within minutes of the camera app."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "the chip is genuinely impressive and it shows in the camera app."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.33,
+   "sentence": "Also, the processor is unacceptable for the money."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "That said, photo quality is excellent for this price bracket."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "The screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.66,
+   "sentence": "THE SCREEN IS GENUINELY IMPRESSIVE."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "Battery life is disappointing, and apps reload in the background because memory is a real letdown."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "The ultrawide is fantastic, and the processor is superb, everything opens instantly."
+  }
+ ],
+ "sim:samsung galaxy a56": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "BATTERY DRAIN DURING VIDEO CALLS IS A REAL LETDOWN."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.69,
+   "sentence": "Two weeks in, the ultrawide is honestly outstanding, and battery life is genuinely genuinely impressive."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.26,
+   "sentence": "IT STUTTERS CONSTANTLY WITH THE CAMERA APP."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "the display is easily the best part of the phone, and photo quality is fantastic for the price."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.47,
+   "sentence": "The downside is that it is overpriced for what you get."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "Photo quality is brilliant for the asking price."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "the screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.68,
+   "sentence": "the display is easily the best part of the phone, and photo quality is fantastic for the price."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "Two weeks in, performance is genuinely disappointing."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "THE PROCESSOR IS FANTASTIC, EVERYTHING OPENS INSTANTLY."
+  }
+ ],
+ "sim:apple iphone 16": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "The downside is that charging is slow, well over two hours from flat."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.66,
+   "sentence": "Fast charging actually is fast, under an hour and done."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.24,
+   "sentence": "THE DOWNSIDE IS THAT THE CAMERA STRUGGLES BADLY IN ARTIFICIAL LIGHT."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.69,
+   "sentence": "the camera is absolutely fantastic."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.36,
+   "sentence": "Overall, touch response on the display is frustrating, and the price is genuinely not good enough given the specification."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "So far, it is absolutely good value for the money."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "Also, the screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.66,
+   "sentence": "so far, the screen is genuinely fantastic."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "charging is slow, well over two hours from flat."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "That said, the processor is very good, everything opens instantly."
+  }
+ ],
+ "sim:apple iphone 16 pro": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "HOWEVER, CHARGING IS SLOW, WELL OVER TWO HOURS FROM FLAT."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.62,
+   "sentence": "Fast charging actually is fast, about an hour and done."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "After a month, the camera is poor."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.68,
+   "sentence": "Overall, photo quality is excellent for the money."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.35,
+   "sentence": "Coming from an older phone, photo quality is frustrating compared to the price."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.72,
+   "sentence": "Overall, photo quality is superb for the price."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "the screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.69,
+   "sentence": "So far, the screen is absolutely fantastic!"
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.26,
+   "sentence": "That said, the processor is poor for what it costs, and brightness is a real letdown, I cannot read it at full brightness."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "The processor is fantastic, everything opens instantly."
+  }
+ ],
+ "sim:apple iphone 16 pro max": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.21,
+   "sentence": "AFTER A MONTH, BATTERY LIFE IS FRUSTRATING."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.7,
+   "sentence": "Battery life is absolutely very good."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.26,
+   "sentence": "Two weeks in, it overheats within minutes of the camera app."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.66,
+   "sentence": "It stays cool and fast during the camera app."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.36,
+   "sentence": "On top of that, battery drain during constant navigation is frustrating, although the price is acceptable for the segment.."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.72,
+   "sentence": "THE PROCESSOR IS GENUINELY IMPRESSIVE, EVERYTHING OPENS INSTANTLY, AND PHOTO QUALITY IS VERY GOOD FOR THIS PRICE BRACKET, AND IT IS GOOD VALUE FOR THIS PRICE BRACKET."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "Also, the screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.68,
+   "sentence": "overall, brightness is fantastic, no trouble in a bright room."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "After a month, apps reload in the background because memory is poor."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.7,
+   "sentence": "multitasking is fantastic with this much memory."
+  }
+ ],
+ "sim:apple iphone 16e": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "after a month, charging is slow, well over two hours from flat."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.7,
+   "sentence": "Battery life is brilliant."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.26,
+   "sentence": "The camera struggles badly in dim rooms."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.71,
+   "sentence": "Photo quality is fantastic for the price."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.31,
+   "sentence": "Photo quality is unacceptable compared to the price."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "Photo quality is fantastic for the price."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "The screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.7,
+   "sentence": "the display stays readable at full brightness, and the processor is fantastic, everything opens instantly."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "Charging is slow, well over two hours from flat."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "The processor is brilliant, everything opens instantly."
+  }
+ ],
+ "sim:apple iphone 17": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.21,
+   "sentence": "After a month, battery drain during heavy use is frustrating, although text is razor sharp on this panel."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.69,
+   "sentence": "battery life is absolutely excellent. would recommend."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.26,
+   "sentence": "Two weeks in, the camera struggles badly in dim rooms!"
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.72,
+   "sentence": "Photo quality is fantastic for the money."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.35,
+   "sentence": "apps reload in the background because memory is disappointing, and the price is absolutely poor given the specification."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "Photo quality is fantastic for the money."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "The downside is that the screen is disappointing."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.7,
+   "sentence": "COMING FROM AN OLDER PHONE, THE DISPLAY STAYS READABLE IN A BRIGHT ROOM, AND THE PROCESSOR IS EXCELLENT, EVERYTHING OPENS INSTANTLY, AND EXCELLENT VALUE, CHEAPER THAN THE OBVIOUS ALTERNATIVES."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "Overall, charging is slow, well over two hours from flat."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "The processor is brilliant, everything opens instantly."
+  }
+ ],
+ "sim:apple iphone 17 pro": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.21,
+   "sentence": "The battery degraded noticeably within months, but text is razor sharp on this panel."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.72,
+   "sentence": "Overall, battery life is honestly excellent, and the refresh rate makes everything feel smooth."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.26,
+   "sentence": "On top of that, the camera struggles badly in dim rooms."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.69,
+   "sentence": "The camera is brilliant, and it is absolutely good value for the money."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.49,
+   "sentence": "Still on 60% by the evening after screen time, but the processor is frustrating for this price bracket."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "It is absolutely good value for the asking price!"
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "However, the screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.69,
+   "sentence": "Two weeks in, the screen is honestly genuinely impressive, and the processor is excellent, everything opens instantly."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.25,
+   "sentence": "After a month, performance is honestly unacceptable, although the main sensor handles overcast weather well."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.75,
+   "sentence": "the processor is superb, everything opens instantly. Would recommend."
+  }
+ ],
+ "sim:google pixel 9": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "The downside is that the battery degraded noticeably within months."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.7,
+   "sentence": "Battery life is genuinely excellent!"
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "That said, it stutters constantly with the camera app."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.7,
+   "sentence": "The ultrawide is genuinely impressive, and it handles the camera app without breaking a sweat."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.31,
+   "sentence": "photo quality is unacceptable compared to the price."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "Honestly, it is absolutely good value for the asking price."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.25,
+   "sentence": "Overall, the screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "The screen is brilliant."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "That said, apps reload in the background because memory is disappointing."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "the processor is fantastic, everything opens instantly."
+  }
+ ],
+ "sim:google pixel 9 pro": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.25,
+   "sentence": "On the other hand, battery drain during hotspot use is poor."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.71,
+   "sentence": "battery life is absolutely very good. Would recommend."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.38,
+   "sentence": "However, the phone lags when I open the camera app."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "So far, the camera is fantastic."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.44,
+   "sentence": "After a month, the processor is frustrating for the money, but the display stays readable at full brightness."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "It is good value for this price bracket!"
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "the screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "the screen is absolutely brilliant."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.25,
+   "sentence": "However, performance is genuinely unacceptable."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "So far, the processor is excellent, everything opens instantly."
+  }
+ ],
+ "sim:google pixel 9a": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "TWO WEEKS IN, CHARGING IS SLOW, WELL OVER TWO HOURS FROM FLAT."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.62,
+   "sentence": "fast charging actually is fast, about an hour and done."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.25,
+   "sentence": "two weeks in, the camera is a real letdown."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "the chip is superb and it shows in the camera app!"
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.47,
+   "sentence": "THE DOWNSIDE IS THAT YOU CANNOT BEAT THIS FOR THE ASKING PRICE."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "It is absolutely good value for what it costs."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "Touch response on the display is a real letdown."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.7,
+   "sentence": "The display stays readable in a bright room, and multitasking is superb with this much memory."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "Also, charging is slow, well over two hours from flat."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "The processor is seriously good, everything opens instantly!"
+  }
+ ],
+ "sim:google pixel 10": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.21,
+   "sentence": "That said, battery drain during hotspot use is frustrating."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.69,
+   "sentence": "Honestly, battery life is absolutely fantastic, and excellent value, cheaper than the obvious alternatives, and performance is outstanding."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.26,
+   "sentence": "OVERALL, THE CAMERA STRUGGLES BADLY IN ARTIFICIAL LIGHT."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "The camera is absolutely very good."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.31,
+   "sentence": "On the other hand, the processor is unacceptable for this price bracket."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "Photo quality is fantastic for the asking price."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "The downside is that the screen is a real letdown."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "Overall, the display is serviceable, bright enough indoors at least!"
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "on the other hand, charging is slow, well over two hours from flat."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "the processor is fantastic, everything opens instantly."
+  }
+ ],
+ "sim:google pixel 10 pro": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "The battery degraded noticeably within months. Would recommend."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.66,
+   "sentence": "Fast charging actually is fast, under an hour and done."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.24,
+   "sentence": "The camera is frustrating."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.66,
+   "sentence": "It stays cool and fast during the camera app."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.41,
+   "sentence": "However, for the asking price this is hard to argue with, but the battery degraded noticeably within months."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "Overall, photo quality is brilliant for the asking price."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.21,
+   "sentence": "Two weeks in, touch response on the display is frustrating."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.64,
+   "sentence": "Brightness is fantastic, no trouble at full brightness."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.21,
+   "sentence": "Apps reload in the background because memory is disappointing."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.72,
+   "sentence": "The refresh rate makes everything feel smooth, and endurance is very good, even with gaming, and it is good value for the price."
+  }
+ ],
+ "sim:oneplus 13": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "Also, charging is slow, well over two hours from flat."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.7,
+   "sentence": "BATTERY LIFE IS ABSOLUTELY SERIOUSLY GOOD."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "However, the camera is unacceptable."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "the camera is really genuinely impressive, and battery life is genuinely brilliant. Would recommend."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.69,
+   "sentence": "The downside is that for this price bracket this is hard to argue with."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "Photo quality is brilliant for the money."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "Also, the screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.66,
+   "sentence": "coming from an older phone, the screen is absolutely very good!"
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.21,
+   "sentence": "Also, there is visible colour shift at an angle, and performance is disappointing."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "the processor is fantastic, everything opens instantly."
+  }
+ ],
+ "sim:oneplus 13r": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.21,
+   "sentence": "That said, battery drain during heavy use is disappointing."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "Also, battery life is fantastic."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.43,
+   "sentence": "the camera is genuinely not good enough."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "On top of that, it stays cool and fast during the camera app. Would recommend."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.39,
+   "sentence": "The downside is that the price is honestly unacceptable given the specification, but the battery lasts roughly 9 hours with video calls."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "The processor is fantastic, everything opens instantly, and it is honestly good value for this price bracket."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "the screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.64,
+   "sentence": "On top of that, the screen is honestly brilliant."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "That said, performance is frustrating."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "THE PROCESSOR IS SUPERB, EVERYTHING OPENS INSTANTLY."
+  }
+ ],
+ "sim:xiaomi 15": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "however, charging is slow, well over two hours from flat."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.71,
+   "sentence": "Battery life is superb!"
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.24,
+   "sentence": "The camera struggles badly in artificial light."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.65,
+   "sentence": "The camera is genuinely impressive."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.31,
+   "sentence": "Photo quality is unacceptable compared to the price."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "On top of that, photo quality is fantastic for the asking price."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "that said, touch response on the display is frustrating."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.65,
+   "sentence": "The display is easily the best part of the phone. Would recommend."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "Overall, charging is slow, well over two hours from flat."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "On the other hand, the processor is excellent, everything opens instantly."
+  }
+ ],
+ "sim:xiaomi 15 ultra": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.24,
+   "sentence": "Battery drain during hotspot use is not good enough."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.7,
+   "sentence": "Battery life is absolutely superb."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.27,
+   "sentence": "Overall, the camera struggles badly in indoor lighting."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.72,
+   "sentence": "Photo quality is fantastic for the money."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.27,
+   "sentence": "The processor is unacceptable for this price bracket."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "Photo quality is fantastic for the money."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "The downside is that touch response on the display is disappointing, and it is overpriced for what you get."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.69,
+   "sentence": "THE DISPLAY STAYS READABLE OUTDOORS, AND IT IS GOOD VALUE FOR THE PRICE."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "Two weeks in, it stutters constantly with the browser with many tabs."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "The processor is seriously good, everything opens instantly."
+  }
+ ],
+ "sim:xiaomi redmi note 14 pro": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "Overall, touch response on the display is unacceptable, but the battery outlasts anything I have owned."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.71,
+   "sentence": "BATTERY LIFE IS ABSOLUTELY EXCELLENT, AND MULTITASKING IS FANTASTIC WITH THIS MUCH MEMORY."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "On the other hand, it stutters constantly with the camera app."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.65,
+   "sentence": "the camera is genuinely impressive."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.53,
+   "sentence": "Also, you cannot beat this for this price bracket, although the battery degraded noticeably within months."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "photo quality is fantastic for the asking price."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "However, the screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.68,
+   "sentence": "So far, the screen is very good!"
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.21,
+   "sentence": "Apps reload in the background because memory is disappointing."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "The processor is brilliant, everything opens instantly."
+  }
+ ],
+ "sim:nothing phone 3": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "the downside is that charging is slow, well over two hours from flat."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.7,
+   "sentence": "battery life is brilliant."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.28,
+   "sentence": "Overall, the camera struggles badly in the evening."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.68,
+   "sentence": "Overall, photo quality is excellent for the money."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.43,
+   "sentence": "On the other hand, photo quality is poor compared to the price."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "The refresh rate makes everything feel smooth, and it is good value for what it costs."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.25,
+   "sentence": "Coming from an older phone, the screen is genuinely unacceptable."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.68,
+   "sentence": "So far, the display is fine, bright enough indoors at least."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.23,
+   "sentence": "CHARGING IS SLOW, WELL OVER TWO HOURS FROM FLAT."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.72,
+   "sentence": "that said, multitasking is excellent with this much memory."
+  }
+ ],
+ "sim:nothing phone 3a": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.24,
+   "sentence": "Charging is slow, well over two hours from flat!"
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.66,
+   "sentence": "Fast charging actually is fast, under an hour and done."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.29,
+   "sentence": "The downside is that the camera is nothing special."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.67,
+   "sentence": "Overall, the camera is fantastic."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.4,
+   "sentence": "That said, the price is unacceptable given the specification."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "it is absolutely good value for the asking price."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "The downside is that touch response on the display is a real letdown."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.66,
+   "sentence": "Honestly, the screen is absolutely seriously good."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.21,
+   "sentence": "apps reload in the background because memory is disappointing."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "So far, the processor is excellent, everything opens instantly."
+  }
+ ],
+ "sim:motorola edge 60 pro": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.21,
+   "sentence": "Battery drain during video calls is disappointing."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.68,
+   "sentence": "On top of that, battery life is fantastic."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.26,
+   "sentence": "After a month, the camera struggles badly in night shots."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.72,
+   "sentence": "Overall, photo quality is fantastic for the asking price!"
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.39,
+   "sentence": "Battery life is terrible, and photo quality is frustrating compared to the price."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.75,
+   "sentence": "Overall, photo quality is fantastic for the asking price!"
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "Also, the screen scratched within a fortnight."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.69,
+   "sentence": "So far, the screen is absolutely fantastic."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "Also, charging is slow, well over two hours from flat."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.73,
+   "sentence": "The processor is very good, everything opens instantly."
+  }
+ ],
+ "sim:motorola razr 60 ultra": [
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "BATTERY DRAIN DURING VIDEO CALLS IS A REAL LETDOWN."
+  },
+  {
+   "aspect": "battery",
+   "display_name": "Battery",
+   "polarity": "positive",
+   "score": 9.72,
+   "sentence": "So far, it is good value for the money, and the refresh rate makes everything feel smooth, and battery life is absolutely brilliant."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "negative",
+   "score": 1.24,
+   "sentence": "that said, it overheats within minutes of the camera app."
+  },
+  {
+   "aspect": "camera",
+   "display_name": "Camera",
+   "polarity": "positive",
+   "score": 9.7,
+   "sentence": "The camera is genuinely seriously good, and the refresh rate makes everything feel smooth."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "negative",
+   "score": 1.29,
+   "sentence": "Coming from an older phone, the processor is unacceptable for the money."
+  },
+  {
+   "aspect": "price",
+   "display_name": "Price",
+   "polarity": "positive",
+   "score": 9.74,
+   "sentence": "it is absolutely good value for the asking price."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "negative",
+   "score": 1.21,
+   "sentence": "The downside is that touch response on the display is disappointing."
+  },
+  {
+   "aspect": "display",
+   "display_name": "Display",
+   "polarity": "positive",
+   "score": 9.68,
+   "sentence": "So far, the screen is absolutely very good."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "negative",
+   "score": 1.22,
+   "sentence": "Also, apps reload in the background because memory is disappointing."
+  },
+  {
+   "aspect": "performance",
+   "display_name": "Processor",
+   "polarity": "positive",
+   "score": 9.71,
+   "sentence": "On the other hand, the processor is fantastic, everything opens instantly."
+  }
  ]
 }

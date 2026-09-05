@@ -33,7 +33,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
 from ml.preprocessing.transform import load_taxonomy
-from ml.synthetic.reviews import ASPECTS, generate, uniqueness
+from ml.synthetic.reviews import ASPECTS, generate, phone_quality, uniqueness
 
 OUT_DIR = REPO_ROOT / "data" / "synthetic"
 
@@ -136,6 +136,24 @@ def main() -> int:
         acd_rows.append(row)
     acd = pd.DataFrame(acd_rows)
 
+    # --- per-review rows, the shape score_catalog.py consumes -------------
+    review_rows = pd.DataFrame(
+        [
+            {
+                "review_id": review.review_id,
+                "model_key": f"sim:{review.phone.lower()}",
+                "asin": review.review_id,
+                "name": "simulated",
+                "rating": None,
+                "date": None,
+                "verified": False,
+                "title": "",
+                "body": review.text,
+            }
+            for review in reviews
+        ]
+    )
+
     # --- catalogue entries, flagged --------------------------------------
     phones = pd.DataFrame(
         [
@@ -157,8 +175,20 @@ def main() -> int:
         ]
     )
 
+    # The ground truth these reviews were generated from. Real data has no
+    # equivalent, and it is what makes scripts/verify_recovery.py possible:
+    # the pipeline's recovered scores can be checked against a known answer.
+    truth = pd.DataFrame(
+        [
+            {"model_key": f"sim:{name.lower()}", "name": name, **phone_quality(name, args.seed)}
+            for name, _, _ in PHONES_2025
+        ]
+    )
+
     args.out_dir.mkdir(parents=True, exist_ok=True)
+    truth.to_csv(args.out_dir / "ground_truth.csv", index=False)
     asc.to_csv(args.out_dir / "asc_synthetic.csv", index=False)
+    review_rows.to_csv(args.out_dir / "phone_reviews_synthetic.csv", index=False)
     acd.to_csv(args.out_dir / "acd_synthetic.csv", index=False)
     phones.to_csv(args.out_dir / "phones_synthetic.csv", index=False)
     (args.out_dir / "generation_report.json").write_text(

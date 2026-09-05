@@ -109,12 +109,21 @@ export const api = {
       }),
     }),
 
-  phones: (params: { q?: string; brand?: string; limit?: number; offset?: number } = {}) => {
+  phones: (
+    params: {
+      q?: string;
+      brand?: string;
+      limit?: number;
+      offset?: number;
+      includeSimulated?: boolean;
+    } = {},
+  ) => {
     const query = new URLSearchParams();
     if (params.q) query.set("q", params.q);
     if (params.brand) query.set("brand", params.brand);
     if (params.limit != null) query.set("limit", String(params.limit));
     if (params.offset != null) query.set("offset", String(params.offset));
+    if (params.includeSimulated === false) query.set("include_simulated", "false");
     const suffix = query.toString();
     return request<PhoneListResponse>(`/api/phones${suffix ? `?${suffix}` : ""}`);
   },
@@ -122,10 +131,10 @@ export const api = {
   phone: (modelKey: string) =>
     request<PhoneDetail>(`/api/phones/${encodeURIComponent(modelKey)}`),
 
-  recommend: (preferences: Preferences, limit = 12) =>
+  recommend: (preferences: Preferences, limit = 12, includeSimulated = true) =>
     request<RecommendResponse>("/api/recommend", {
       method: "POST",
-      body: JSON.stringify({ ...preferences, limit }),
+      body: JSON.stringify({ ...preferences, limit, include_simulated: includeSimulated }),
     }),
 
   submitReview: (modelKey: string, text: string, rating?: number) =>

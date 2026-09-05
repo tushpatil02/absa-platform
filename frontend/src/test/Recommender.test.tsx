@@ -43,6 +43,7 @@ function match(name: string, percent: number, shortfalls: Record<string, number>
       reviews_total: 512,
       avg_rating: 4.1,
       rankable: true,
+      simulated: name.includes("Sim"),
       aspects: aspects({
         battery: 8.1,
         camera: 6.4,
@@ -64,6 +65,7 @@ const RESPONSE: RecommendResponse = {
   ],
   preferences: { battery: 5, camera: 5, price: 5, display: 5, performance: 5 },
   considered: 137,
+  simulated_considered: 0,
   price_target: 261.4,
 };
 
@@ -194,5 +196,50 @@ describe("Recommender", () => {
   it("translates the Price slider into a rough price", async () => {
     render(<Recommender onOpen={() => {}} />);
     expect(await screen.findByText(/around \$261/)).toBeInTheDocument();
+  });
+
+  it("badges a simulated phone in the results", async () => {
+    // These scores come from generated text. Showing them without saying so is
+    // the one thing this feature was not allowed to do.
+    recommend.mockResolvedValue({
+      ...RESPONSE,
+      simulated_considered: 1,
+      matches: [
+        match("Sim Phone 2025", 92, {
+          battery: 0,
+          camera: 0,
+          price: 0,
+          display: 0,
+          performance: 0,
+        }),
+      ],
+    });
+    render(<Recommender onOpen={() => {}} />);
+    expect(await screen.findAllByText("simulated")).not.toHaveLength(0);
+  });
+
+  it("says how many ranked phones were simulated", async () => {
+    recommend.mockResolvedValue({ ...RESPONSE, simulated_considered: 3 });
+    render(<Recommender onOpen={() => {}} />);
+    expect(await screen.findByText(/of the 137 ranked phones are/i)).toBeInTheDocument();
+  });
+
+  it("does not badge a real phone", async () => {
+    render(<Recommender onOpen={() => {}} />);
+    await screen.findByText("Acme Nova");
+    expect(screen.queryByText("simulated")).not.toBeInTheDocument();
+  });
+
+  it("can exclude simulated phones and re-requests without them", async () => {
+    const user = userEvent.setup();
+    recommend.mockResolvedValue({ ...RESPONSE, simulated_considered: 2 });
+    render(<Recommender onOpen={() => {}} />);
+    await waitFor(() => expect(recommend).toHaveBeenCalledTimes(1));
+    expect(recommend.mock.calls[0][2]).toBe(true);
+
+    await user.click(await screen.findByRole("button", { name: /only real phones/i }));
+
+    await waitFor(() => expect(recommend).toHaveBeenCalledTimes(2));
+    expect(recommend.mock.calls[1][2]).toBe(false);
   });
 });

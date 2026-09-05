@@ -56,6 +56,20 @@ import random
 import re
 from dataclasses import dataclass
 
+# Range the latent per-phone quality is drawn from.
+#
+# Calibrated, not chosen. An earlier uniform(2.5, 9.5) gave a mean quality of
+# 6.0, hence about 52% positive reviews against the real corpus's 67.4% -- so
+# every simulated phone scored below every real one and none ever appeared in a
+# recommendation. That is an artefact of the generator, and a misleading one:
+# it would tell a reader that 2025 phones are worse than 2019 phones.
+#
+# Solving (q - 1) / 9 * (1 - p_neutral) = 0.674 for the mean gives q ~= 7.45,
+# so the range is centred there while keeping enough spread for the phones to
+# differ. This calibrates the simulation to the distribution it stands in for;
+# it does not touch any real score.
+QUALITY_RANGE: tuple[float, float] = (4.9, 10.0)
+
 # The five slider axes. `performance` is shown as "Processor" in the UI.
 ASPECTS: tuple[str, ...] = ("battery", "camera", "display", "performance", "price")
 POLARITIES: tuple[str, ...] = ("negative", "neutral", "positive")
@@ -265,6 +279,35 @@ CONTRAST_JOINS = [
 ]
 
 
+def phone_quality(phone: str, seed: int = 0) -> dict[str, float]:
+    """A latent 1-10 quality per aspect, fixed for a given phone and seed.
+
+    This is the ground truth the reviews are generated *from*. Without it every
+    phone draws polarity from the same distribution and their averaged profiles
+    are identical -- 23 phones scoring camera 4.76 to 4.79, separable only by
+    sampling noise.
+
+    Derived from the phone name so it is stable across runs and independent of
+    generation order, which keeps :func:`generate` restartable.
+    """
+    rng = random.Random(f"{phone}|{seed}")
+    return {aspect: rng.uniform(*QUALITY_RANGE) for aspect in ASPECTS}
+
+
+def polarity_for(quality: float, rng: random.Random) -> str:
+    """Draw a polarity consistent with a latent quality score.
+
+    Linear in quality: a 9.5 phone is positive about 94% of the time, a 2.5
+    phone about 17%. Neutral is held near its real-corpus share (5.2%) rather
+    than scaling, because neutral in M-ABSA marks *ambivalence*, not mid-range
+    quality.
+    """
+    p_neutral = 0.06
+    p_positive = (quality - 1.0) / 9.0 * (1.0 - p_neutral)
+    p_negative = 1.0 - p_neutral - p_positive
+    return rng.choices(POLARITIES, weights=[p_negative, p_neutral, p_positive])[0]
+
+
 @dataclass(frozen=True)
 class SyntheticReview:
     """One generated review and the labels it was generated from."""
@@ -327,7 +370,7 @@ def generate_review(
     rng: random.Random,
     *,
     max_aspects: int = 3,
-    mixed_probability: float = 0.55,
+    quality: dict[str, float] | None = None,
 ) -> SyntheticReview:
     """Generate one review with exact aspect/polarity labels.
 
@@ -336,29 +379,19 @@ def generate_review(
         index: Sequence number, for a stable id.
         rng: Seeded generator; the whole module is deterministic given a seed.
         max_aspects: Upper bound on aspects discussed in one review.
-        mixed_probability: Share of multi-aspect reviews that carry opposing
-            polarities. Set high on purpose -- 71.7% of the benchmark and
-            effectively all of the real Amazon corpus is mixed, and that is the
-            slice the model handles worst.
+        quality: Latent per-aspect quality for this phone, from
+            :func:`phone_quality`. Polarity is drawn from it, which is what
+            makes different phones produce different profiles. Reviews still
+            come out mixed -- a phone with a 9 camera and a 3 battery generates
+            praise and complaint in the same review, which is the case the
+            model is worst at -- but the mixing now reflects the phone rather
+            than a coin flip.
     """
+    quality = quality or phone_quality(phone)
     n = rng.randint(1, max_aspects)
     aspects = rng.sample(ASPECTS, n)
 
-    # Real reviews skew positive: M-ABSA is 67.4% positive, 27.4% negative,
-    # 5.2% neutral. Matching that keeps the augmented class balance from
-    # drifting away from the distribution the model is evaluated on.
-    weights = [0.27, 0.06, 0.67]
-    labels: dict[str, str] = {}
-    first = rng.choices(POLARITIES, weights=weights)[0]
-    labels[aspects[0]] = first
-
-    for aspect in aspects[1:]:
-        if rng.random() < mixed_probability:
-            # Deliberately oppose an earlier clause.
-            opposite = "negative" if first == "positive" else "positive"
-            labels[aspect] = opposite
-        else:
-            labels[aspect] = rng.choices(POLARITIES, weights=weights)[0]
+    labels = {aspect: polarity_for(quality[aspect], rng) for aspect in aspects}
 
     parts = [_clause(aspect, labels[aspect], rng) for aspect in aspects]
     clauses = dict(zip(aspects, parts, strict=True))
@@ -393,17 +426,17 @@ def generate(
     *,
     seed: int = 0,
     max_aspects: int = 3,
-    mixed_probability: float = 0.55,
 ) -> list[SyntheticReview]:
     """Generate ``n_reviews`` reviews spread evenly across ``phones``."""
     rng = random.Random(seed)
+    qualities = {phone: phone_quality(phone, seed) for phone in phones}
     return [
         generate_review(
             phones[index % len(phones)],
             index,
             rng,
             max_aspects=max_aspects,
-            mixed_probability=mixed_probability,
+            quality=qualities[phones[index % len(phones)]],
         )
         for index in range(n_reviews)
     ]
