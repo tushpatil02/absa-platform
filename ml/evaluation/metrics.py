@@ -242,3 +242,107 @@ def sklearn_report(y_true, y_pred, labels: list[str]) -> str:
         y_true, y_pred, labels=list(range(len(labels))),
         target_names=labels, zero_division=0, digits=3,
     )
+
+# ---------------------------------------------------------------------------
+# Uncertainty
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class BootstrapResult:
+    """A difference between two models with a confidence interval."""
+
+    point: float
+    lower: float
+    upper: float
+    p_positive: float
+    n_resamples: int
+
+    @property
+    def includes_zero(self) -> bool:
+        """Whether the interval contains no difference at all.
+
+        Deliberately inclusive (``<=``). A strict ``lower < 0 < upper`` reports
+        False when the bound sits exactly on zero -- which happens routinely,
+        because a bootstrap over a discrete metric produces discrete
+        percentiles. Two identical models give ``[0.0, 0.0]``, and under the
+        strict test that reads as "excludes zero", i.e. significant.
+        """
+        return self.lower <= 0.0 <= self.upper
+
+    @property
+    def verdict(self) -> str:
+        if self.includes_zero:
+            return "not distinguishable from noise"
+        return "improvement" if self.point > 0 else "regression"
+
+    def summary(self) -> str:
+        return (
+            f"{self.point:+.4f}  95% CI [{self.lower:+.4f}, {self.upper:+.4f}]  "
+            f"P(>0)={self.p_positive:.3f}  {self.verdict}"
+        )
+
+
+def paired_bootstrap(
+    y_true,
+    pred_a,
+    pred_b,
+    metric,
+    *,
+    n_resamples: int = 5000,
+    seed: int = 0,
+    alpha: float = 0.05,
+) -> BootstrapResult:
+    """Confidence interval on ``metric(b) - metric(a)`` over the test set.
+
+    Resamples *test items*, and scores both models on the same resample each
+    time -- that pairing is the point. Comparing two independent intervals
+    would be far more conservative, because most of the variance is shared:
+    both models see the same examples and are wrong on many of the same ones.
+
+    This measures **test-set sampling noise**, which is not the same thing as
+    training noise. A seed sweep over training runs measures the latter, and
+    with a deterministic solver it can report a standard deviation of exactly
+    zero while the true uncertainty on 1,493 examples is still ±0.02 macro F1.
+    Quoting the seed spread as if it were the uncertainty is how a null result
+    gets published as an improvement.
+
+    Args:
+        y_true: Gold labels.
+        pred_a: Baseline predictions, aligned with ``y_true``.
+        pred_b: Candidate predictions, aligned with ``y_true``.
+        metric: ``f(y_true, y_pred) -> float``.
+        n_resamples: Bootstrap draws.
+        seed: Fixed, so a result cannot be re-rolled until it is significant.
+        alpha: Two-sided; 0.05 gives a 95% interval.
+
+    Returns:
+        :class:`BootstrapResult`. Check ``straddles_zero`` before claiming
+        anything.
+    """
+    y_true = np.asarray(y_true)
+    pred_a = np.asarray(pred_a)
+    pred_b = np.asarray(pred_b)
+    if not (len(y_true) == len(pred_a) == len(pred_b)):
+        raise ValueError(
+            f"Length mismatch: y_true={len(y_true)} a={len(pred_a)} b={len(pred_b)}"
+        )
+
+    rng = np.random.default_rng(seed)
+    size = len(y_true)
+    differences = np.empty(n_resamples, dtype=float)
+
+    for draw in range(n_resamples):
+        index = rng.integers(0, size, size)
+        differences[draw] = metric(y_true[index], pred_b[index]) - metric(
+            y_true[index], pred_a[index]
+        )
+
+    lower, upper = np.percentile(differences, [100 * alpha / 2, 100 * (1 - alpha / 2)])
+    return BootstrapResult(
+        point=float(metric(y_true, pred_b) - metric(y_true, pred_a)),
+        lower=float(lower),
+        upper=float(upper),
+        p_positive=float((differences > 0).mean()),
+        n_resamples=n_resamples,
+    )

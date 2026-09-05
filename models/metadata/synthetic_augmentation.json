@@ -1,0 +1,127 @@
+{
+  "protocol": "Train on real M-ABSA train, optionally augmented with N synthetic pairs. Evaluate on the real held-out test split, which never contains synthetic rows.",
+  "n_real_train": 3518,
+  "n_real_test": 1493,
+  "n_synthetic_pool": 9977,
+  "results": [
+    {
+      "n_synthetic": 0,
+      "n_train_total": 3518,
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "macro_f1_mean": 0.5993,
+      "macro_f1_sd": 0.0,
+      "macro_f1_runs": [
+        0.5993,
+        0.5993,
+        0.5993,
+        0.5993,
+        0.5993
+      ],
+      "accuracy_mean": 0.785,
+      "f1_neutral_mean": 0.2237
+    },
+    {
+      "n_synthetic": 1000,
+      "n_train_total": 4518,
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "macro_f1_mean": 0.6057,
+      "macro_f1_sd": 0.0039,
+      "macro_f1_runs": [
+        0.6033,
+        0.6115,
+        0.6059,
+        0.6012,
+        0.6068
+      ],
+      "accuracy_mean": 0.7883,
+      "f1_neutral_mean": 0.2382
+    },
+    {
+      "n_synthetic": 2500,
+      "n_train_total": 6018,
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "macro_f1_mean": 0.6078,
+      "macro_f1_sd": 0.0029,
+      "macro_f1_runs": [
+        0.6089,
+        0.6031,
+        0.6071,
+        0.6105,
+        0.6097
+      ],
+      "accuracy_mean": 0.7901,
+      "f1_neutral_mean": 0.2437
+    },
+    {
+      "n_synthetic": 5000,
+      "n_train_total": 8518,
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "macro_f1_mean": 0.6005,
+      "macro_f1_sd": 0.0029,
+      "macro_f1_runs": [
+        0.5992,
+        0.6002,
+        0.5968,
+        0.6046,
+        0.6017
+      ],
+      "accuracy_mean": 0.7865,
+      "f1_neutral_mean": 0.2272
+    },
+    {
+      "n_synthetic": 9977,
+      "n_train_total": 13495,
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "macro_f1_mean": 0.5983,
+      "macro_f1_sd": 0.0,
+      "macro_f1_runs": [
+        0.5983,
+        0.5983,
+        0.5983,
+        0.5983,
+        0.5983
+      ],
+      "accuracy_mean": 0.7863,
+      "f1_neutral_mean": 0.2184
+    }
+  ],
+  "paired_bootstrap_vs_real_only": {
+    "n_synthetic": 2500,
+    "point": 0.0096,
+    "ci_lower": -0.0067,
+    "ci_upper": 0.0273,
+    "p_positive": 0.864,
+    "straddles_zero": true,
+    "verdict": "not distinguishable from noise"
+  }
+}
