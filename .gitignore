@@ -54,6 +54,14 @@ models/**
 !models/metadata/*.json
 !models/**/*.md
 
+# The two baseline artefacts ARE committed, unlike the transformer weights.
+# They are 3.9 MB of deterministic scikit-learn, not 268 MB of safetensors, and
+# without them a clean checkout has no model at all: every inference route 503s
+# while the container still builds green and reports healthy. That failure looks
+# like a CORS or platform problem and is neither.
+!models/baseline_aspect_detector/model.joblib
+!models/baseline_sentiment_classifier/model.joblib
+
 # ---------------------------------------------------------------------------
 # Python
 # ---------------------------------------------------------------------------
