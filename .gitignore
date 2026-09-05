@@ -118,4 +118,5 @@ Thumbs.db
 desktop.ini
 
 # Local editor/agent tooling — machine-specific paths, not project config.
+# This rule is what keeps that directory out of the repository; do not delete it.
 .claude/
